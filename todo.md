@@ -8,7 +8,7 @@ The intention is to keep track of the things that need to be done.
 - Finish icon sets for json manifest file
 - Build out site base structure
 - Service Workers for Progressive Web app
-- setup Sass file structure
+- ~~setup Sass file structure~~
 - Head Section
 - Header Section
 - Header Animation
@@ -17,3 +17,4 @@ The intention is to keep track of the things that need to be done.
 - Contact Section
 - Articles Page Layout
 - Post page Layout
+- Redo Favicon
