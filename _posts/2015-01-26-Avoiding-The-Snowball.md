@@ -1,0 +1,20 @@
+---
+layout: post
+title: Avoiding The Snowball
+permalink: avoiding-the-snowball
+thumbnail: places-58-thumb.jpg
+image-category: places
+hero: places-58.jpg
+---
+
+
+
+It’s far too easy to get distracted in this world. I unfortunately have been experiencing this in troves. Lately I’ve been slacking on the things that I have set as goals and requirements for my day to day activities. I’ve started to lose sight of what is really necessary to continue to push forward into a positive direction. Opting for instant gratification versus long term development. It’s a bitch and a struggle for me to stay focused sometimes on what is necessary when there are things that just feel good right now. Instant gratification doesn’t get us anywhere in life, it can’t be sustained and it’s definitely not scalable. Instant gratification destroys opportunities for the future. It focuses too much on the now. While I feel like being in the moment and living for the now is incredibly important there is a difference between living for short gains now or building foundations now for massive gains later.
+
+I’ve missed two days of writing in the morning, a day of half assed writing that ended up barely making to 500 words, missed numerous days in my journal, and have scaled back horrible on project work almost to the point where it isn’t even making a difference. You throw diminishing amounts of sleep and you’ve got a massive up surge in doing activities that reward instant gratification; video games, movies, tv, etc. These do none of us favors when we need to get real shit done. When things start compounding it is stupid difficult to break through the barriers and bad habits that have been created by slacking. It isn’t until you realize how far you have slipped that you make the change that is necessary.
+
+Late last night I realized how much I’ve been slacking. While I’ve continued to put a post up every Monday or Wednesday it was only a matter of time that I would miss posting and that would’ve been incredibly unacceptable to me. I saw that pattern and once again I needed to make the conscious effort to get things back on track. It doesn’t matter who you are. we all get off track, we choose instant gratification versus building something that is spectacular and fulfilling. We sometimes can’t see past the now and realize that fulfilling that want of now degrades the need of later.
+
+Being aware of what is going on has given me an essential leg up in making a difference in my own life. It’s allowed me to see patterns and predict how things will unfold in a week, 2 weeks, a month, or even a year. Bad habits will always compound onto other bad habits, it’s the snowball effect. It takes awareness to your own habits to realize you need to put up a brick wall and stop that snowball before it’s too big. It doesn’t take much, it just takes the dedication to reassess what you want out of life and do it on a regular basis. Grab onto the important things and toss out the unimportant. Today I started to toss out the unimportant and restructure my days to maximize my productivity and dedication to what needs to be done. It’s what is necessary for me to make moves that have long term gains instead of short term instant gratification.
+
+We all get off track and fall down sometimes, it’s not difficult, it’s actually quite normal. What we do when we fall down is what matters. To get back up, refocus on the direction that needs to be taken, and take that first step down that road are the 3 most difficult but simplistic things we will ever have to do in our lives. I’ve done it half a million times by now in my life. There’s always going to be obstacles and derailments in our lives and more times than not it will be of our own doing. Today I get back on track to a progressive and fulfilled future, I invite you to do the same. Assess what you want from life, go after it and take it, make it yours.  It’s time we hustle for what we want, it’s the only way we can ever reach our true potential and fulfillment.

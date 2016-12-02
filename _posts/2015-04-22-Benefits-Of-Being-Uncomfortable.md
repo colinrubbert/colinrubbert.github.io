@@ -1,0 +1,16 @@
+---
+layout: post
+title: Benefits Of Being Uncomfortable
+permalink: benefits-of-being-uncomfortable
+thumbnail: places-59-thumb.jpg
+image-category: places
+hero: places-59.jpg
+---
+
+
+
+The path down a new road can be absolutely terrifying and unsettling. There is panic, uncertainty, and doubts about what will come next. The choice for change is always the easy part but the journey is where it becomes difficult and challenging. The thing though is that if you were making a major life change and it didn’t give you panic or terrify you even a little bit it means that the change isn’t as big as it should be. The anxiety, terror, and panic comes when you are completely stepping outside of your comfort zone and relying on pure survival skills to be able to make it happen.
+
+I’m committed to a fairly major life change in the coming months and I’ll be completely honest, it terrifies me. That, however, is how I know it is worth it. I know that because of the sheer level of panic that I have going into this is just me completely stepping outside of my comfort zone and just going for something I want without hesitation. Stepping outside of your comfort zone is not an easy thing to do but it’s an important thing to do if you ever want to be able to make leaps forward in your life. You could spend your whole life taking baby steps and really get nowhere but feel comfortable with what you’ve done or you can take huge leaps and experience some high levels of discomfort but ultimately make massive strides in your life. These massive leaps are what I live for, high risk high reward. This new commitment that I’m undertaking is definitely high risk, high reward and I welcome the challenge. Nothing in this new direction of my life is guaranteed, I will be making my future and I’ll be controlling the runaway train. I could take the easy route and take some baby steps where I feel confident I would have a good path but it ultimately won’t completely fulfill me.
+
+Knowing what makes you tick is an important part about knowing what you want from your current life and your future life. Writing the last 9ish months nearly everyday has taught me a lot about myself and has helped me identify what I want out of life and how important it is to be fulfilled with what you do everyday. I can be a hard to please person sometimes, usually when it comes to setting my own expectations and goals but that’s also what has kept me hungry for something bigger. Identifying what you want out of life, setting the goals, and attacking them full force is what will make you leap instead of crawl through life. I focus heavily on getting to a point where I feel that my everyday life is consistently making me happy, fulfilled, and excited for the next day. If you are missing any of those it’s time for a change. The change can only really happen when you commit to making huge uncomfortable risks but you don’t have to worry because we’re all capable of getting past the discomfort and excel at whatever we set our minds to. It doesn’t really matter who we are, how smart we are, how savvy we are, what matters is how determined we are to take a chance on pursuing our wildest dreams no matter how uncomfortable it can make us feel in the beginning. Courage is what matters and it’s the difference maker between baby steps and leaps.

@@ -1,0 +1,18 @@
+---
+layout: post
+title: Exercise = Clarity, Clarity = Creativity
+permalink: exercise-equals-clarity-clarity-equals-creativity
+thumbnail: places-81-thumb.jpg
+image-category: places
+hero: places-81.jpg
+---
+
+
+
+It’s amazing how one simple act can have massive impacts on creative stimulation and creative process. Lately I have had many interruptions into my daily life, the interruptions themselves are not necessarily bad things, in fact they are important and need to be handled. There is though a significant impact that these distractions and interruptions have had on my creativity. The interruptions aren’t the problem, the problem is time and not having enough of it. The lack of time has disrupted my morning routines and primarily my routine of exercising daily. I have stated before just how important exercise is for creativity and happiness but I really hadn’t understood it fully until today.
+
+Exercise has been a staple of my daily routine for months now, only rarely taking a day off for recovery from a sore muscle or vacation (I do however make up for this in walking). While taking a day off seldom ever shows negative side effects, taking a week off does, in a major way. It has been more than one week since I have properly exercised and I am certainly feeling that nasty side effects. My brain feels cloudy, my body feels weak, and my motivation is lacking in every respect. The thing that is most noticeable out of everything is my creativity. I have just not felt overly creative at all since I stopped exercising, the haze in my head just hasn’t lifted.
+
+When I’m on my bike riding, the haze that consumes my mind drifts out and there is an immense amount of clarity. I get a sense of freedom and weightlessness, my mind works smoother, my thoughts crisper, and my reactions quicker. These reactions to the experience and the exercise has always strengthened my creativity and has helped me brainstorm many ideas, thoughts, creative  problem solving and solution execution. All of these things rapidly improve when I am getting solid amounts of exercise. Lately though because of my lack of exercise I haven’t had the same experiences and have not been operating at the same level of performance that I previously enjoyed. Which brings me back to just how crucial and important exercise is for creativity and quality of life.
+
+My experience has certainly been representative of the data that shows just how important exercise is to us and our daily lives. It’s not just important so that we aren’t overweight and unhealthy physically but more so mentally. Our mental health is what really improves the most when we start to exercise. The synapses fire harder, faster, and in different ways. Ideas and thoughts flood our minds and inspire us to do great things. The clarity makes us do the right things, the things that matter and the things that can change the world. I am very willing to state that fundamentally the most important things to creativity and personal progress is sleep and exercise. When these two powerful forces are utilized daily there is no object that can stop us, no barrier too difficult, no opinion too critical. These forces build us up and help us conquer the day. When one of these, or even both, are lacking in any aspect of our daily rituals we suffer. We end up making great sacrifices to our mental processes. Exercise my friends is the essential fuel for our creativity and empowers us to do great things.

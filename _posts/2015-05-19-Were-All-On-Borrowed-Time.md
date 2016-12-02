@@ -1,0 +1,18 @@
+---
+layout: post
+title: We're All On Borrowed Time
+permalink: were-all-on-borrowed-time
+thumbnail: places-39-thumb.jpg
+image-category: places
+hero: places-39.jpg
+---
+
+
+
+Having experienced Death’s icy grips at least twice in my short 27 years on this Earth I have a unique perspective on just how short life is and can be. I’ve been living on borrowed time for nearly a decade now and then again a little over 5 years ago, simply put I should not be here writing this, I should be 6 feet under but I’m not, fortunately. I previously lived a very fast paced and risk heavy lifestyle which resulted in my certain death and only with the assistance of my father and EMT’s did I get to escape Death’s grip. Having come to the conclusion that next time I won’t be so fortunate I decided to take my borrowed time and use it to my advantage. I straightened out my life and got rid of the risky behaviors that would’ve eventually resulted in my inability to escape Death. Everything I do from this point on is a success, failures are success, surviving another day is a success, literally anything that I do is a success because I have, against all odds, been fortunate to have another shot at life and I’m doing my damnedest to take advantage of that.
+
+Facing down Death really gives you a unique perspective on life, time, and just how precious they are. The thing about borrowed time is that we’re all living it. Each and everyday we live, we are living on borrowed time. This time does not belong to us, time is a universal constant it carries on now matter and it doesn’t need us to keep moving, we are simply fortunate to be amongst many to travel through time together. We can often take for granted just how precious life is and how important it is to take advantage of every day you are alive because we are all on borrowed time and we aren’t guaranteed tomorrow.
+
+People have difficulties dealing with their own mortality and the mortality of others. Death is a natural byproduct of life. We forget that any day we could seize to exist. I think that is the reason why we struggle with our mortality because we don’t ever feel like we have accomplished the things that we would’ve liked to. If you knew you would be dead tomorrow would you feel like you were ready? Doubtful. Hell I wouldn’t even be ready. I would be grateful for all the extra time that I have had with my family, friends, and wonderful experiences I have had since but I still wouldn’t be ready. I don’t feel I have accomplished everything that I want to out of my life. That’s precisely why I do my best to take advantage of every day because I’m not ready.
+
+There is so much to accomplish in life that we all want to have more time but the truth is we are all on borrowed time. What makes a life worth living is whether or not at the end of our time we feel like we’ve accomplished as much as we could. Many of us probably wouldn’t think we had but that should be an incentive to make every day count. Life’s too short and we never have enough time available to us but we can make the most of what we have. Each day we should all make sure that today we make the most of the time that we have, we let go of the past, project less to the future, and live more in the present.

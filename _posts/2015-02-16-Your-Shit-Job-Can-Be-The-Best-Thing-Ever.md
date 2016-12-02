@@ -1,0 +1,18 @@
+---
+layout: post
+title: Your Shit Job Can Be The Best Thing Ever
+permalink: your-shit-job-can-be-the-best-thing-ever
+thumbnail: places-64-thumb.jpg
+image-category: places
+hero: places-64.jpg
+---
+
+
+
+One day you will come to realize, if done correctly, your shitty job you wake up to every morning that leaves you completely unfulfilled will be the best thing for your success as a person. You wake up every morning thinking to yourself, what the fuck am I doing? At one point or another we all experience this job, some of us experience more of them in a lifetime than we care to admit. Done correctly though your shit job can be the main reason why you eventually become a success, **if** you do it right.
+
+That shit job teaches us patience, humility, and how much we are wasting our time doing something we hate. It happens all the time, hell, I’ve had quite a few of those jobs myself. It trains our minds to think about what we want out of life. Most of us at some point will have a moment of clarity and realize that we’re miserable and this is not what we are supposed to be doing with our life. We work our asses off for someone else to only be rewarded with low wages, unfulfilling work, and horrible quality of life. This level of humility helps us to realize our priorities and helps identify what we want to be doing, or at the very least what we don’t want to be doing. Here’s some perspective, if we never had a shit job we would never know the concept of a **great** job. Remember, you can’t have joy and happiness without ever knowing pain and despair.
+
+If you’re in a shit job, let’s do this properly, and find out the **real** reason your shit job is the best thing you could ever have. Funding. This is how I look at unfulfilling jobs, I look at them as investment firms for my entrepreneurial or creative pursuits. Nearly every career or start up can be launched with income you earn at your shit 9-5. My 9-5 funds my personal endeavors, it gives me the opportunity to invest in new things without running the risk of going all in and having nothing. When you’re playing with your own money it makes you think twice about your next move. I’m all about taking risks, I always have been, but when it comes to taking risks with my own money I make sure those risks will have the potential for high returns either financially or more importantly in personal development.
+
+The thing is having our shit, unfulfilling jobs teach us stuff about ourselves that we normally never would’ve found out had we not spent the time busting our asses off in a position we despised just so that we could make ends meet. Humility is a great way to becoming more human, we experience the suffering of people and we care more when we see other people suffering. Our shit jobs make us more human ultimately helping us make better decisions and build something more beneficial to humanity. My least productive part of my day is my 9-5 only because I am not working on the things that make me happy or fulfilled. When I’m home, I’m working on the projects that make me happy, exploring different parts of who I am and building things that are fun to me. My 9-5 funds those explorations, eventually becoming the primary reason that brings on the pivot into the thing I love. When you’re feeling incredibly unfulfilled at work, just remember that if done right it can be the best damn thing that has ever happened to you.
