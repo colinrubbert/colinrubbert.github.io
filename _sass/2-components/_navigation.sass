@@ -1,1 +1,78 @@
 // Navigation Styling
+
+header
+  height: 100px
+  position: relative
+
+header>svg
+  position: absolute
+  left: 50%
+  right: 0
+  top: -5px
+  display: block
+  width: 100%
+  height: 200px
+  z-index: -1
+  transform: translateX(-50%)
+  transition: $primary-transition
+
+header>svg path
+  d: path("M 27 10C 21 8 14 3 0 3L 0 0L 54 0L 54 14C 40 14 33 12 27 10Z")
+  animation: top-wave 10s linear infinite alternate
+  transition: $primary-transition
+
+.navigation-wrapper
+  display: flex
+  flex-direction: row
+  justify-content: space-between
+  align-items: center
+  width: 100%
+  height: 100%
+  padding: 0 20px
+  z-index: 1
+  overflow: hidden
+
+.navigation-branding
+  color: $secondary-text-color
+  font-size: 1.75rem
+
+// .navigation-menu-wrapper
+//   display: none
+//   position: relative
+//   top: 0
+//   right: 0
+//   transform: translateX(100%)
+//   color: $secondary-text-color
+//   margin: 0
+//   padding: 0
+//   list-style: none
+//
+// .navigation-menu-wrapper.open
+//   transform: translateX(-100%)
+
+.navigation-link
+  color: $secondary-text-color
+  text-decoration: none
+  font-size: 1.5rem
+  &:hover
+    color: $secondary-text-color
+
+/* Media Queries */
+@media screen and (min-width: $tablet-breakpoint)
+  .navigation-wrapper
+    width: 80%
+    margin: 0 auto
+
+  .navigation-branding
+    font-size: 3rem
+
+
+/* Keyframes for animation */
+
+@keyframes top-wave
+  0%
+    d: path("M 27 10C 21 8 14 3 0 3L 0 0L 54 0L 54 14C 40 14 33 12 27 10Z")
+  50%
+    d: path("M 27 14C 12 14 5 7 0 7L 0 0L 54 0L 54 7C 49 7 42 14 27 14Z")
+  100%
+    d: path("M 27 10C 21 12 14 14 0 14L 0 0L 54 0L 54 3C 40 3 33 8 27 10Z")

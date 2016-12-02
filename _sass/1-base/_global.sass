@@ -1,1 +1,30 @@
 // Global Styling
+
+*, html
+  box-sizing: border-box
+
+/* Containers */
+
+.container
+  width: 100%
+  margin: 0 auto
+  padding: 20px
+
+@media screen and (min-width: $tablet-breakpoint)
+  .container
+    width: 80%
+    padding: 0
+
+/* Buttons */
+
+.button
+  padding: 5px 20px
+  border: 2px solid $secondary-text-color
+  border-radius: 3px
+  color: $secondary-text-color
+  background: transparent
+  cursor: pointer
+
+@media screen and(min-width: $tablet-breakpoint)
+  .button
+    padding: 10px 30px
