@@ -11,7 +11,7 @@ header>svg
   top: -5px
   display: block
   width: 100%
-  height: 200px
+  height: 150px
   z-index: -1
   transform: translateX(-50%)
   transition: $primary-transition
@@ -27,7 +27,7 @@ header>svg path
   justify-content: space-between
   align-items: center
   width: 100%
-  height: 100%
+  height: 100px
   padding: 0 20px
   z-index: 1
   overflow: hidden
@@ -59,9 +59,13 @@ header>svg path
 
 /* Media Queries */
 @media screen and (min-width: $tablet-breakpoint)
+  header>svg
+    height: 200px
+
   .navigation-wrapper
     width: 80%
     margin: 0 auto
+    padding: 0
 
   .navigation-branding
     font-size: 3rem
