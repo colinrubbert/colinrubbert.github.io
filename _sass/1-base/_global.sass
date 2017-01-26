@@ -3,6 +3,9 @@
 *, html
   box-sizing: border-box
 
+body
+  overflow: hidden
+
 /* Containers */
 
 .container
@@ -19,15 +22,10 @@
 
 .button
   padding: 5px 20px
-  border: 3px solid $secondary-text-color
+  border: 3px solid $primary-text-color
   border-radius: 3px
-  color: $secondary-text-color
+  font-weight: 700
+  letter-spacing: 2px
+  color: $primary-text-color
   background: transparent
   cursor: pointer
-
-@media screen and(min-width: $tablet-breakpoint)
-  .button
-    padding: 8px 30px
-    font-size: 1rem
-    font-weight: 700
-    letter-spacing: 2px
