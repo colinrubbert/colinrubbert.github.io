@@ -17,7 +17,6 @@ $work-item-thumbnail-scale: 0.25
 .work-item-wrapper
   display: flex
   flex-direction: column
-  align-items: center
   padding: 2rem
 
 .work-item-thumbnail-wrapper
@@ -49,7 +48,22 @@ $work-item-thumbnail-scale: 0.25
   position: relative
 
 .work-item-title
-  margin: 1.5rem
+  margin: 1.5rem 0
+
+.work-item-description
+  margin-bottom: 1rem
+
+.work-item-technologies-wrapper
+  width: 100%
+  display: flex
+  flex-flow: row wrap
+  justify-content: flex-start
+  align-items: center
+  margin-top: 1rem
+  .icon
+    height: 2rem
+    width: auto
+    margin: 10px
 
 /* Media Queries */
 
