@@ -1,0 +1,89 @@
+// Work Section Styling
+
+$work-item-thumbnail-width: 1024px
+$work-item-thumbnail-height: 768px
+$work-item-thumbnail-scale: 0.25
+
+#work
+  background: $gradient-mojito
+  color: $secondary-text-color
+
+.work-wrapper
+  display: flex
+  flex-direction: column
+  justify-content: center
+  align-items: center
+
+.work-item-wrapper
+  display: flex
+  flex-direction: column
+  align-items: center
+  padding: 2rem
+
+.work-item-thumbnail-wrapper
+  margin: 0 auto
+
+.work-item-thumbnail,
+.work-item-thumbnail iframe
+  width: $work-item-thumbnail-width
+  height: $work-item-thumbnail-height
+
+.work-item-thumbnail
+  transform: scale($work-item-thumbnail-scale)
+  transform-origin: 0 0
+
+.work-item-thumbnail:after
+  content: ""
+  display: block
+  position: absolute
+  top: 0
+  left: 0
+  right: 0
+  bottom: 0
+
+.work-item-thumbnail-wrapper
+  width: calc( #{$work-item-thumbnail-width} * #{$work-item-thumbnail-scale})
+  height: calc(#{$work-item-thumbnail-height} * #{$work-item-thumbnail-scale})
+  display: inline-block
+  overflow: hidden
+  position: relative
+
+.work-item-title
+  margin: 1.5rem
+
+/* Media Queries */
+
+@media screen and (min-width: $tablet-breakpoint)
+  $work-item-thumbnail-width: 1440px
+  $work-item-thumbnail-height: 900px
+  $work-item-thumbnail-scale: 0.25
+
+  .work-item-thumbnail,
+  .work-item-thumbnail iframe
+    width: $work-item-thumbnail-width
+    height: $work-item-thumbnail-height
+
+  .work-item-thumbnail
+    transform: scale($work-item-thumbnail-scale)
+
+  .work-item-thumbnail-wrapper
+    width: calc( #{$work-item-thumbnail-width} * #{$work-item-thumbnail-scale})
+    height: calc(#{$work-item-thumbnail-height} * #{$work-item-thumbnail-scale})
+
+@media screen and (min-width: $desktop-breakpoint)
+  $work-item-thumbnail-width: 2560px
+  $work-item-thumbnail-height: 1440px
+  $work-item-thumbnail-scale: 0.25
+
+  .work-item-thumbnail,
+  .work-item-thumbnail iframe
+    background: #f4f4f4
+    width: $work-item-thumbnail-width
+    height: $work-item-thumbnail-height
+
+  .work-item-thumbnail
+    transform: scale($work-item-thumbnail-scale)
+
+  .work-item-thumbnail-wrapper
+    width: calc( #{$work-item-thumbnail-width} * #{$work-item-thumbnail-scale})
+    height: calc(#{$work-item-thumbnail-height} * #{$work-item-thumbnail-scale})
