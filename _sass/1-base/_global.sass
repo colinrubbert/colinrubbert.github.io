@@ -47,4 +47,14 @@ section
   padding: 3rem 0
 
 .section-header
-  text-align: center
+  width: 100%
+  padding: 0 2rem 1rem 2rem
+  margin: 0 auto
+
+@media screen and (min-width: $tablet-breakpoint)
+  .section-header
+    width: 80%
+
+@media screen and (min-width: $desktop-breakpoint)
+  .section-header
+    width: 50%

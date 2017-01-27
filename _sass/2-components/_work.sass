@@ -7,6 +7,7 @@ $work-item-thumbnail-scale: 0.25
 #work
   background: $gradient-mojito
   color: $secondary-text-color
+  padding: 0
 
 .work-wrapper
   display: flex
@@ -18,9 +19,8 @@ $work-item-thumbnail-scale: 0.25
   display: flex
   flex-direction: column
   padding: 2rem
-
-.work-item-thumbnail-wrapper
-  margin: 0 auto
+  h3
+    margin: 1.125rem 0
 
 .work-item-thumbnail,
 .work-item-thumbnail iframe
@@ -59,7 +59,6 @@ $work-item-thumbnail-scale: 0.25
   flex-flow: row wrap
   justify-content: flex-start
   align-items: center
-  margin-top: 1rem
   .icon
     height: 2rem
     width: auto
@@ -68,6 +67,9 @@ $work-item-thumbnail-scale: 0.25
 /* Media Queries */
 
 @media screen and (min-width: $tablet-breakpoint)
+  .work-item-wrapper
+    width: 80%
+
   $work-item-thumbnail-width: 1440px
   $work-item-thumbnail-height: 900px
   $work-item-thumbnail-scale: 0.25
@@ -85,8 +87,11 @@ $work-item-thumbnail-scale: 0.25
     height: calc(#{$work-item-thumbnail-height} * #{$work-item-thumbnail-scale})
 
 @media screen and (min-width: $desktop-breakpoint)
-  $work-item-thumbnail-width: 2560px
-  $work-item-thumbnail-height: 1440px
+  .work-item-wrapper
+    width: 50%
+
+  $work-item-thumbnail-width: 1920px
+  $work-item-thumbnail-height: 1080px
   $work-item-thumbnail-scale: 0.25
 
   .work-item-thumbnail,
