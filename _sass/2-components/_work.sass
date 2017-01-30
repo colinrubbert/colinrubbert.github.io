@@ -31,21 +31,19 @@ $work-item-thumbnail-scale: 0.25
   transform: scale($work-item-thumbnail-scale)
   transform-origin: 0 0
 
-.work-item-thumbnail:after
-  content: ""
-  display: block
-  position: absolute
-  top: 0
-  left: 0
-  right: 0
-  bottom: 0
-
 .work-item-thumbnail-wrapper
   width: calc( #{$work-item-thumbnail-width} * #{$work-item-thumbnail-scale})
   height: calc(#{$work-item-thumbnail-height} * #{$work-item-thumbnail-scale})
   display: inline-block
   overflow: hidden
   position: relative
+
+.work-item-image-md,
+.work-item-image-lg
+  display: none
+
+.work-item-image-sm
+  display: inline-block
 
 .work-item-title
   margin: 1.5rem 0
@@ -74,8 +72,7 @@ $work-item-thumbnail-scale: 0.25
   $work-item-thumbnail-height: 900px
   $work-item-thumbnail-scale: 0.25
 
-  .work-item-thumbnail,
-  .work-item-thumbnail iframe
+  .work-item-thumbnail
     width: $work-item-thumbnail-width
     height: $work-item-thumbnail-height
 
@@ -85,6 +82,13 @@ $work-item-thumbnail-scale: 0.25
   .work-item-thumbnail-wrapper
     width: calc( #{$work-item-thumbnail-width} * #{$work-item-thumbnail-scale})
     height: calc(#{$work-item-thumbnail-height} * #{$work-item-thumbnail-scale})
+
+  .work-item-image-sm,
+  .work-item-image-lg
+    display: none
+
+  .work-item-image-md
+    display: inline-block
 
 @media screen and (min-width: $desktop-breakpoint)
   .work-item-wrapper
@@ -94,9 +98,7 @@ $work-item-thumbnail-scale: 0.25
   $work-item-thumbnail-height: 1080px
   $work-item-thumbnail-scale: 0.25
 
-  .work-item-thumbnail,
-  .work-item-thumbnail iframe
-    background: #f4f4f4
+  .work-item-thumbnail
     width: $work-item-thumbnail-width
     height: $work-item-thumbnail-height
 
@@ -106,3 +108,10 @@ $work-item-thumbnail-scale: 0.25
   .work-item-thumbnail-wrapper
     width: calc( #{$work-item-thumbnail-width} * #{$work-item-thumbnail-scale})
     height: calc(#{$work-item-thumbnail-height} * #{$work-item-thumbnail-scale})
+
+  .work-item-image-sm,
+  .work-item-image-md
+    display: none
+
+  .work-item-image-lg
+    display: inline-block
