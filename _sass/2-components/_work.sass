@@ -34,12 +34,12 @@ $work-item-thumbnail-scale: 0.25
 .work-item-thumbnail-wrapper::after
   content: ""
   position: absolute
-  width: 2rem
+  width: 80%
   height: 2rem
   bottom: -20px
-  left: 46%
+  left: 10%
   z-index: -1
-  border: 4px solid $white
+  background: rgba(255, 255, 255, .25)
 
 .work-item-image
   width: 100%
@@ -50,8 +50,6 @@ $work-item-thumbnail-scale: 0.25
   padding: 20px
   background: $gradient-white
   border-radius: 4px
-
-.work-item-title
 
 .work-item-description
   margin-bottom: 1rem
@@ -79,6 +77,38 @@ $work-item-thumbnail-scale: 0.25
   path
     fill: darken($highlight-color, 20%)
 
+.work-case-study-wrapper
+  position: fixed
+  top: 0
+  left: 5%
+  right: 5%
+  bottom: 0
+  display: block
+  width: 90%
+  height: 100%
+  margin: 0 auto
+  padding: 20px
+  background: $gradient-white
+  color: $primary-text-color
+  text-align: left
+  overflow: scroll
+  z-index: -100
+  opacity: 0
+
+.work-case-study-wrapper.modal-open
+  z-index: 100
+  opacity: 1
+
+.work-item-close
+  position: relative
+  top: 0
+  left: 90%
+  height: 1.75rem
+  width: auto
+  margin-bottom: 1.5rem
+  path
+    fill: darken($highlight-color, 20%)
+
 /* Media Queries */
 
 @media screen and (min-width: $tablet-breakpoint)
@@ -86,7 +116,13 @@ $work-item-thumbnail-scale: 0.25
     width: 80%
     max-width: 80%
 
+  .work-case-study-wrapper
+    padding: 20px 10%
+
 @media screen and (min-width: $desktop-breakpoint)
   .work-item-wrapper
     width: 30%
     max-width: 30%
+
+  .work-case-study-wrapper
+    padding: 20px 25%
