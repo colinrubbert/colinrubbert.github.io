@@ -14,7 +14,12 @@ sass:
 markdown: kramdown
 theme: minima
 gems:
+  - jekyll-paginate # Manually add to Gemfile in Jekyll Plugins
   - jekyll-feed
 exclude:
   - Gemfile
   - Gemfile.lock
+
+# Pagination Settings
+paginate: 10
+paginate_path: "/articles/page:num"

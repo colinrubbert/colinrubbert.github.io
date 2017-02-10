@@ -1,0 +1,37 @@
+// Articles index styling
+
+.articles-index-wrapper
+  width: 90%
+  max-width: 90%
+  margin: 20px auto
+
+.article-title
+  text-decoration: none
+  h2
+    font-size: 1.75rem
+
+.articles-pagination-wrapper
+  display: flex
+  flex-flow: row nowrap
+  justify-content: space-around
+  margin: 0 auto
+
+/* Media Queries */
+
+@media screen and (min-width: $tablet-breakpoint)
+  .articles-index-wrapper
+    width: 80%
+    max-width: 80%
+
+  .articles-pagination-wrapper
+    width: 60%
+    max-width: 60%
+
+@media screen and (min-width: $desktop-breakpoint)
+  .articles-index-wrapper
+    width: 60%
+    max-width: 60%
+
+  .articles-pagination-wrapper
+    width: 40%
+    max-width: 40%
