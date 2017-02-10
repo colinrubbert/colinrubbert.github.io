@@ -8,9 +8,17 @@
     {% include svg_preset.html %}
     {% include header.html %}
 
-    {{ page.title }}
-    {{ content }}
+    <div class="post-wrapper">
+      <h1>{{ page.title }}</h1>
+
+      {{ content }}
+
+      <div class="post-disqus-wrapper">
+        {% include disqus_comments.html %}
+      </div>
+    </div>
 
     {% include js.html %}
+    {% include google_analytics.html %}
   </body>
 </html>
