@@ -1,0 +1,24 @@
+<section id="recent_articles">
+
+  <h1 class="section-header">Recent Articles</h1>
+
+  <div class="articles-index-wrapper">
+
+    <!-- List the 3 most recent articles -->
+    {%  for post in site.posts offset: 0 limit: 3 %}
+
+      <a href="{{ post.url }}" class="article-title">
+        <h2>{{ post.title }}</h2>
+      </a>
+
+      <p class="article-excerpt">
+        {{ post.content | strip_html | truncatewords: 60 }}
+        <a href="{{ post.url }}">
+          <p>Read More ...</p>
+        </a>
+      </p>
+
+    {% endfor %}
+
+  </div>
+</section>
