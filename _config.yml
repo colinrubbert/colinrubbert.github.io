@@ -6,6 +6,7 @@ baseurl: "/"
 url: "http://colinrubbert.com"
 twitter_username: colinrubbert
 github_username:  colinrubbert
+instagram_username:  colinrubbert
 host: 0.0.0.0
 
 # Build settings

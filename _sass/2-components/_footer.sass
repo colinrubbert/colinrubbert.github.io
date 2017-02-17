@@ -1,0 +1,56 @@
+// Footer Styling
+
+footer
+  display: flex
+  flex-direction: column
+  justify-content: center
+  width: 90%
+  max-width: 90%
+  margin: 2rem auto
+  svg
+    height: 2rem
+    width: auto
+    path
+      fill: $highlight-color
+      &:hover
+        fill: darken($highlight-color, 20%)
+
+.copyright
+  color: $highlight-color
+  margin-bottom: 1rem
+  text-align: center
+
+.social-media-wrapper
+  display: flex
+  flex-direction: row
+  justify-content: space-around
+
+
+/* Media Queries */
+
+@media screen and (min-width: $tablet-breakpoint)
+  footer
+    flex-direction: row
+    justify-content: space-between
+    align-items: center
+    width: 80%
+    max-width: 80%
+    margin: 2rem auto 0 auto
+    height: 80px
+
+  .copyright
+    margin: 0
+    text-align: left
+
+  .social-media-wrapper
+    width: 30%
+    max-width: 30%
+
+@media screen and (min-width: $desktop-breakpoint)
+  footer
+    width: 60%
+    max-width: 60%
+
+  .social-media-wrapper
+    width: 20%
+    max-width: 20%
