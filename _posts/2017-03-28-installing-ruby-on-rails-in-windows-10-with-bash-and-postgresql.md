@@ -4,7 +4,6 @@ title: Installing Ruby on Rails in Windows 10 w/Bash & PostgreSQL
 permalink: installing-ruby-on-rails-in-windows-10-with-bash-and-postgresql
 ---
 
-
 # Installing Rails: The Steps
 
 This will focus on installing Ruby, Rails, and getting PostgreSQL to play nicely with Rails and Bash on Windows 10. We will be leveraging the Linux subsystem on Windows 10. This article will not go over installing the Linux Subsystem and getting Bash up and running, there's already great articles on that very subject. Here is Microsoft's guide on installing the [Linux Subsystem](https://msdn.microsoft.com/en-us/commandline/wsl/install_guide).
