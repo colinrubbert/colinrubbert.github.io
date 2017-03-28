@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="http://0.0.0.0:4000//feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.3.1">Jekyll</generator><link href="http://0.0.0.0:4000//feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0:4000//" rel="alternate" type="text/html" /><updated>2017-03-28T18:47:34-05:00</updated><id>http://0.0.0.0:4000///</id><title type="html">Colin Rubbert - Designer Developer Creative</title><subtitle>Colin Rubbert is a designer, developer, creative, terribly sporadic writer, and was the kid who day dreamed while staring out the window during class. Always open for a good conversation or adventure, currently for hire.</subtitle><entry><title type="html">Installing Ruby on Rails in Windows 10 w/Bash &amp;amp; PostgreSQL</title><link href="http://0.0.0.0:4000//installing-ruby-on-rails-in-windows-10-with-bash-and-postgresql" rel="alternate" type="text/html" title="Installing Ruby on Rails in Windows 10 w/Bash &amp; PostgreSQL" /><published>2017-03-28T00:00:00-05:00</published><updated>2017-03-28T00:00:00-05:00</updated><id>http://0.0.0.0:4000//installing-ruby-on-rails-in-windows-10-with-bash-and-postgresql</id><content type="html" xml:base="http://0.0.0.0:4000//installing-ruby-on-rails-in-windows-10-with-bash-and-postgresql">&lt;h1 id=&quot;installing-rails-the-steps&quot;&gt;Installing Rails: The Steps&lt;/h1&gt;
+
+&lt;p&gt;This will focus on installing Ruby, Rails, and getting PostgreSQL to play nicely with Rails and Bash on Windows 10. We will be leveraging the Linux subsystem on Windows 10. This article will not go over installing the Linux Subsystem and getting Bash up and running, there’s already great articles on that very subject. Here is Microsoft’s guide on installing the &lt;a href=&quot;https://msdn.microsoft.com/en-us/commandline/wsl/install_guide&quot;&gt;Linux Subsystem&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Let’s continue on to installing Ruby, Rails, and getting PostgreSQL up and running so that we can use Windows 10 as a development environment for Rails web development.&lt;/p&gt;
+
+&lt;h2 id=&quot;installing-the-prerequisites&quot;&gt;Installing the prerequisites&lt;/h2&gt;
+
+&lt;p&gt;First we need to make sure that are current install of Bash on Windows is update to date. &lt;strong&gt;Pro Tip:&lt;/strong&gt; If you ever run into an issue or you just need to figure out what command or procedure you need to do for specific tasks in regards to Bash on Windows you can simply Google the question and reference Ubuntu. Bash on Windows is built on top of and in partnership with Ubuntu which makes troubleshooting (Linux specific issues &amp;amp; procedures) quite easy.&lt;/p&gt;
+
+&lt;p&gt;Lets update and install some prerequisites.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo apt-get udpate
+sudo apt-get install git-core curl zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev python-software-properties libffi-dev postgresql-client-common postgresql-client libpq-dev
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;The terminal will likely prompt you to make sure that it’s okay to install a specific package, just type &lt;code class=&quot;highlighter-rouge&quot;&gt;Y&lt;/code&gt; and hit &lt;code class=&quot;highlighter-rouge&quot;&gt;Enter&lt;/code&gt;. ` After this operation, 6,082 kB of additional disk space will be used. Do you want to continue? [Y/n] Y`&lt;/p&gt;
+
+&lt;p&gt;That should cover all of the prerequisites that we will need to be installed to continue on with the process. The pre-reqs are required to get Ruby installed and PostgreSQL (which we will be going over a little bit later).&lt;/p&gt;
+
+&lt;h2 id=&quot;installing-ruby&quot;&gt;Installing Ruby&lt;/h2&gt;
+
+&lt;p&gt;In order for us to install Rails we first need to install Ruby. For the purpose of this article we will be installing &lt;code class=&quot;highlighter-rouge&quot;&gt;Ruby 2.4.1&lt;/code&gt;, your version may differ but at the time of writing this &lt;code class=&quot;highlighter-rouge&quot;&gt;Ruby 2.4.1&lt;/code&gt; is the latest stable build.&lt;/p&gt;
+
+&lt;p&gt;In order to install Ruby we will be using &lt;code class=&quot;highlighter-rouge&quot;&gt;rbenv&lt;/code&gt; to handle the install and management of our Ruby gems.&lt;/p&gt;
+
+&lt;p&gt;Here is a script that will make life for us just a little bit easier. You should be able to just copy and paste this into your terminal but just like life, your mileage may vary.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;cd
+&lt;/span&gt;git clone https://github.com/rbenv/rbenv.git ~/.rbenv
+&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'export PATH=&quot;$HOME/.rbenv/bin:$PATH&quot;'&lt;/span&gt; &amp;gt;&amp;gt; ~/.bashrc
+&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'eval &quot;$(rbenv init -)&quot;'&lt;/span&gt; &amp;gt;&amp;gt; ~/.bashrc
+&lt;span class=&quot;nb&quot;&gt;exec&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$SHELL&lt;/span&gt;
+
+git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
+&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'export PATH=&quot;$HOME/.rbenv/plugins/ruby-build/bin:$PATH&quot;'&lt;/span&gt; &amp;gt;&amp;gt; ~/.bashrc
+&lt;span class=&quot;nb&quot;&gt;exec&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$SHELL&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Now that we have our path built and plugin directory installed for rbenv and Ruby we can now install the latest Ruby version.&lt;/p&gt;
+
+&lt;p&gt;Installing Ruby this way takes a bit running through the terminal; patience young grasshopper.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;rbenv install 2.4.1
+rbenv global 2.4.1
+ruby -v
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Disclaimer&lt;/strong&gt; if you are like me and already had rbenv &amp;amp; Ruby previously installed and are getting a message that says…&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ruby-build: definition not found: 2.4.1
+
+The following versions contain `2.4.1' in the name:
+  rbx-2.4.1
+
+See all available versions with `rbenv install --list'.
+
+If the version you need is missing, try upgrading ruby-build:
+
+  cd /home/cr/.rbenv/plugins/ruby-build &amp;amp;&amp;amp; git pull &amp;amp;&amp;amp; cd -
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;… you will need to pull the latest version of rbenv and it’s definitions so that you can install the latest version of Ruby. To do that simple input this into your terminal.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/.rbenv/plugins/ruby-build/
+git pull origin master
+&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; -
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Now you can go back to the previous step and install the latest Ruby version you have in your definitions.&lt;/p&gt;
+
+&lt;h2 id=&quot;installing-bundler&quot;&gt;Installing Bundler&lt;/h2&gt;
+
+&lt;p&gt;Next we need to install &lt;code class=&quot;highlighter-rouge&quot;&gt;Bundler&lt;/code&gt; Ruby’s package manager. This one is pretty simple.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;gem install bundler
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Now we need to &lt;code class=&quot;highlighter-rouge&quot;&gt;rehash&lt;/code&gt; our gems, this updates the pointers to the right location of the new packages.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;rbenv rehash
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;installing-ruby-on-rails-pre-requisites&quot;&gt;Installing Ruby on Rails Pre-requisites&lt;/h2&gt;
+
+&lt;p&gt;Rails is dependent on NodeJS for runtimes in the asset pipeline so we will need to first install NodeJS.&lt;/p&gt;
+
+&lt;p&gt;Lets add NodeJS official repository to our system.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Now that the official respository is mapped to our system we will need to install NodeJS.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo apt-get install -y nodejs
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Awesome, lets just take a minute to make a little sanity check before we continue on installing Rails. Lets just make sure that NodeJS is installed.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;nodejs -v
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;You should get something like &lt;code class=&quot;highlighter-rouge&quot;&gt;v4.8.1&lt;/code&gt;. If you get a version with the last command lets continue on installing Rails.&lt;/p&gt;
+
+&lt;h2 id=&quot;installing-ruby-on-rails&quot;&gt;Installing Ruby on Rails&lt;/h2&gt;
+
+&lt;p&gt;Now that we’ve got Ruby and all of our pre-requisites for Rails installed we can go ahead and install Rails.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;gem install rails
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Pretty straightforward really but we have to remember to &lt;code class=&quot;highlighter-rouge&quot;&gt;rehash&lt;/code&gt; our environment so we have all the correct pointers.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;rbenv rehash
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Now lets check to see we have the correct version of Rails installed.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;rails -v
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;We should hopefully get &lt;code class=&quot;highlighter-rouge&quot;&gt;v5.0.2&lt;/code&gt; or a similar version. Again mileage may vary.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;AWESOME!&lt;/strong&gt; We’ve got Rails installed on our system!&lt;/p&gt;
+
+&lt;p&gt;Lets not get in front of ourselves though, we still can’t really use it. We need to setup our database infrastructure.&lt;/p&gt;
+
+&lt;h2 id=&quot;installing-postgresql&quot;&gt;Installing PostgreSQL&lt;/h2&gt;
+
+&lt;p&gt;At this point I’m going to state that the current easiest and most supported database environment that is supported without workarounds with Rails is MySQL. That being said nearly every developer and bootcamp I can think of uses PostgreSQL and really that’s likely why you are here, how can we use PostgreSQL w/Rails on Windows 10 Bash Linux Subsystem?&lt;/p&gt;
+
+&lt;p&gt;Well, we can, we just have to do a little bit of working around. Instead of our typical route of installing PostgreSQL through the terminal we will have to install PostgreSQL as Windows binary and getting our system to connect to each other.&lt;/p&gt;
+
+&lt;p&gt;I’ll be honest, it’s a bit of a pain in the ass but Microsoft is currently working on the issue and hopefully we won’t have this issue in the near future. They’ve done good work listening to the community and pushing through the work quickly.&lt;/p&gt;
+
+&lt;p&gt;Lets download and install the latest stable version of PostgreSQL Windows binary.&lt;/p&gt;
+
+&lt;p&gt;PostgreSQL 9.6.2 provided by BigSQL: &lt;a href=&quot;http://oscg-downloads.s3.amazonaws.com/packages/PostgreSQL-9.6.2-2-win64-bigsql.exe&quot;&gt;Download&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Now that we have the PostgreSQL downloaded, lets begin to install it.&lt;/p&gt;
+
+&lt;p&gt;Following along with the “Setup Wizard” leaving the defaults checked. If you want to install the additional packages you can but it’s not necessary and we don’t need the extra bloat.&lt;/p&gt;
+
+&lt;p&gt;Once you get to the “Password” section setup your password that you want for your &lt;code class=&quot;highlighter-rouge&quot;&gt;postgres&lt;/code&gt; user account. I choose to just have my password be “password” for ease of use in my local environment. You can choose whatever password that you want but you will need to remember it later on in our work.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;DO NOT USE “PASSWORD” FOR YOUR PASSWORD IN YOUR PRODUCTION ENVIRONMENT!!!&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Great we got that installed, we got our password set, lets do a quick sanity check to make suer that our Bash Linux Subsystem is connecting to our Windows installation of PostgreSQL.&lt;/p&gt;
+
+&lt;p&gt;Run this command from your Bash terminal.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;psql -p 5432 -h localhost -U postgres
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;If everything was installed properly you should get a response similar to this and the postgres shell prompt.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;psql &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;9.5.6, server 9.6.2&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+WARNING: psql major version 9.5, server major version 9.6.
+         Some psql features might not work.
+Type &lt;span class=&quot;s2&quot;&gt;&quot;help&quot;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;help.
+
+&lt;span class=&quot;nv&quot;&gt;postgres&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;c&quot;&gt;#&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Great we got it working. Now type &lt;code class=&quot;highlighter-rouge&quot;&gt;\q&lt;/code&gt; to exit the postgres shell.&lt;/p&gt;
+
+&lt;h2 id=&quot;creating-our-rails-application&quot;&gt;Creating our Rails application&lt;/h2&gt;
+
+&lt;p&gt;First we want to make sure that we are in the correct directory. I use a directory on my Desktop to keep my files organized, your mileage may vary. We will use my file locations for an example and you will have to substitute where it is necessarry.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; /mnt/c/Users/User/Desktop/projects/applications
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Note that we are storing our application in our &lt;strong&gt;Windows&lt;/strong&gt; filesystem and &lt;strong&gt;NOT&lt;/strong&gt; our Linux Subsystem. This is why we are changing directory into &lt;code class=&quot;highlighter-rouge&quot;&gt;/mnt/c/Users&lt;/code&gt; from here you will have to identify your Windows user account, you can do this by running &lt;code class=&quot;highlighter-rouge&quot;&gt;ls&lt;/code&gt; and seeing what shows up. For me my user account name is &lt;code class=&quot;highlighter-rouge&quot;&gt;User&lt;/code&gt;. After that you will have to &lt;code class=&quot;highlighter-rouge&quot;&gt;cd&lt;/code&gt; your way to the directory that you want to work in.&lt;/p&gt;
+
+&lt;p&gt;Now that we are in the proper directory lets create our first application.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;rails new windows_bash_test_application --database&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;postgresql
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;We should see rails creating the application.&lt;/p&gt;
+
+&lt;p&gt;Change directory into your application.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;windows_bash_test_application
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Lets setup our &lt;code class=&quot;highlighter-rouge&quot;&gt;database.yml&lt;/code&gt; file real quick just to make sure everything is still going good with our PostgreSQL installation.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;default: &amp;amp;default
+  adapter: postgresql
+  encoding: unicode
+  pool: &amp;lt;%= ENV.fetch(&quot;RAILS_MAX_THREADS&quot;) { 5 } %&amp;gt;
+  host: localhost
+
+development:
+  &amp;lt;&amp;lt;: \\*default
+  database: windows_bash_test_application_development
+  username: postgres
+  password: password
+
+test:
+  &amp;lt;&amp;lt;: \\*default
+  database: windows_bash_test_application_test
+  username: postgres
+  password: password
+
+production:
+  &amp;lt;&amp;lt;: \\*default
+  database: windows_bash_test_application_production
+  username: windows_bash_test_application
+  password: &amp;lt;%= ENV['WINDOWS_BASH_TEST_APPLICATION_DATABASE_PASSWORD'] %&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Now from our terminal lets create our database.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;rake db:create
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;If everything is working good we should get a message saying our development and test database was created.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Created database &lt;span class=&quot;s1&quot;&gt;'windows_bash_test_application_development'&lt;/span&gt;
+Created database &lt;span class=&quot;s1&quot;&gt;'windows_bash_test_application_test'&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Lets run our Rails server and make sure everything is working.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;rails s&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Now in your browser go the your &lt;code class=&quot;highlighter-rouge&quot;&gt;localhost:3000&lt;/code&gt; and you should be presented with verification that Rails is indeed running and installed.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/uploads/versions/rails-verification---x----511-375x---.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;That’s it, you’re all set to go with Rails running with PostgreSQL on a Windows 10! Woohoo!!!&lt;/p&gt;
+
+&lt;p&gt;If you have any questions you can contact me and I will do my best to help you along, there are some pretty common gotchas but if you just spend a few minutes Googling them you should find your resolution. Remember Google is your friend. If you still are having issues reach out and I’ll see what I can do.&lt;/p&gt;</content><summary type="html">Installing Rails: The Steps</summary></entry><entry><title type="html">Writing For Fun and Profit</title><link href="http://0.0.0.0:4000//writing-for-fun-and-profit" rel="alternate" type="text/html" title="Writing For Fun and Profit" /><published>2015-12-12T00:00:00-06:00</published><updated>2015-12-12T00:00:00-06:00</updated><id>http://0.0.0.0:4000//writing-for-fun-and-profit</id><content type="html" xml:base="http://0.0.0.0:4000//writing-for-fun-and-profit">&lt;p&gt;The other day a student had asked about how to get started blogging, if anyone could provide examples of non-technical technical blogs that she could emulate (or at least that was what I gleaned from the question/comment). I gave some advice as a response but it also got me thinking. I started to think about how I got started and how anyone could get started.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Why Are You Writing?&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;The first thing we have to do is decide why we want to start blogging. For the students of the Firehose Project we (as a member of the community I include myself) highly suggest that all new students should be writing a blog about their journey as a developer. The reason we do that is to create an easy way to show potential employers our passion in our pursuit to be developers. This is the first step for making up for the lack of experience we have as students.&lt;/p&gt;
+
+&lt;p&gt;The other reasons we suggest creating a blog and also a big reason we promote the Firehose Lighting Talks to students is to get comfortable thinking and talking about technology, development, and everything that goes with it. This will also help potential employers or clients to realize that we understand what we know and that we actively look for more new information. This bit of knowledge is very important.&lt;/p&gt;
+
+&lt;p&gt;This isn’t just for students of the Firehose Project, figuring out the reason why is important for anyone who wants to write a blog, articles, journals, etcetera. First we need to figure why we want to write and what’s going to motivate us to keep going. For me personally I didn’t start writing my blog because I was a developer, I started writing because I was going through some difficult times and started to face some of the struggles that I hadn’t to that point. By doing this I was also discovering things about myself and struggles that I had that I hadn’t even know I had (in retrospect this all got super meta). My reason why I write is primarily to assist myself in working through the thoughts that go through my mind, no matter the topic&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Getting Started&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Next we need to get started and this is by far the most important step. How do I do this? How do I get started? How do I begin? This is equally the most difficult step and the easiest step, which I know is very contradictory but it’s the truth. When we decide to start writing we assume that we have to immediately be good at it, start publishing what we write, and impress people. We don’t, far from it.&lt;/p&gt;
+
+&lt;p&gt;When I started to write I wrote just for myself. It was a private thing only meant for me so that I could figure things out in my life. The purpose of my writing is to not hold onto my thoughts but to get them out of my head and have them live somewhere else. My joy, despair, confusion, frustration, anger, and every other emotion I feel or thought I ponder leaves my mind to live in a document or a piece of paper, no longer consuming and distracting my mind.&lt;/p&gt;
+
+&lt;p&gt;Like I said the most difficult and easiest thing is is just to start writing. Open up a text editor or notebook and just start writing whatever comes to you. It doesn’t matter what it is or if it’s even important just start writing. This is the path to starting your blog. Writing is a process and needs to be nurtured and developed. I wrote for nearly 3 weeks before I decided to publish anything. I had written more than 20,000 words (1000+ words per day) before I hit the publish button on my first post about my struggle with duality. To get started we just need to simply just put words to paper. Simple.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Finding your voice&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Next we need to figure out what our voice is and what we want it to be. This is done by getting started. We just write and write and write and eventually our voices evolve. Whether you want to write a technical blog with lots of examples of code or write about philosophical ideas it doesn’t matter, this is the phase where that will evolve naturally.&lt;/p&gt;
+
+&lt;p&gt;When writing it’s important to know that we shouldn’t be writing for everyone, we’re not news journalists. In the beginning we should ONLY be writing for ourselves or maybe, and that’s a big maybe, writing for one or two other people. Don’t fall into the trap of trying to please and impress everyone, it’ll never happen. All of the important influencers in writing, for me, all say the same thing, they don’t write for anyone but themselves or at most one or two other people.&lt;/p&gt;
+
+&lt;p&gt;By writing only for yourself in the beginning or one other person (a specific person in mind; mother, father, coworker, friend, peer, etc) we don’t lose ourselves in the muck of trying to write to please. Write like you are authoring a letter to yourself two minutes ago, two weeks ago, 10 years ago, or 20 years from now, time frame really doesn’t matter and your topic will dictate your time frame. Tell your story, thoughts, struggles, and passions to yourself.&lt;/p&gt;
+
+&lt;p&gt;Writing is an intimate action and should be treated as such because effectively what you are doing is divulging your private inner thoughts on a topic and sharing it to the world but by focusing your words directions to yourself you don’t lose focus of your message or thoughts.&lt;/p&gt;
+
+&lt;p&gt;Finding your voice is not always an easy process and your voice will change over time, we as humans evolve and so will our voice. Don’t beholden yourself to one voice, one path, or one narrative. We are complex beings with complex thought processes, never be ashamed of changing your viewpoint, stance, or direction in life or your writing.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Choosing Your Platform&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Choosing the proper place to publish your writing is a bleak experience, at best. We will want to decide if we should create a personal website that will host our blog, use a pre-built platform like Medium, or use Facebook or other social media solely to write on (this I don’t suggest). For many students of the Firehose Project I would suggest creating a website to host your blog for the simple fact that not only are you making the big leap into writing but you will also gain some experience with building a website, a great first step for any burgeoning developer.&lt;/p&gt;
+
+&lt;p&gt;Choosing your platform will be a long term commitment, recently redoing my website and changing platform has assisted me in realizing how painful migrating hundreds of posts to a platform can be, make a calculated decision in the beginning to better support yourself in the future. Find a platform that will last in longevity and usability. Writing is a marathon not a sprint, treat it as such when making your platforming decision.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Sharing Your Voice&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;This is by far the scariest step in the blogging process, sharing your thoughts. I was terrified the first time I hit publish on my first post. I wrote about my struggle of duality and the constant pull I have felt my whole life. For me this was a deeply personal topic that I had never discussed with anyone so to share these innermost thoughts and feelings to strangers and even more terrifyingly so to my friends and family was not a comfortable process. However, showing my humanity, fears and faults was well received by many people, I had zero negative feedback.&lt;/p&gt;
+
+&lt;p&gt;Publishing your thoughts is scary but from my experience they will be well received, people identify and understand that it is not an easy task. We tend to hide behind masks but when we step out from behind them it turns out people are much more receptive and appreciative of who we are and respect us more. Anyone who publishes their inner thoughts I have immense respect for and will never look down upon them or think they are less because of this. It can be a very nerve wracking experience.&lt;/p&gt;
+
+&lt;p&gt;Blogging can be incredibly intimidating when wanting to get started. The most important thing you need to do is to just get started writing, from there it all falls into place. You don’t need to fear what you are going to write about or how people will receive it, none of that matters. When writing the only thing that matters is that you are better off writing than you were when you weren’t and you will be. Whether you write and not publish or you write and publish the process of writing will help you work through anything that is running through your mind and you will be profoundly better off because of it.&lt;/p&gt;</content><summary type="html">The other day a student had asked about how to get started blogging, if anyone could provide examples of non-technical technical blogs that she could emulate (or at least that was what I gleaned from the question/comment). I gave some advice as a response but it also got me thinking. I started to think about how I got started and how anyone could get started.</summary></entry><entry><title type="html">Coding Is Not Just Coding</title><link href="http://0.0.0.0:4000//2015/12/01/coding-is-not-just-coding/" rel="alternate" type="text/html" title="Coding Is Not Just Coding" /><published>2015-12-01T00:00:00-06:00</published><updated>2015-12-01T00:00:00-06:00</updated><id>http://0.0.0.0:4000//2015/12/01/coding-is-not-just-coding</id><content type="html" xml:base="http://0.0.0.0:4000//2015/12/01/coding-is-not-just-coding/">&lt;hr /&gt;
+
+&lt;p&gt;&lt;strong&gt;Just like martial arts, cooking, travelling, photography,&lt;/strong&gt;and nearly everything else that we do there are more to our activities than the activities themselves. They help us discover who we are and define our personal narrative. Recently I’ve been realizing there is more to coding than just coding. I’ve noticed that when I code I’ve been discovering things about myself and my thoughts.&lt;/p&gt;
+
+&lt;p&gt;I practice mindfulness everyday, at least I do my best I’m not perfect and neither is my practice, and as a result of that I try to spend every moment in the moment. It’s given me the ability to appreciate life for what it is and truly enjoy every moment of life; good, bad, ups, downs, and everything in between.&lt;/p&gt;
+
+&lt;p&gt;What I’ve noticed has been that while coding, the things that have weighed me down throughout the day or stresses of the world diminish in strength and intensity. This has been a truly great experience, it seems that even when I’m focused on coding I’m able to work through the things that have been worrying or bothering me and by the time I finish coding I’ve got a solution or relief from the issue(s) that was bothering me.&lt;/p&gt;
+
+&lt;p&gt;It’s not always about dealing with bad things or negative things, while coding I’ve been able to hash out great ideas, business plans, and insights into who I am. I don’t believe that we ever truly figure out who we are or what our purpose is and we’re always discovering things about ourselves and coding has given me the meditative practice to assist in exploring more of myself and my thoughts.&lt;/p&gt;
+
+&lt;p&gt;Coding is a craft, it’s not just a skill. It can be molded, annealed, honed, and sharpened like a razor sharp katana. Coding is a mental exercise that consists of being mindful of what you are doing and how the actions you are taking affects the world around it. Whether or not we realize it, we are meditating and practicing mindfulness, further crafting our abilities.&lt;/p&gt;
+
+&lt;p&gt;Truly brilliant coders are masters of mindfulness, they see the moment and beyond. They have intimate knowledge of how things work and how they can manipulate them to build something ever more amazing and beautiful. They’ve crafted their abilities into powerful tools for impacting the moments of our lives.&lt;/p&gt;
+
+&lt;p&gt;Coding is more than just coding; it’s a craft and a centering of self. The further we stay present in our code and be mindful of their interactions we can further develop our craft to something truly powerful. The coding byproduct assists the present us by lending a meditative state to work through any concern or idea we may have weighing in our mind.&lt;/p&gt;
+
+&lt;p&gt;Once our skills grow our mind automates more and more of the task which results in more of our time spent empty (at true zen, a complete focus) allowing us to start discovering things about ourselves and our purpose. Giving us opportunity to take notice of all the things that are in our lives good or bad, and giving us a method to resolve our thoughts.  &lt;/p&gt;</content><summary type="html"></summary></entry><entry><title type="html">Web Dev Weekly Roundup</title><link href="http://0.0.0.0:4000//2015/11/19/Web-Dev-Weekly-Roundup/" rel="alternate" type="text/html" title="Web Dev Weekly Roundup" /><published>2015-11-19T00:00:00-06:00</published><updated>2015-11-19T00:00:00-06:00</updated><id>http://0.0.0.0:4000//2015/11/19/Web-Dev-Weekly-Roundup</id><content type="html" xml:base="http://0.0.0.0:4000//2015/11/19/Web-Dev-Weekly-Roundup/">&lt;p&gt;&lt;strong&gt;I’ll never go back to doing a website without a mockup.&lt;/strong&gt; That was my big takeaway from this last week. I experienced the pain the previous week with multiple site redesigns, scraping ideas and having to start over because I had no clear vision of the direction that I wanted to go.
+&lt;!--more--&gt;&lt;/p&gt;
+
+&lt;p&gt;In the last week I finished up a Jekyll theme where we worked off of a mockup and then this week I’ve been spending some time redesigning and rebuilding my personal site with Jekyll but with a mockup in hand. A couple of nuggets of insight happened this week too but the biggest was the mockups.&lt;/p&gt;
+
+&lt;p&gt;So mockups, we love to use them when they’re provided to us but in the world of rapid prototyping things and beginners in the scene we can sometimes skip the mockup portion of development and opt to get right into the coding. I sure did before now. Now I will never build something without at least a rough sketch if not a full designed mockup at my fingertips. It makes things incredibly less painful.&lt;/p&gt;
+
+&lt;p&gt;When I decided to go back to the fundamentals and drop the styling frameworks like Bootstrap and Foundation it was difficult to build things from scratch without a mockup, now with mockups it reduces the added complications 10 fold and actually makes the process quite simple. The ability to look at a final visual representation of what you would like makes the difference between inefficiency and efficiency, winging it and hitting brick walls and smooth sailing on glass seas. By using a mockup, a proper mockup, it has reduces the stress, anxiety and feeling of not knowing what the hell I am doing. It’s quite incredible.&lt;/p&gt;
+
+&lt;p&gt;So why is having a mockup so great? Well number one you have a visual representation, a goal for the finish line, of what you want to build. The image is no longer stuck in your head susceptible to subjective warping and manipulation as you wander around the internet and spotting new and interesting design choices. Sticking to that visual guide reduces the indecisions and the “OOOO Shiny” effect of seeing things on the internet.&lt;/p&gt;
+
+&lt;p&gt;The other reason it makes like easier is that if you are using something like photoshop, which I use and I definitely recommend, you can layout your designs exactly how you want them and then use the mockup to grab dimensions to later use in your CSS. When you use pen and paper, while incredibly useful and the 1st step of a mockup, it doesn’t give you the pixel dimensions that later can be incredibly useful at a later time. I’ve been rebuilding my personal site and have been working off of a mockup I made. When I need to figure out how much margin, padding, width, height, etc I need for a specific element I just have to click on my photoshop mockup, grab the selection tool and measure the distance between elements, take that number and type it into my CSS. Just doing that I’ve got EXACTLY what I wanted.&lt;/p&gt;
+
+&lt;p&gt;Using mockups has reduced my time and effort that I put into making design choices. Yes it’s a decent amount of work ahead of actually typing in your first line of code but at the end of the day it saves you an amazing amount of time when actually coding. My mockups for the redesign of my website took me around 3 hours to do, not an insignificant amount of time. That consisted of 5 different ideas fully sketched out on graph paper, making the decision on which one I wanted, and then spending about 2.5 hours stumbling around photoshop (I’m terrible with photoshop and very rusty from years of not using it) creating my final mockup. Once I got to the coding it was &lt;strong&gt;ALL&lt;/strong&gt; worth it!&lt;/p&gt;
+
+&lt;p&gt;Enough with the mockups, something else that I discovered this week is &lt;a href=&quot;http://cloudcannon.com/&quot;&gt;Cloud Cannon&lt;/a&gt;, a Jekyll CMS hosting system. Yes I said that correctly and now I will yell it because it’s that absolutely amazing! A JEKYLL CONTENT MANAGEMENT SYSTEM!!! For anyone not familiar with why this is amazing is because Jekyll out of the box is strictly for static sites and if you aren’t a developer or brave in learning code it doesn’t make it easy to add content to your site without having to do a bunch of work to get there. With Cloud Cannon all you have to do is add “editable” to the element you want to update or change and you can do that right from the Cloud Cannon’s admin interface. It’s fucking brilliant! Like amazingly, incredibly, superbly brilliant. I’ve been so impressed with the service, interactions with the team, and easy of getting your site setup that I’m going to be switching my personal site and business site over onto the Cloud Cannon platform. I’ve just barely got my toes wet with &lt;a href=&quot;http://cloudcannon.com/&quot;&gt;Cloud Cannon&lt;/a&gt;, in the coming weeks I will be diving deeper so look forward to hearing more about it.&lt;/p&gt;
+
+&lt;p&gt;The other little gem I stumbled on this week was more so one of a battle of attrition and “what the fuck this doesn’t make any damn sense”. AHHHH the frustration! Since I’ve been building my new personal site I am designing it with speed and performance in mind, enter Google Insights. &lt;a href=&quot;https://developers.google.com/speed/pagespeed/insights/&quot;&gt;Google Insights&lt;/a&gt; is a way of performance testing your site and see how you can improve your results placement in Google searches.&lt;/p&gt;
+
+&lt;p&gt;It’s a pretty incredible service with a lot of useful information but it’s like a drug, you’re just chasing that score and just like drugs you’ll never be able to achieve what you’re looking for. I’ve spent days optimizing my photography and gallery settings for my new site chasing that stupid dragon finally to realize, Google Insights is not the end all be all and it’s pretty inconsistent. I started with a 4/100, then got to 40/100, then compressed and resized more images getting me to 62/100 and then finally super compressing and resizing my thumbnails which got me to 76/100. This was a good level for me and I was satisfied but then I just decided to reload the Google Insights page without doing anything to my site or code and it came back with an 84/100. This makes no damn sense! At all! Finally I decided to performance test on other benchmark sites and consistently got a 90% and up in performance so none of it actually makes sense. That being said it gave me the direction I needed to optimize my site, the number results don’t matter as much as the end result of your site, optimization. This is another topic that could go real deep into and have already gone too deep for this. Use &lt;a href=&quot;https://developers.google.com/speed/pagespeed/insights/&quot;&gt;Google Insights&lt;/a&gt; and see how your site scores.&lt;/p&gt;
+
+&lt;p&gt;Well this became far longer than I anticipated it would so we’ll end here. Here’s the TL:DR version; build mockups and use them (they’ll save you a ton of time in the long run), Cloud Cannon is a bitching Jekyll CMS &amp;amp; hosting platform that makes Jekyll more like Wordpress, and Google Insights will give you great direction in optimizing your site but be careful of chasing the dragon, it’s not the end all be all performance benchmarking system. That’s all folks see you next week.&lt;/p&gt;</content><summary type="html">I’ll never go back to doing a website without a mockup. That was my big takeaway from this last week. I experienced the pain the previous week with multiple site redesigns, scraping ideas and having to start over because I had no clear vision of the direction that I wanted to go.</summary></entry><entry><title type="html">Web Dev Weekly Roundup</title><link href="http://0.0.0.0:4000//2015/11/11/Web-Dev-Weekly-Roundup/" rel="alternate" type="text/html" title="Web Dev Weekly Roundup" /><published>2015-11-11T00:00:00-06:00</published><updated>2015-11-11T00:00:00-06:00</updated><id>http://0.0.0.0:4000//2015/11/11/Web-Dev-Weekly-Roundup</id><content type="html" xml:base="http://0.0.0.0:4000//2015/11/11/Web-Dev-Weekly-Roundup/">&lt;p&gt;&lt;strong&gt;WooHoo another week done and much accomplished.&lt;/strong&gt; This week I got an MVP done, an MVP of my business website (which I’ll end up trashing and starting over because why not), and halfway through building a custom Jekyll theme that I can use for potential clients in the near future. I switched up my mindset this last week and kicked back into &lt;em&gt;getting shit done&lt;/em&gt; mode.&lt;/p&gt;
+
+&lt;p&gt;To start off this week I did a bit of an inventory check to figure out where I was at with my day to day activities and see how I could adjust it to be more efficient. Last year I spent much of the year building daily habits that were based off of starting my day off with positivity, however, in the last few months I slowly started to strip those positive actions away from my daily ritual. The results were a reduction of productivity and focus throughout the day. I started going for the low hanging fruit all the day and doing the least possible that I had to but something triggered in me and reminded me that I wasn’t performing at the best thus triggering the inventory check. I figured out where I was slipping away and I adjusted my daily routine. In the last week of refocusing I’ve written more, spent less time on negative things like the news or social media, wrote a lot more code, and generally speaking I’ve just been happier. Daily routines work and they’re important to start your day off right, it feels good to be back at a positive daily routine.&lt;/p&gt;
+
+&lt;p&gt;Anyways you don’t want to hear about all that stuff this is a web development series so lets talk about some web development. This week I build an MVP for a leads collector. The problem was that I wrote all my possible leads for targeted businesses and individuals for possible web design and development work were just getting randomly jotted down on scraps of paper or notebooks that I don’t go back and look at. The solution for this was to write a simple Rails app that I could quickly put in a lead and have that stored in one central location. It’s nothing complex at this point, it’s just a simple CRUD app without much bells and whistles but the main point was that I took something that I needed and I built it. That’s some powerful stuff right there, a year ago I never would’ve imagined that I’d be able to do that. I’ve got some ideas for it moving forward to expand on its usability and central functionality but for now it works for what I need it for, a place to collect my possible leads.&lt;/p&gt;
+
+&lt;p&gt;I think at this point it goes without saying, but I will, how important exploring new areas of your life and the world around you. You never know when you will have a need for a product that doesn’t necessarily exist already and which will give you inspiration to create yourself. There’s voids in all industries that can be filled by simple or complex applications but you’ll never know about them unless you explore different avenues of your world. &lt;strong&gt;Exploring the world, it’s important. Passion projects, they’re important.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Carrying off of that win I needed to start building out a business website for my consulting company so I set out to do that. I spent a limited amount of time doing this and got something that was functional and learned a lot in the process (I tried to use as little web frameworks as possible). It’s an MVP so it, again, has no bells and whistles or even any features I would love to have. I was pretty satisfied with the site and then I came back to it the next day, what a load of shit that was! So I’m scrapping it and I’m going to redo it with a bit more focus and direction. The problem was that I was trying to implement &lt;strong&gt;all&lt;/strong&gt; of the things I like about web design. Folks this doesn’t work! There is a reason why art has many styles and genres, web design is no different. You can’t mix impressionist art with postmodern art and hope to have it come together in a cohesive and fluid manner, it just doesn’t work, same goes for web design. The site looks like garbage and since I’m a strong believer in “if don’t like something change it” I will be scrapping and starting over but this time with proper direction. There’s a reason why we wireframe and do our best to stick to that structure.&lt;/p&gt;
+
+&lt;p&gt;Finally in the last few days I’ve been working on building a Jekyll theme that I will possibly be able to use in client work or my own projects. It’s been a great process of understanding Jekyll even more and having a great opportunity to build up my foundational knowledge of SASS and using Bourbon mixins versus relying heavily on Bootstrap. It’s been a joy to go through the process so far and have been making some great headway on it. While I’m loosely following a guide on this one it’s giving me the understanding to keep building more and more themes for future projects. It’s also the first time using pure SASS vs SCSS and that’s been an interesting journey. It’s been an enlightening experience so far, that’s for sure.&lt;/p&gt;
+
+&lt;p&gt;That’s what I have this week and next week should be just as packed with activities. Looking forward to sticking to my old daily routine of filling my mornings with positive wins and building more cool things. It’s been a great week and I’ve managed to get a lot done in the process. It’s amazing how switching a couple small things right away in the morning can lead to huge wins throughout the day.&lt;/p&gt;</content><summary type="html">WooHoo another week done and much accomplished. This week I got an MVP done, an MVP of my business website (which I’ll end up trashing and starting over because why not), and halfway through building a custom Jekyll theme that I can use for potential clients in the near future. I switched up my mindset this last week and kicked back into getting shit done mode.</summary></entry><entry><title type="html">Web Dev Weekly Roundup</title><link href="http://0.0.0.0:4000//2015/11/05/Web-Dev-Weekly-Roundup/" rel="alternate" type="text/html" title="Web Dev Weekly Roundup" /><published>2015-11-05T00:00:00-06:00</published><updated>2015-11-05T00:00:00-06:00</updated><id>http://0.0.0.0:4000//2015/11/05/Web-Dev-Weekly-Roundup</id><content type="html" xml:base="http://0.0.0.0:4000//2015/11/05/Web-Dev-Weekly-Roundup/">&lt;p&gt;Another week done and gone. My big concerns and focuses this week in my web dev pursuits was more so on the business side of things. With my recent decision to go freelance I’ve launched into research and development mode. Having a history of IT consulting, working for small businesses, and knowing many small business owners I definitely have some solid knowledge of how a business should be ran and more importantly how a business SHOULDN’T be ran. The difficulty is that when it comes to the web design and development I don’t know a lot of the ins and outs of this world, in terms of business ownership at least. This lack of knowledge has launched me into R&amp;amp;D mode.&lt;/p&gt;
+
+&lt;p&gt;The week began with me finally making the decision that I am going to jump into freelance and truly commit to it. Of course that means I’ve been scouring the internet for things that I will need and need to know, which I kind of love this research mode since I’m fascinated by learning new things. I’ve dug into some concepts but the biggest thing that I needed was to understand my local economy and see what was available for me to build a client base. Since I’ve decided that January will be when I truly “launch” my freelance business I needed to start collecting information.&lt;/p&gt;
+
+&lt;p&gt;After browsing the local web design agencies and freelancers I’ve noticed that there are a ton of outdated and abandoned (in terms of maintenance) web sites for local businesses. I started with jotting down these websites and businesses in a notebook. The problem with that is that I will rarely if ever check that notebook again unless I get spark to check it out. What I needed then is a way to collect these leads and being a developer I decided to build one, what the hell why not?&lt;/p&gt;
+
+&lt;p&gt;Building passion projects have served me well in my web development career and growth so I figured this would be the best approach for making my life easier in my pursuit of freelance work. With freelance work you need a portfolio and since I want to do both a mix of web design and development I should have a portfolio for both design work and development work. My leads collector is a good way to keep track of potential sites and businesses that I want to reach out to and has the potential to be a service that I could sell once it gets a lot more refined. It’s very much still a work in progress but it is a very minimal minimal viable product.&lt;/p&gt;
+
+&lt;p&gt;Having some work already going with development projects I wanted to also continue to devote some time to design and front-end static work which I will need but many small business clients are mostly static websites. Like passion projects for development, it’s important to work on front-end work for design related work so I’m rebuilding my IT consulting website from the ground up and doing my best to not cut corners but really learn the intricacies of the foundations that we all use but take for granted.&lt;/p&gt;
+
+&lt;p&gt;Those are my biggest accomplishments this last week in my pursuits of web development and design. It’s going to be an interesting journey and I’ve been considering to do another series about the journey into freelancing but that may come at a later date. The experience and direction that I have been taking has been pretty productive and been very valuable building what I hope to be a successful freelance career. Figuring out your direction and purpose certainly takes a load off of my shoulders and I feel good about this decision.&lt;/p&gt;</content><summary type="html">Another week done and gone. My big concerns and focuses this week in my web dev pursuits was more so on the business side of things. With my recent decision to go freelance I’ve launched into research and development mode. Having a history of IT consulting, working for small businesses, and knowing many small business owners I definitely have some solid knowledge of how a business should be ran and more importantly how a business SHOULDN’T be ran. The difficulty is that when it comes to the web design and development I don’t know a lot of the ins and outs of this world, in terms of business ownership at least. This lack of knowledge has launched me into R&amp;amp;D mode.</summary></entry><entry><title type="html">Web Dev Weekly Roundup</title><link href="http://0.0.0.0:4000//2015/10/30/Web-Dev-Weekly-Roundup/" rel="alternate" type="text/html" title="Web Dev Weekly Roundup" /><published>2015-10-30T00:00:00-05:00</published><updated>2015-10-30T00:00:00-05:00</updated><id>http://0.0.0.0:4000//2015/10/30/Web-Dev-Weekly-Roundup</id><content type="html" xml:base="http://0.0.0.0:4000//2015/10/30/Web-Dev-Weekly-Roundup/">&lt;p&gt;Having taken a couple of side jobs this week I didn’t get to put as much time into coding as I had hoped this week but it all works in the larger scheme of things for my next move. Currently I’ve been working to build out my IT consulting business and currently gearing up to include web design and development to the list of services I can provide. Sometimes you’ve just got to take things into your own hands. I did get some coding in and development related activities.&lt;/p&gt;
+
+&lt;p&gt;The biggest highlight of this last week was lightning talks. As usual they were fantastic and it’s been awhile since I gave one so I jumped in and got my feet wet again. I forgot how much I enjoy giving a talk and how satisfying it is to do research and teach a topic. The biggest talk that I found incredible value in is John’s &lt;a href=&quot;https://www.youtube.com/watch?v=1s0WdUzj_20&quot;&gt;talk on getting paid&lt;/a&gt; as a freelance web developer. Having our backgrounds in IT be quite similar with where we’re working and the direction we’re going it was quite insightful in how to expand into the web design and development contract world. It came at good timing since I had a lot of questions about freelancing but not many answers yet since I’m at the very beginning stages of deploying it as a service. The talks were all fantastic and I came away from every talk learning something new and that’s the whole point of the talks.&lt;/p&gt;
+
+&lt;p&gt;The rest of the week consisted of working on two projects the main one at this stage being building a new website for my consulting company. With my pursuit of expanding my foundations I went at my new site with that intention in hand. I find the best way to learn something and get a grasp of the core concepts is by working on them on a project you give a damn about so that’s what I’ve been doing. I went back to the drawing board and started to figure out what I wanted from my site, who my clients would be, what services I would provide, and start contemplating the rates in which I would charge for said services. I have gone at my website like I would go at a client’s project by figure out the client’s needs, their brand, their voice, their core audience, and what their goals are, I find this approach to be extremely useful when attacking a client project. I’ve used these fundamental core questions to successfully land clients and complete projects on goal and usually under budget so why wouldn’t it work with myself?&lt;/p&gt;
+
+&lt;p&gt;The pursuit of going at my site with 100% core concepts has not been exactly easy but so far it has been an excellent learning experience. I feel like I have gained a stronger core understanding of the fundamentals which allows me a better understanding of how the HTML/CSS/Web frameworks deploy their methodologies. Even with learning the core fundamentals more solidly I still feel like the frameworks in many cases are a better choice to go since it just shortens up the process and allows more efficiency. One of the most important things I’ve taken away from my years of being a metal fabricator is your life will infinitely be easier if you are using the right tool for the job and in web design and development that concept is just as true. If I can cut down my time and stress by using the right tool for the job then I’m going to use that tool, however, knowing how those tools work allows you to modify and manipulate those tools to better serve your needs. Both foundations and tools are greatly important, both should be studied diligently.&lt;/p&gt;
+
+&lt;p&gt;My next project I’ve been working on is a client intake tracker and counselor communication logger. It’s something that there really isn’t a piece of lean and affordable piece of software for rehab and halfway houses. Having a working knowledge of that industry with a handful of my business clients being part of that industry has given me a great insight and access to what they would need. It’s a niche industry but that’s where there is often not software that represents the needs of those fields. That app hasn’t gone far, I’m in the very beginning phases of development and research but it’s an excellent way to expanding my skills and build a more robust skillset. From the beginning I’ve been sold on the idea that the best way to improve your skills is to apply them to real world examples and this is just one of the ways in which I plan to become a better developer.&lt;/p&gt;
+
+&lt;p&gt;This last week was a better calmer pace and pushing more of my IT consulting services and working on finding where I can fit those in with my web development pursuits. With priorities having to be adjusted for my personal situation and seeing a serious lack of quality and affordable web design and development in my area it seems like the perfect time to start ramping up the hustle and start building out my company a bit more. It’s all very much in the works but it’s exciting to see where I can take this. This coming week will hopefully be a more impactful and active web development week.&lt;/p&gt;</content><summary type="html">Having taken a couple of side jobs this week I didn’t get to put as much time into coding as I had hoped this week but it all works in the larger scheme of things for my next move. Currently I’ve been working to build out my IT consulting business and currently gearing up to include web design and development to the list of services I can provide. Sometimes you’ve just got to take things into your own hands. I did get some coding in and development related activities.</summary></entry><entry><title type="html">Web Dev Weekly Roundup</title><link href="http://0.0.0.0:4000//2015/10/21/Web-Dev-Weekly-Roundup/" rel="alternate" type="text/html" title="Web Dev Weekly Roundup" /><published>2015-10-21T00:00:00-05:00</published><updated>2015-10-21T00:00:00-05:00</updated><id>http://0.0.0.0:4000//2015/10/21/Web-Dev-Weekly-Roundup</id><content type="html" xml:base="http://0.0.0.0:4000//2015/10/21/Web-Dev-Weekly-Roundup/">&lt;p&gt;I stepped away for a little bit to regain my breath since I’ve been working 60-70 hours a week for the last month I needed a bit of break so this will be a web dev recap on this last week but not the week before. Sometimes you just need to step away and recapture your breath.&lt;/p&gt;
+
+&lt;p&gt;The biggest thing that has happened in the last week or so is that my software development contract will not be extended. This is definitely not the way in which I had wanted it to turn out but I agree with my former boss with why the decision had to be made. Simply put we were both looking for two totally different things and I don’t think either of us were completely happy. I wanted someone I could learn and train with and he needed someone who had an intermediate level amount of experience in areas in which I had next to zero. Unfortunately it didn’t work out for either of us but I had the opportunity to learn and be introduced to quite a few things that I hadn’t prior to this experience. Overall I came out with a net positive perspective on the experience which I’m quite happy about.&lt;/p&gt;
+
+&lt;p&gt;Riding off of a bit of disappointment I decided I’d jump right back into the swing of things. Where I would start is with the foundations. It’s always a great idea to get a solid understanding of the foundations of whatever you are doing. From my experience I came to realize that my foundational understandings of HTML/CSS were not as solid as I had thought they were. Since I started with learning to become a web developer I have relied on Bootstrap, Foundation, or Bourbon as pre-built web frameworks to handle all of the heavy lifting of CSS/SASS. Now having these at our fingertips are exceptional and makes life a million times easier but if you don’t have the foundations they have the potential of robbing you of that specific information. With that insight I jumped back into the foundations and started to solidify them more thoroughly.&lt;/p&gt;
+
+&lt;p&gt;Keeping with the theme of foundations I decided to jump into TDD/BDD. My skills in TDD/BDD are not where I would like to see them so I started to force myself to develop 100% in this manner. It’s an area that I feel weak so instead of allowing myself to be okay with that I decided to jump in 100%. It hasn’t been easy, if I’m honest, I often hit brick walls. The problem is that I know what I want the application to do but I’m not quite sure how to test it efficiently and I think this is the struggle that most people face when they start out with TDD. Seeing it as a weakness and it being an incredibly uncomfortable experience I, like usual, doubled downed. If you’re comfortable, you’re not learning.&lt;/p&gt;
+
+&lt;p&gt;Finally with this last week I have taken on a client project for one of my business clients. They need an web app built that currently doesn’t exist in the form in which they need it. I find having a purpose when learning new things is essential to make the most out of what you are learning. Having a path on your learning journey is much more efficient than going at it blind. The app is relatively simple but there are some interesting hurdles that will have to be met; multi-tenancy, multiple locations, admin dashboards, user assignments and restrictions and a couple other hurdles. It should overall be an excellent experience and present a great opportunity build a service that doesn’t exist.&lt;/p&gt;
+
+&lt;p&gt;This last week came off of a bit of a disappointment but I turned it around by creating a path for the future. I took my shortcomings as areas of growth which I take very seriously and will use that to build my skillset. It’s not always the easiest road but the roadblocks are often the obstacles that we can use to level up. This next week will be a push to build out my foundations and grow my skillset.&lt;/p&gt;</content><summary type="html">I stepped away for a little bit to regain my breath since I’ve been working 60-70 hours a week for the last month I needed a bit of break so this will be a web dev recap on this last week but not the week before. Sometimes you just need to step away and recapture your breath.</summary></entry><entry><title type="html">Web Dev Weekly Roundup</title><link href="http://0.0.0.0:4000//2015/10/07/Web-Dev-Weekly-Roundup/" rel="alternate" type="text/html" title="Web Dev Weekly Roundup" /><published>2015-10-07T00:00:00-05:00</published><updated>2015-10-07T00:00:00-05:00</updated><id>http://0.0.0.0:4000//2015/10/07/Web-Dev-Weekly-Roundup</id><content type="html" xml:base="http://0.0.0.0:4000//2015/10/07/Web-Dev-Weekly-Roundup/">&lt;p&gt;This week was filled with a bunch of fun code related activities from lightning talks, frontend JS validations, frontend styling and jQuery mobile menus. It’s been an interesting week with lots of new learning experiences. It’s all kind of merged into a single day it seems but it was, for me, a very productive and educational experience.&lt;/p&gt;
+
+&lt;p&gt;Starting out in this last week was lightning talks, the bi-monthly Firehose Project student get together to give talks on tech and development. As usual I loved the lightning talks and learned a bunch of valuable information. The lightning talks are great because it gives myself and other students an opportunity to learn about something new or expand upon previous knowledge. I particularly enjoyed the SASS/SCSS talk, it really helped me up my game in the styling frontend world which wound up coming in super helpful later on in the week.&lt;/p&gt;
+
+&lt;p&gt;I’ve been working on a lot of frontend stuff lately and part of that was to setup field validations within our Ember JS application. The purpose of the validations is to ensure that the form is completely filled before sending off to the server to feed up the proper requests. This normally would be pretty simple and we had all the backend validations lined up but we wanted to make sure that the frontend had a nice validation for the end-users to intuitively know what is required. Making the frontend validations was a bit tricky because it was going to be validated 100% in JavaScript meaning that I had to write validations in a language that I am super unfamiliar with. It was certainly a good experience and gave me some great exposure to Ember JS and JavaScript. Getting that exposure helped cement some knowledge that I haven’t had the opportunity to experience yet to this point. If you get a chance to experience Ember JS and JS you should jump at it because it really helps you realize all of the possibilities and your fingertips that you may have not been aware of to this point.&lt;/p&gt;
+
+&lt;p&gt;Moving on from JS validations I tackled implementing the styling and layout of our application. Now I’ve never been great at CSS and design but since using Bootstrap it has really gave me a ton of power that I didn’t have before. However, this time around there was no Bootstrap to the rescue. Instead it was Bourbon and Neat, a framework to this point I had zero exposure to and doesn’t give you a lot of the spoon fed features that Bootstrap does. Starting out it was a war of attrition and I was losing but then I remembered that I’m not going to get anywhere by attacking the problem as a whole, I needed to break it down into smaller pieces. Once I broke it down it no longer was a problem and it became enjoyable. I cranked through everything and when it was near finished I was pretty damn happy with the outcome. Bourbon and Neat was a pretty good less in doing only what is necessary and it served its purpose really well in this situation.&lt;/p&gt;
+
+&lt;p&gt;To wrap up the week I need to implement a mobile responsive menu like Slack uses on their primary website. It looks simple in design and for the most part, now that I have done it, it was pretty simple in application. The problem was that I’ve always used Bootstrap to handle this sort of thing and I have had next to no jQuery experience which is what was required in this specific situation to get the menu to be responsive and work the way in which we wanted it to. It took me a damn long time to figure out what the hell I need to do but in the end I managed to get it figured out and it was relatively easy. It was another situation that attacking it head on as a whole was getting me nowhere but the minute I started to break it down into smaller chunks I was starting to be able to see the light at the end of the tunnel and make some progress to the goal in which I sought to achieve. In the end the entire process of implementing the site styling and design turned out to be a pretty amazing thing and it was extremely beneficial to have the opportunity and the hurdles in which I overcame. I will be able to use this moving forward in other projects because of how nice it looks and feels.&lt;/p&gt;
+
+&lt;p&gt;This week was spent mostly on the frontend, an area that I don’t get a ton of exposure to, and it was extremely beneficial to start learning some of these new technologies and frameworks to implement ideas where Bootstrap had previously spoon fed me the information that I needed. It was a good week, productive, and allowed me to grow in areas that I needed it. After it’s all said and done it was a pleasure to have had these experiences and struggles. I look forward to what comes up in the next week.&lt;/p&gt;</content><summary type="html">This week was filled with a bunch of fun code related activities from lightning talks, frontend JS validations, frontend styling and jQuery mobile menus. It’s been an interesting week with lots of new learning experiences. It’s all kind of merged into a single day it seems but it was, for me, a very productive and educational experience.</summary></entry><entry><title type="html">Web Dev Weekly Roundup</title><link href="http://0.0.0.0:4000//2015/09/30/Web-Dev-Weekly-Roundup/" rel="alternate" type="text/html" title="Web Dev Weekly Roundup" /><published>2015-09-30T00:00:00-05:00</published><updated>2015-09-30T00:00:00-05:00</updated><id>http://0.0.0.0:4000//2015/09/30/Web-Dev-Weekly-Roundup</id><content type="html" xml:base="http://0.0.0.0:4000//2015/09/30/Web-Dev-Weekly-Roundup/">&lt;p&gt;A week into my web dev gig and there’s a TON of information that has been consumed with a faulted attempt to process it in a reasonable way. My task for this contract is to get up to speed as soon as I can with, from my point of view, a fairly complicated codebase. I like the challenge though. Things have always came pretty natural to me throughout my life and for once I actually feel like I’m truly being challenged on a daily basis, it’s frustrating but rewarding feeling. This week came with some pretty big realizations, struggles and jumping into unfamiliar territories.&lt;/p&gt;
+
+&lt;p&gt;First off I wasn’t prepared for this, not in a bad way but I definitely didn’t expect the complexity of the tasks that I would have to perform right out the gate. It’s not that I find them to be too difficult but that I have so little exposure to them that they seem confusing. The codebase that I am working with is based off an API first mentality meaning that Rails is the API and, in this situation, the front end is Ember JS. Two things that I haven’t had much experience with, I’ve been learning primary with a Ruby/Rails full stack with a focus on CRUD apps with a little bit of added complexity. It’s a bit overwhelming but I see the incredible value that it serves and look forward to truly understanding it all.&lt;/p&gt;
+
+&lt;p&gt;Not being able to have the safety net of the Rails frontend everything is verified and built via TDD/BDD using RSpec. Another area that I don’t have a ton of experience with so this has created another layer of complexity. I got a swift realization that my testing skills are atrocious but with time I will get better and better at them. Right now things are moving painfully slow because I want to do my best to focus on writing good tests and develop the application in a pure TDD approach. This is pretty different from how one starts out learning Ruby/Rails. If you are starting to learn Rails make sure you are also learning TDD in tandem so that when you land your first dev position you can jump right in with writing tests.&lt;/p&gt;
+
+&lt;p&gt;The big focus of my week was focusing on the HelloSign API which was an interesting learning experience in how a more complex API integrates and interacts with a Rails application. It was pretty frustrating at points but that’s because I was over complicating things, it can be a real problem for me. I had to be reminded and remind myself that I need to break things down into smaller chunks. If you’re like me and have been doing a technical job for quite some time you take for granted and often forget about how in the beginning when you were learning that you needed to break it down into its smaller parts. In my current IT role I can roll multiple tasks up in one because I know what I’m doing but with software development since I’m fairly green in experience I find myself slipping into wanting to roll multiple tasks up in one but since I don’t know all the moving parts I run into frustrations and complications. My biggest learning experience this week was that I need to remember to always break things down into smaller parts or I will create undue hardships for myself. The learning of the API was valuable but the re-learning of the troubleshooting process was far more valuable.&lt;/p&gt;
+
+&lt;p&gt;The last few days have consisted of working with Ember JS and I’ve got to say seeing the results of what it’s capable of I’m fairly impressed, however, JavaScript is still a pain in the ass. Since I haven’t focused on JavaScript really at all in my development career so far this has been an interesting battle of attrition. I currently have this horrendous love/hate relationship with Ember JS and JavaScript as a whole. I know how powerful and quick it can be but at the same time it’s like trying to write a book in ancient sanskrit; it’s painful, frustrating, and most of the time I don’t know what the hell I am writing but having seen the results I’m motivated to keep learning and persevere through the attrition.&lt;/p&gt;
+
+&lt;p&gt;This week hasn’t been easy from my side of things because of the learning curve and having to work two jobs but the challenge is real and it’s what I’ve been looking for for many years. There’s a lot to learn out in the world but what I can say from this week is learn TDD, if it isn’t working and you think it should be easy it’s because you’re making it hard, break things down into smaller chunks, and make sure you are reading and comprehending your tasks properly. Jumping into your first dev gig isn’t as easy as maybe some of us may wish but if you get a difficult one with a great company it’s worth all the attrition and pain you may endure. It’s always hardest before it isn’t and that’s what you’ve got to remember.&lt;/p&gt;</content><summary type="html">A week into my web dev gig and there’s a TON of information that has been consumed with a faulted attempt to process it in a reasonable way. My task for this contract is to get up to speed as soon as I can with, from my point of view, a fairly complicated codebase. I like the challenge though. Things have always came pretty natural to me throughout my life and for once I actually feel like I’m truly being challenged on a daily basis, it’s frustrating but rewarding feeling. This week came with some pretty big realizations, struggles and jumping into unfamiliar territories.</summary></entry></feed>

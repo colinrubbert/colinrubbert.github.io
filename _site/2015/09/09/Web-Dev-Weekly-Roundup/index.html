@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <title>Colin Rubbert - Designer Developer Creative</title>
+  <meta http-equiv="Content-Type" content="text/html"; charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" href="/assets/icons/favicon/favicon-32.png">
+  <link rel="stylesheet" type="text/css" href="/assets/css/main.css">
+</head>
+
+  <body>
+    <!-- Hides the SVG Presets-->
+<div style="width: 0; height:0; overflow:hidden;" >
+  <svg>
+    <!-- SVG Gradient Nepal -->
+    <linearGradient id="gradient-nepal" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#de6161;stop-opacity:1"><!-- 1st Color --></stop>
+      <stop offset="100%" style="stop-color:#2657eb;stop-opacity:1"><!-- 2nd Color --></stop>
+    </linearGradient>
+    <!-- SVG Gradient Kyoto -->
+    <linearGradient id="gradient-kyoto" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#c21500;stop-opacity:1"><!-- 1st Color --></stop>
+      <stop offset="100%" style="stop-color:#ffc500;stop-opacity:1"><!-- 2nd Color --></stop>
+    </linearGradient>
+    <!-- SVG Gradient Mojito -->
+    <linearGradient id="gradient-mojito" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#1D976C;stop-opacity:1"><!-- 1st Color --></stop>
+      <stop offset="100%" style="stop-color:#7FE0A3;stop-opacity:1"><!-- 2nd Color --></stop>
+    </linearGradient>
+    <!-- SVG Gradient Firewatch -->
+    <linearGradient id="gradient-firewatch" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#EF473A;stop-opacity:1"><!-- 1st Color --></stop>
+      <stop offset="100%" style="stop-color:#CB2D3E;stop-opacity:1"><!-- 2nd Color --></stop>
+    </linearGradient>
+    <!-- SVG Gradient Messenger -->
+    <linearGradient id="gradient-messenger" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#0072FF;stop-opacity:1"><!-- 1st Color --></stop>
+      <stop offset="100%" style="stop-color:#00A2FF;stop-opacity:1"><!-- 2nd Color --></stop>
+    </linearGradient>
+    <!-- SVG Gradient Lemon -->
+    <linearGradient id="gradient-lemon" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#F7971E;stop-opacity:1"><!-- 1st Color --></stop>
+      <stop offset="100%" style="stop-color:#FFD200;stop-opacity:1"><!-- 2nd Color --></stop>
+    </linearGradient>
+  </svg>
+</div>
+
+    <!-- Header Navigation -->
+<header>
+  <nav>
+    <div class="navigation-wrapper">
+      <h2 class="navigation-branding">Colin Rubbert</h2>
+      <button class="button button-primary" onClick="toggleMenu()">
+        <span id="navigation-menu-toggle" class="closed"></span>
+      </button>
+    </div>
+    <ul class="navigation-menu-wrapper" id="navigation-menu-wrapper">
+      <li>
+        <a href="/" class="navigation-link">Home</a>
+      </li>
+      <li>
+        <a href="/articles" class="navigation-link">Articles</a>
+      </li>
+      <li>
+        <a href="/#contact" class="navigation-link">Contact</a>
+      </li>
+    </ul>
+  </nav>
+</header>
+<!-- SVG Diagonal -->
+<svg preserveAspectRatio="none" height="50" width="100" viewbox="0 0 100 50" xmlns="http://www.w3.org/2000/svg" version="1.1">
+  <polygon points="0 0, 0 50, 100 25, 100 0" fill="url(#gradient-messenger)"/>
+</svg>
+
+
+    <div class="post-wrapper">
+      <h1>Web Dev Weekly Roundup</h1>
+
+      <p>Every week that I get to spend time coding is a good week and I got the chance to do a lot of coding this week. From lightning talk app: learning helper methods and learning how to seed a database, contributing to open source, and getting my questions answered on 5by5 Ruby on Rails podcast. There was a lot of win for me this week and all the moments spent writing code made it a great week.</p>
+
+<p>Starting things off in the week I dove into cleaning up the Firehose lightning talk app and make it function a little bit better. What I needed to do is figure out a way to have the app load up a bunch of database entries so that when people contribute to it they aren’t starting off with nothing in the database. Like the Firehose community site I wanted to create the lightning talks app to have that similar ideal of keeping the barrier to entry low enough that it wouldn’t be difficult to get students involved. It may not be a huge barrier but having to waste time creating database entries seemed like a hassle and other students had agreed. With that barrier identified I focused on reducing that barrier, that’s where seeding the database comes into play.</p>
+
+<p>Seeding is the method of pre-building data so during the initial setup process it automatically creates those database entries. The result of seeding the lightning talks app is that it creates a dozen talk entries and 4 users (2 standard and 2 admin) which gives enough coverage to start working on edge cases or new features. Seeding of the database eliminates that manual barrier of having to spend your time manually entering data, it just lets you jump right in and get started. Not only was it valuable to students but it was a very valuable less for myself in learning how to manipulate the seeds.rb file</p>
+
+<p>With the seeds in place I moved on to cleaning up the presentation of the application, the goal was to not display a section if there were no scheduled talks. I first started to look at this problem as a problem I could build out in the models, which realistically it could’ve been but I chose to figure out how helpers worked since I haven’t had much opportunity to work with them. Since what I was trying to do was 100% a views problem it solved this specific problem perfectly and it was a great opportunity to learn. It took me quite some time to figure out exactly how to get things to function correctly, spent primarily figuring out the right ActiveRecord query to use, but by the time I figured out the right query it was working great! Spending that extra time to figure out how the helpers work was valuable time spent muddling through frustrations. The whole thing has been scrapped because another student figured out an even simpler way of doing it by building scopes in the model which was another learning experience for me. I got two learning experiences for the price of one; win/win.</p>
+
+<p>I’m a pretty big fan of listening to Ruby/Rails podcasts every week and it has been a focal point of my bike rides and commutes each week, this week was no different in that regard. One of my favorites, <a href="http://5by5.tv/rubyonrails">5by5 Ruby on Rails</a>, recently announced that they were thinking about accepting listener questions and then there was two weeks of radio silence. Curious when the next episode was I asked the two presenters on Twitter what was up and they told me they were recording that night, then they asked if I had any suggestions. Seeing this as an awesome opportunity to get my questions about next steps after bootcamp/college in getting jobs and contributing to the community, oh and shamelessly plugging myself, I quickly replied with some suggestions. Sean, one of the presenters, told me I should record some audio with my questions and submit them, I did. What do you know, my questions got featured on the <a href="http://5by5.tv/rubyonrails/200">200th episode</a> of Ruby on Rails. The guys had some awesome advice that really helped out alot and I even got my shameless plug! To me this was a pretty awesome achievement and found it incredibly rewarding and helpful.</p>
+
+<p>Finally I’ve been talking with Paolo Perrotta about his Narjillos project that he presented at <a href="https://www.youtube.com/watch?v=lFqTILp3eFg">Madison+ Ruby</a>. The project is an artificial life simulation that takes place in a virtual microscopic petri dish, it’s basically the process of how a simple organism can evolve and adapt over generations; simply put evolution simulation. I find genetics and evolution to be incredibly fascinating so I’ve been super excited to see this project evolve. When he announced an update yesterday I offered my assistance, wasn’t sure what I could help with because I’m not a Java developer but any way I could help since it’s just a fascinating project. We talked and I took a stab at setting up my environment to start running experiments. Like all the open source contributions that I work on I document my process very thoroughly and then that’s typically my first contribution to the project, documentation. As of this morning Paolo merged my documentation of the installation and setup processes into the master branch. For me this is a big win and in my little way I got to contribute to a project that I find extremely valuable and fascinating.</p>
+
+<p>This week was pretty fantastic. I worked on some really cool projects, got my questions featured on one of my favorite podcasts, and expanded my knowledge of the Ruby/Rails ecosystem. I’d say last week was 100% win, then again anytime I get to spend the majority of my week on developing cool projects is a win for me. This coming week looks to be no different as well, I’ve got a feature or two planned for the lightning talks, a new app for one of my business clients I’ve been toying with, and hopefully some more open source contributions. Only way things would be better is if I was getting paid to develop applications but all good things come in due time.</p>
+
+
+      <div class="post-disqus-wrapper">
+        <div id="disqus_thread"></div>
+<script type="text/javascript">
+  /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+  var disqus_shortname = 'colinrubbert'; // required: replace example with your forum shortname
+  var disqus_identifier = "/2015/09/09/Web-Dev-Weekly-Roundup/";
+  /* * * DON'T EDIT BELOW THIS LINE * * */
+  (function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+      </div>
+    </div>
+
+    <!-- Footer Section -->
+
+<footer>
+
+  <div class="copyright">&copy; Colin Rubbert 2017</div>
+  <div class="social-media-wrapper">
+    <!-- Github -->
+    <a href="https://github.com/colinrubbert" class="social-media-link" target="_blank">
+      <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="1.414"><path d="M8 0C3.58 0 0 3.582 0 8c0 3.535 2.292 6.533 5.47 7.59.4.075.547-.172.547-.385 0-.19-.007-.693-.01-1.36-2.226.483-2.695-1.073-2.695-1.073-.364-.924-.89-1.17-.89-1.17-.725-.496.056-.486.056-.486.803.056 1.225.824 1.225.824.714 1.223 1.873.87 2.33.665.072-.517.278-.87.507-1.07-1.777-.2-3.644-.888-3.644-3.953 0-.873.31-1.587.823-2.147-.09-.202-.36-1.015.07-2.117 0 0 .67-.215 2.2.82.64-.178 1.32-.266 2-.27.68.004 1.36.092 2 .27 1.52-1.035 2.19-.82 2.19-.82.43 1.102.16 1.915.08 2.117.51.56.82 1.274.82 2.147 0 3.073-1.87 3.75-3.65 3.947.28.24.54.73.54 1.48 0 1.07-.01 1.93-.01 2.19 0 .21.14.46.55.38C13.71 14.53 16 11.53 16 8c0-4.418-3.582-8-8-8"/></svg>
+    </a>
+    <!-- Twitter -->
+    <a href="https://twitter.com/colinrubbert" class="social-media-link" target="_blank">
+      <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="1.414"><path d="M16 3.038c-.59.26-1.22.437-1.885.517.677-.407 1.198-1.05 1.443-1.816-.634.37-1.337.64-2.085.79-.598-.64-1.45-1.04-2.396-1.04-1.812 0-3.282 1.47-3.282 3.28 0 .26.03.51.085.75-2.728-.13-5.147-1.44-6.766-3.42C.83 2.58.67 3.14.67 3.75c0 1.14.58 2.143 1.46 2.732-.538-.017-1.045-.165-1.487-.41v.04c0 1.59 1.13 2.918 2.633 3.22-.276.074-.566.114-.865.114-.21 0-.41-.02-.61-.058.42 1.304 1.63 2.253 3.07 2.28-1.12.88-2.54 1.404-4.07 1.404-.26 0-.52-.015-.78-.045 1.46.93 3.18 1.474 5.04 1.474 6.04 0 9.34-5 9.34-9.33 0-.14 0-.28-.01-.42.64-.46 1.2-1.04 1.64-1.7z" fill-rule="nonzero"/></svg>
+    </a>
+    <!-- Instagram -->
+    <a href="https://instagram.com/colinrubbert" class="social-media-link" target="_blank">
+      <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="1.414"><path d="M8 0C5.827 0 5.555.01 4.702.048 3.85.088 3.27.222 2.76.42c-.526.204-.973.478-1.417.923-.445.444-.72.89-.923 1.417-.198.51-.333 1.09-.372 1.942C.008 5.555 0 5.827 0 8s.01 2.445.048 3.298c.04.852.174 1.433.372 1.942.204.526.478.973.923 1.417.444.445.89.72 1.417.923.51.198 1.09.333 1.942.372.853.04 1.125.048 3.298.048s2.445-.01 3.298-.048c.852-.04 1.433-.174 1.942-.372.526-.204.973-.478 1.417-.923.445-.444.72-.89.923-1.417.198-.51.333-1.09.372-1.942.04-.853.048-1.125.048-3.298s-.01-2.445-.048-3.298c-.04-.852-.174-1.433-.372-1.942-.204-.526-.478-.973-.923-1.417-.444-.445-.89-.72-1.417-.923-.51-.198-1.09-.333-1.942-.372C10.445.008 10.173 0 8 0zm0 1.44c2.136 0 2.39.01 3.233.048.78.036 1.203.166 1.485.276.374.145.64.318.92.598.28.28.453.546.598.92.11.282.24.705.276 1.485.038.844.047 1.097.047 3.233s-.01 2.39-.05 3.233c-.04.78-.17 1.203-.28 1.485-.15.374-.32.64-.6.92-.28.28-.55.453-.92.598-.28.11-.71.24-1.49.276-.85.038-1.1.047-3.24.047s-2.39-.01-3.24-.05c-.78-.04-1.21-.17-1.49-.28-.38-.15-.64-.32-.92-.6-.28-.28-.46-.55-.6-.92-.11-.28-.24-.71-.28-1.49-.03-.84-.04-1.1-.04-3.23s.01-2.39.04-3.24c.04-.78.17-1.21.28-1.49.14-.38.32-.64.6-.92.28-.28.54-.46.92-.6.28-.11.7-.24 1.48-.28.85-.03 1.1-.04 3.24-.04zm0 2.452c-2.27 0-4.108 1.84-4.108 4.108 0 2.27 1.84 4.108 4.108 4.108 2.27 0 4.108-1.84 4.108-4.108 0-2.27-1.84-4.108-4.108-4.108zm0 6.775c-1.473 0-2.667-1.194-2.667-2.667 0-1.473 1.194-2.667 2.667-2.667 1.473 0 2.667 1.194 2.667 2.667 0 1.473-1.194 2.667-2.667 2.667zm5.23-6.937c0 .53-.43.96-.96.96s-.96-.43-.96-.96.43-.96.96-.96.96.43.96.96z"/></svg>
+    </a>
+  </div>
+
+</footer>
+
+    <!-- JavaScript -->
+<script src="/assets/js/main.js" type="text/javascript"></script>
+
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-71115206-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+  </body>
+</html>
