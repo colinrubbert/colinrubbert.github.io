@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 'Installing Ruby on Rails in Windows 10 w/Bash & PostgreSQL'
-permalink: installing-ruby-on-rails-in-windows-10-with-bash
+permalink: installing-ruby-on-rails-in-windows-10-with-bash-and-postgresql
 excerpt_seperator: '<!--more-->'
 ---
 
