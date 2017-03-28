@@ -6,9 +6,7 @@ excerpt_seperator: '<!--more-->'
 ---
 
 
-# &nbsp;
-
-## Installing Rails: The Steps
+# Installing Rails: The Steps
 
 This will focus on installing Ruby, Rails, and getting PostgreSQL to play nicely with Rails and Bash on Windows 10. We will be leveraging the Linux subsystem on Windows 10. This article will not go over installing the Linux Subsystem and getting Bash up and running, there's already great articles on that very subject. Here is Microsoft's guide on installing the [Linux Subsystem](https://msdn.microsoft.com/en-us/commandline/wsl/install_guide).
 
@@ -223,19 +221,19 @@ default: &default
   host: localhost
 
 development:
-  <<: \*default
+  <<: \\*default
   database: windows_bash_test_application_development
   username: postgres
   password: password
 
 test:
-  <<: \*default
+  <<: \\*default
   database: windows_bash_test_application_test
   username: postgres
   password: password
 
 production:
-  <<: \*default
+  <<: \\*default
   database: windows_bash_test_application_production
   username: windows_bash_test_application
   password: <%= ENV['WINDOWS_BASH_TEST_APPLICATION_DATABASE_PASSWORD'] %>
