@@ -1,8 +1,9 @@
 ---
 layout: post
-title: Installing Ruby on Rails in Windows 10 w/Bash & PostgreSQL
+title: 'Installing Ruby on Rails in Windows 10 w/Bash & PostgreSQL'
 permalink: installing-ruby-on-rails-in-windows-10-with-bash-and-postgresql
 ---
+
 
 ## Installing Rails: The Steps
 
@@ -12,18 +13,18 @@ Let's continue on to installing Ruby, Rails, and getting PostgreSQL up and runni
 
 ## Installing the pre-requisites
 
-First we need to make sure that are current install of Bash on Windows is update to date. 
+First we need to make sure that are current install of Bash on Windows is update to date.
 
 **Pro Tip:** If you ever run into an issue or you just need to figure out what command or procedure you need to do for specific tasks in regards to Bash on Windows you can simply Google the question and reference Ubuntu. Bash on Windows is built on top of and in partnership with Ubuntu which makes troubleshooting (Linux specific issues & procedures) quite easy.
 
 Lets update and install some prerequisites.
 
 ```bash
-sudo apt-get udpate
+sudo apt-get update
 sudo apt-get install git-core curl zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev python-software-properties libffi-dev postgresql-client-common postgresql-client libpq-dev
 ```
 
-The terminal will likely prompt you to make sure that it's okay to install a specific package, just type `Y` and hit `Enter`. 
+The terminal will likely prompt you to make sure that it's okay to install a specific package, just type `Y` and hit `Enter`.
 
 ```bash
 After this operation, 6,082 kB of additional disk space will be used. Do you want to continue? [Y/n] Y
@@ -162,7 +163,6 @@ Lets download and install the latest stable version of PostgreSQL Windows binary
 
 *PostgreSQL 9.6.2 provided by BigSQL:* [Download](http://oscg-downloads.s3.amazonaws.com/packages/PostgreSQL-9.6.2-2-win64-bigsql.exe)
 
-
 Now that we have the PostgreSQL downloaded, lets begin to install it.
 
 Follow along with the "Setup Wizard" leaving the defaults checked. If you want to install the additional packages you can but it's not necessary and we don't need the extra bloat.
@@ -226,19 +226,19 @@ default: &default
   host: localhost
 
 development:
-  <<: \\*default
+  <<: \\\*default
   database: windows_bash_test_application_development
   username: postgres
   password: password
 
 test:
-  <<: \\*default
+  <<: \\\*default
   database: windows_bash_test_application_test
   username: postgres
   password: password
 
 production:
-  <<: \\*default
+  <<: \\\*default
   database: windows_bash_test_application_production
   username: windows_bash_test_application
   password: <%= ENV['WINDOWS_BASH_TEST_APPLICATION_DATABASE_PASSWORD'] %>
