@@ -77,15 +77,17 @@
     <div class="post-wrapper">
       <h1>Installing Ruby on Rails in Windows 10 w/Bash & PostgreSQL</h1>
 
-      <h1 id="installing-rails-the-steps">Installing Rails: The Steps</h1>
+      <h2 id="installing-rails-the-steps">Installing Rails: The Steps</h2>
 
 <p>This will focus on installing Ruby, Rails, and getting PostgreSQL to play nicely with Rails and Bash on Windows 10. We will be leveraging the Linux subsystem on Windows 10. This article will not go over installing the Linux Subsystem and getting Bash up and running, there’s already great articles on that very subject. Here is Microsoft’s guide on installing the <a href="https://msdn.microsoft.com/en-us/commandline/wsl/install_guide">Linux Subsystem</a>.</p>
 
 <p>Let’s continue on to installing Ruby, Rails, and getting PostgreSQL up and running so that we can use Windows 10 as a development environment for Rails web development.</p>
 
-<h2 id="installing-the-prerequisites">Installing the prerequisites</h2>
+<h2 id="installing-the-pre-requisites">Installing the pre-requisites</h2>
 
-<p>First we need to make sure that are current install of Bash on Windows is update to date. <strong>Pro Tip:</strong> If you ever run into an issue or you just need to figure out what command or procedure you need to do for specific tasks in regards to Bash on Windows you can simply Google the question and reference Ubuntu. Bash on Windows is built on top of and in partnership with Ubuntu which makes troubleshooting (Linux specific issues &amp; procedures) quite easy.</p>
+<p>First we need to make sure that are current install of Bash on Windows is update to date.</p>
+
+<p><strong>Pro Tip:</strong> If you ever run into an issue or you just need to figure out what command or procedure you need to do for specific tasks in regards to Bash on Windows you can simply Google the question and reference Ubuntu. Bash on Windows is built on top of and in partnership with Ubuntu which makes troubleshooting (Linux specific issues &amp; procedures) quite easy.</p>
 
 <p>Lets update and install some prerequisites.</p>
 
@@ -94,9 +96,13 @@ sudo apt-get install git-core curl zlib1g-dev build-essential libssl-dev libread
 </code></pre>
 </div>
 
-<p>The terminal will likely prompt you to make sure that it’s okay to install a specific package, just type <code class="highlighter-rouge">Y</code> and hit <code class="highlighter-rouge">Enter</code>. ` After this operation, 6,082 kB of additional disk space will be used. Do you want to continue? [Y/n] Y`</p>
+<p>The terminal will likely prompt you to make sure that it’s okay to install a specific package, just type <code class="highlighter-rouge">Y</code> and hit <code class="highlighter-rouge">Enter</code>.</p>
 
-<p>That should cover all of the prerequisites that we will need to be installed to continue on with the process. The pre-reqs are required to get Ruby installed and PostgreSQL (which we will be going over a little bit later).</p>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>After this operation, 6,082 kB of additional disk space will be used. Do you want to <span class="k">continue</span>? <span class="o">[</span>Y/n] Y
+</code></pre>
+</div>
+
+<p>That should cover all of the pre-requisites that we will need to be installed to continue on with the process. The pre-reqs are required to get Ruby installed and PostgreSQL (which we will be going over a little bit later).</p>
 
 <h2 id="installing-ruby">Installing Ruby</h2>
 
@@ -219,25 +225,25 @@ git pull origin master
 
 <h2 id="installing-postgresql">Installing PostgreSQL</h2>
 
-<p>At this point I’m going to state that the current easiest and most supported database environment that is supported without workarounds with Rails is MySQL. That being said nearly every developer and bootcamp I can think of uses PostgreSQL and really that’s likely why you are here, how can we use PostgreSQL w/Rails on Windows 10 Bash Linux Subsystem?</p>
+<p>At this point I’m going to state that the current, easiest and most supported database environment that works without workarounds with Rails is MySQL. That being said nearly every developer and bootcamp I can think of uses PostgreSQL and really that’s likely why you are here, so can we use PostgreSQL w/Rails on Windows 10 Bash Linux Subsystem?</p>
 
-<p>Well, we can, we just have to do a little bit of working around. Instead of our typical route of installing PostgreSQL through the terminal we will have to install PostgreSQL as Windows binary and getting our system to connect to each other.</p>
+<p>Well, we can, we just have to do a little bit of working around. Instead of our typical route of installing PostgreSQL through the terminal we will have to install PostgreSQL as a Windows binary and getting our two systems to connect to each other.</p>
 
-<p>I’ll be honest, it’s a bit of a pain in the ass but Microsoft is currently working on the issue and hopefully we won’t have this issue in the near future. They’ve done good work listening to the community and pushing through the work quickly.</p>
+<p>I’ll be honest, it’s a bit of a pain in the ass but Microsoft is currently working on the issue and hopefully we won’t have this issue in the near future. They’ve done good work listening to the community and pushing through the work quickly so I’m hopeful.</p>
 
 <p>Lets download and install the latest stable version of PostgreSQL Windows binary.</p>
 
-<p>PostgreSQL 9.6.2 provided by BigSQL: <a href="http://oscg-downloads.s3.amazonaws.com/packages/PostgreSQL-9.6.2-2-win64-bigsql.exe">Download</a></p>
+<p><em>PostgreSQL 9.6.2 provided by BigSQL:</em> <a href="http://oscg-downloads.s3.amazonaws.com/packages/PostgreSQL-9.6.2-2-win64-bigsql.exe">Download</a></p>
 
 <p>Now that we have the PostgreSQL downloaded, lets begin to install it.</p>
 
-<p>Following along with the “Setup Wizard” leaving the defaults checked. If you want to install the additional packages you can but it’s not necessary and we don’t need the extra bloat.</p>
+<p>Follow along with the “Setup Wizard” leaving the defaults checked. If you want to install the additional packages you can but it’s not necessary and we don’t need the extra bloat.</p>
 
-<p>Once you get to the “Password” section setup your password that you want for your <code class="highlighter-rouge">postgres</code> user account. I choose to just have my password be “password” for ease of use in my local environment. You can choose whatever password that you want but you will need to remember it later on in our work.</p>
+<p>Once you get to the “Password” section set up your password that you want for your <code class="highlighter-rouge">postgres</code> user account. I choose to just have my password be <code class="highlighter-rouge">password</code> for ease of use in my local environment. You can choose whatever password that you want but you will need to remember it later on in our work.</p>
 
 <p><strong>DO NOT USE “PASSWORD” FOR YOUR PASSWORD IN YOUR PRODUCTION ENVIRONMENT!!!</strong></p>
 
-<p>Great we got that installed, we got our password set, lets do a quick sanity check to make suer that our Bash Linux Subsystem is connecting to our Windows installation of PostgreSQL.</p>
+<p>Great we got that installed, we got our password set, lets do a quick sanity check to make sure that our Bash Linux Subsystem is connecting to our Windows installation of PostgreSQL.</p>
 
 <p>Run this command from your Bash terminal.</p>
 
@@ -260,7 +266,7 @@ Type <span class="s2">"help"</span> <span class="k">for </span>help.
 
 <h2 id="creating-our-rails-application">Creating our Rails application</h2>
 
-<p>First we want to make sure that we are in the correct directory. I use a directory on my Desktop to keep my files organized, your mileage may vary. We will use my file locations for an example and you will have to substitute where it is necessarry.</p>
+<p>First we want to make sure that we are in the correct directory. I use a directory on my desktop to keep my files organized, again your mileage may vary. We will use my file locations for an example and you will have to substitute where it is necessarry.</p>
 
 <div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="nb">cd</span> /mnt/c/Users/User/Desktop/projects/applications
 </code></pre>
@@ -325,7 +331,9 @@ Created database <span class="s1">'windows_bash_test_application_test'</span>
 
 <p>Lets run our Rails server and make sure everything is working.</p>
 
-<p><code class="highlighter-rouge">rails s</code></p>
+<div class="highlighter-rouge"><pre class="highlight"><code>rails s
+</code></pre>
+</div>
 
 <p>Now in your browser go the your <code class="highlighter-rouge">localhost:3000</code> and you should be presented with verification that Rails is indeed running and installed.</p>
 
@@ -333,9 +341,9 @@ Created database <span class="s1">'windows_bash_test_application_test'</span>
 
 <h2 id="conclusion">Conclusion</h2>
 
-<p>That’s it, you’re all set to go with Rails running with PostgreSQL on a Windows 10! Woohoo!!!</p>
+<p>That’s it, you’re all set to go. We now have Rails running with PostgreSQL on a Windows 10! Give yourself a pat on the back!! Woohoo!!!</p>
 
-<p>If you have any questions you can contact me and I will do my best to help you along, there are some pretty common gotchas but if you just spend a few minutes Googling them you should find your resolution. Remember Google is your friend. If you still are having issues reach out and I’ll see what I can do.</p>
+<p>If you have any questions you can contact me and I will do my best to help you along, there are some pretty common gotchas but if you just spend a few minutes Googling them you should find your resolution. Remember Google is your friend. If you still are having issues reach out and I’ll see what I can do to give you a hand.</p>
 
 
       <div class="post-disqus-wrapper">

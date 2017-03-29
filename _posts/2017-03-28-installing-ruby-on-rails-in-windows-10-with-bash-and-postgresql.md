@@ -4,15 +4,17 @@ title: Installing Ruby on Rails in Windows 10 w/Bash & PostgreSQL
 permalink: installing-ruby-on-rails-in-windows-10-with-bash-and-postgresql
 ---
 
-# Installing Rails: The Steps
+## Installing Rails: The Steps
 
 This will focus on installing Ruby, Rails, and getting PostgreSQL to play nicely with Rails and Bash on Windows 10. We will be leveraging the Linux subsystem on Windows 10. This article will not go over installing the Linux Subsystem and getting Bash up and running, there's already great articles on that very subject. Here is Microsoft's guide on installing the [Linux Subsystem](https://msdn.microsoft.com/en-us/commandline/wsl/install_guide).
 
 Let's continue on to installing Ruby, Rails, and getting PostgreSQL up and running so that we can use Windows 10 as a development environment for Rails web development.
 
-## Installing the prerequisites
+## Installing the pre-requisites
 
-First we need to make sure that are current install of Bash on Windows is update to date. **Pro Tip:** If you ever run into an issue or you just need to figure out what command or procedure you need to do for specific tasks in regards to Bash on Windows you can simply Google the question and reference Ubuntu. Bash on Windows is built on top of and in partnership with Ubuntu which makes troubleshooting (Linux specific issues & procedures) quite easy.
+First we need to make sure that are current install of Bash on Windows is update to date. 
+
+**Pro Tip:** If you ever run into an issue or you just need to figure out what command or procedure you need to do for specific tasks in regards to Bash on Windows you can simply Google the question and reference Ubuntu. Bash on Windows is built on top of and in partnership with Ubuntu which makes troubleshooting (Linux specific issues & procedures) quite easy.
 
 Lets update and install some prerequisites.
 
@@ -21,9 +23,13 @@ sudo apt-get udpate
 sudo apt-get install git-core curl zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev python-software-properties libffi-dev postgresql-client-common postgresql-client libpq-dev
 ```
 
-The terminal will likely prompt you to make sure that it's okay to install a specific package, just type `Y` and hit `Enter`. ` After this operation, 6,082 kB of additional disk space will be used. Do you want to continue? [Y/n] Y`
+The terminal will likely prompt you to make sure that it's okay to install a specific package, just type `Y` and hit `Enter`. 
 
-That should cover all of the prerequisites that we will need to be installed to continue on with the process. The pre-reqs are required to get Ruby installed and PostgreSQL (which we will be going over a little bit later).
+```bash
+After this operation, 6,082 kB of additional disk space will be used. Do you want to continue? [Y/n] Y
+```
+
+That should cover all of the pre-requisites that we will need to be installed to continue on with the process. The pre-reqs are required to get Ruby installed and PostgreSQL (which we will be going over a little bit later).
 
 ## Installing Ruby
 
@@ -146,25 +152,26 @@ Lets not get in front of ourselves though, we still can't really use it. We need
 
 ## Installing PostgreSQL
 
-At this point I'm going to state that the current easiest and most supported database environment that is supported without workarounds with Rails is MySQL. That being said nearly every developer and bootcamp I can think of uses PostgreSQL and really that's likely why you are here, how can we use PostgreSQL w/Rails on Windows 10 Bash Linux Subsystem?
+At this point I'm going to state that the current, easiest and most supported database environment that works without workarounds with Rails is MySQL. That being said nearly every developer and bootcamp I can think of uses PostgreSQL and really that's likely why you are here, so can we use PostgreSQL w/Rails on Windows 10 Bash Linux Subsystem?
 
-Well, we can, we just have to do a little bit of working around. Instead of our typical route of installing PostgreSQL through the terminal we will have to install PostgreSQL as Windows binary and getting our system to connect to each other.
+Well, we can, we just have to do a little bit of working around. Instead of our typical route of installing PostgreSQL through the terminal we will have to install PostgreSQL as a Windows binary and getting our two systems to connect to each other.
 
-I'll be honest, it's a bit of a pain in the ass but Microsoft is currently working on the issue and hopefully we won't have this issue in the near future. They've done good work listening to the community and pushing through the work quickly.
+I'll be honest, it's a bit of a pain in the ass but Microsoft is currently working on the issue and hopefully we won't have this issue in the near future. They've done good work listening to the community and pushing through the work quickly so I'm hopeful.
 
 Lets download and install the latest stable version of PostgreSQL Windows binary.
 
-PostgreSQL 9.6.2 provided by BigSQL: [Download](http://oscg-downloads.s3.amazonaws.com/packages/PostgreSQL-9.6.2-2-win64-bigsql.exe)
+*PostgreSQL 9.6.2 provided by BigSQL:* [Download](http://oscg-downloads.s3.amazonaws.com/packages/PostgreSQL-9.6.2-2-win64-bigsql.exe)
+
 
 Now that we have the PostgreSQL downloaded, lets begin to install it.
 
-Following along with the "Setup Wizard" leaving the defaults checked. If you want to install the additional packages you can but it's not necessary and we don't need the extra bloat.
+Follow along with the "Setup Wizard" leaving the defaults checked. If you want to install the additional packages you can but it's not necessary and we don't need the extra bloat.
 
-Once you get to the "Password" section setup your password that you want for your `postgres` user account. I choose to just have my password be "password" for ease of use in my local environment. You can choose whatever password that you want but you will need to remember it later on in our work.
+Once you get to the "Password" section set up your password that you want for your `postgres` user account. I choose to just have my password be `password` for ease of use in my local environment. You can choose whatever password that you want but you will need to remember it later on in our work.
 
 **DO NOT USE "PASSWORD" FOR YOUR PASSWORD IN YOUR PRODUCTION ENVIRONMENT!!!**
 
-Great we got that installed, we got our password set, lets do a quick sanity check to make suer that our Bash Linux Subsystem is connecting to our Windows installation of PostgreSQL.
+Great we got that installed, we got our password set, lets do a quick sanity check to make sure that our Bash Linux Subsystem is connecting to our Windows installation of PostgreSQL.
 
 Run this command from your Bash terminal.
 
@@ -187,7 +194,7 @@ Great we got it working. Now type `\q` to exit the postgres shell.
 
 ## Creating our Rails application
 
-First we want to make sure that we are in the correct directory. I use a directory on my Desktop to keep my files organized, your mileage may vary. We will use my file locations for an example and you will have to substitute where it is necessarry.
+First we want to make sure that we are in the correct directory. I use a directory on my desktop to keep my files organized, again your mileage may vary. We will use my file locations for an example and you will have to substitute where it is necessarry.
 
 ```bash
 cd /mnt/c/Users/User/Desktop/projects/applications
@@ -252,7 +259,9 @@ Created database 'windows_bash_test_application_test'
 
 Lets run our Rails server and make sure everything is working.
 
-`rails s`
+```
+rails s
+```
 
 Now in your browser go the your `localhost:3000` and you should be presented with verification that Rails is indeed running and installed.
 
@@ -260,6 +269,6 @@ Now in your browser go the your `localhost:3000` and you should be presented wit
 
 ## Conclusion
 
-That's it, you're all set to go with Rails running with PostgreSQL on a Windows 10! Woohoo!!!
+That's it, you're all set to go. We now have Rails running with PostgreSQL on a Windows 10! Give yourself a pat on the back!! Woohoo!!!
 
-If you have any questions you can contact me and I will do my best to help you along, there are some pretty common gotchas but if you just spend a few minutes Googling them you should find your resolution. Remember Google is your friend. If you still are having issues reach out and I'll see what I can do.
+If you have any questions you can contact me and I will do my best to help you along, there are some pretty common gotchas but if you just spend a few minutes Googling them you should find your resolution. Remember Google is your friend. If you still are having issues reach out and I'll see what I can do to give you a hand.
