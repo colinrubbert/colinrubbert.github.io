@@ -4,8 +4,6 @@ title: 'Installing Elixir and Phoenix in Windows Susbsytem for Linxu w/PostgreSQ
 permalink: installing-elixir-phoenix-in-windows-subsystem-for-linux-with-postgresql-on-windows-10
 ---
 
-# Installing Elixir & Phoenix in Windows 10 w/Bash & PostgreSQL
-
 ## Installing Elixir & Phoenix: The Steps
 
 This guide will focus on installing all the requirements to get Elixir & Phoenix installed on a Windows 10 machine via the Windows Subsystem for Linux (WSL) and getting PostgreSQL as the primary database.
