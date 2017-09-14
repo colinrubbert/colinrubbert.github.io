@@ -1,7 +1,7 @@
 ---
 layout: post
-title: 'Installing Elixir and Phoenix in Windows Susbsytem for Linux w/PostgreSQL on Windows 10'
-permalink: installing-elixir-phoenix-in-windows-subsystem-for-linux-with-postgresql-on-windows-10
+title: 'Installing Elixir and Phoenix in Windows 10 w/Bash & PostgreSQL'
+permalink: installing-elixir-phoenix-in-windows-10-with-bash-and-postgresql
 ---
 
 ## Installing Elixir & Phoenix: The Steps
