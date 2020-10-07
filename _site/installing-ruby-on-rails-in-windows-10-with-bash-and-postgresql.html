@@ -5,6 +5,7 @@
   <meta http-equiv="Content-Type" content="text/html"; charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="canonical" href="http://0.0.0.0:4000/installing-ruby-on-rails-in-windows-10-with-bash-and-postgresql">
   <link rel="shortcut icon" href="/assets/icons/favicon/favicon-32.png">
   <link rel="stylesheet" type="text/css" href="/assets/css/main.css">
 </head>
@@ -91,52 +92,48 @@
 
 <p>Lets update and install some prerequisites.</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code>sudo apt-get udpate
-sudo apt-get install git-core curl zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev python-software-properties libffi-dev postgresql-client-common postgresql-client libpq-dev
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt-get update
+<span class="nb">sudo </span>apt-get <span class="nb">install </span>git-core curl zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev python-software-properties libffi-dev postgresql-client-common postgresql-client libpq-dev
+</code></pre></div></div>
 
-<p>The terminal will likely prompt you to make sure that it’s okay to install a specific package, just type <code class="highlighter-rouge">Y</code> and hit <code class="highlighter-rouge">Enter</code>.</p>
+<p>The terminal will likely prompt you to make sure that it’s okay to install a specific package, just type <code class="language-plaintext highlighter-rouge">Y</code> and hit <code class="language-plaintext highlighter-rouge">Enter</code>.</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code>After this operation, 6,082 kB of additional disk space will be used. Do you want to <span class="k">continue</span>? <span class="o">[</span>Y/n] Y
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>After this operation, 6,082 kB of additional disk space will be used. Do you want to <span class="k">continue</span>? <span class="o">[</span>Y/n] Y
+</code></pre></div></div>
 
 <p>That should cover all of the pre-requisites that we will need to be installed to continue on with the process. The pre-reqs are required to get Ruby installed and PostgreSQL (which we will be going over a little bit later).</p>
 
 <h2 id="installing-ruby">Installing Ruby</h2>
 
-<p>In order for us to install Rails we first need to install Ruby. For the purpose of this article we will be installing <code class="highlighter-rouge">Ruby 2.4.1</code>, your version may differ but at the time of writing this <code class="highlighter-rouge">Ruby 2.4.1</code> is the latest stable build.</p>
+<p>In order for us to install Rails we first need to install Ruby. For the purpose of this article we will be installing <code class="language-plaintext highlighter-rouge">Ruby 2.4.1</code>, your version may differ but at the time of writing this <code class="language-plaintext highlighter-rouge">Ruby 2.4.1</code> is the latest stable build.</p>
 
-<p>In order to install Ruby we will be using <code class="highlighter-rouge">rbenv</code> to handle the install and management of our Ruby gems.</p>
+<p>In order to install Ruby we will be using <code class="language-plaintext highlighter-rouge">rbenv</code> to handle the install and management of our Ruby gems.</p>
 
 <p>Here is a script that will make life for us just a little bit easier. You should be able to just copy and paste this into your terminal but just like life, your mileage may vary.</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="nb">cd
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd
 </span>git clone https://github.com/rbenv/rbenv.git ~/.rbenv
-<span class="nb">echo</span> <span class="s1">'export PATH="$HOME/.rbenv/bin:$PATH"'</span> &gt;&gt; ~/.bashrc
-<span class="nb">echo</span> <span class="s1">'eval "$(rbenv init -)"'</span> &gt;&gt; ~/.bashrc
+<span class="nb">echo</span> <span class="s1">'export PATH="$HOME/.rbenv/bin:$PATH"'</span> <span class="o">&gt;&gt;</span> ~/.bashrc
+<span class="nb">echo</span> <span class="s1">'eval "$(rbenv init -)"'</span> <span class="o">&gt;&gt;</span> ~/.bashrc
 <span class="nb">exec</span> <span class="nv">$SHELL</span>
 
 git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
-<span class="nb">echo</span> <span class="s1">'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"'</span> &gt;&gt; ~/.bashrc
+<span class="nb">echo</span> <span class="s1">'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"'</span> <span class="o">&gt;&gt;</span> ~/.bashrc
 <span class="nb">exec</span> <span class="nv">$SHELL</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Now that we have our path built and plugin directory installed for rbenv and Ruby we can now install the latest Ruby version.</p>
 
 <p>Installing Ruby this way takes a bit running through the terminal; patience young grasshopper.</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code>rbenv install 2.4.1
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rbenv <span class="nb">install </span>2.4.1
 rbenv global 2.4.1
-ruby -v
-</code></pre>
-</div>
+ruby <span class="nt">-v</span>
+</code></pre></div></div>
 
 <p><strong>Disclaimer</strong> if you are like me and already had rbenv &amp; Ruby previously installed and are getting a message that says…</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>ruby-build: definition not found: 2.4.1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ruby-build: definition not found: 2.4.1
 
 The following versions contain `2.4.1' in the name:
   rbx-2.4.1
@@ -146,32 +143,28 @@ See all available versions with `rbenv install --list'.
 If the version you need is missing, try upgrading ruby-build:
 
   cd /home/cr/.rbenv/plugins/ruby-build &amp;&amp; git pull &amp;&amp; cd -
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>… you will need to pull the latest version of rbenv and it’s definitions so that you can install the latest version of Ruby. To do that simple input this into your terminal.</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="nb">cd</span> ~/.rbenv/plugins/ruby-build/
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> ~/.rbenv/plugins/ruby-build/
 git pull origin master
 <span class="nb">cd</span> -
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Now you can go back to the previous step and install the latest Ruby version you have in your definitions.</p>
 
 <h2 id="installing-bundler">Installing Bundler</h2>
 
-<p>Next we need to install <code class="highlighter-rouge">Bundler</code> Ruby’s package manager. This one is pretty simple.</p>
+<p>Next we need to install <code class="language-plaintext highlighter-rouge">Bundler</code> Ruby’s package manager. This one is pretty simple.</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code>gem install bundler
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gem <span class="nb">install </span>bundler
+</code></pre></div></div>
 
-<p>Now we need to <code class="highlighter-rouge">rehash</code> our gems, this updates the pointers to the right location of the new packages.</p>
+<p>Now we need to <code class="language-plaintext highlighter-rouge">rehash</code> our gems, this updates the pointers to the right location of the new packages.</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code>rbenv rehash
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rbenv rehash
+</code></pre></div></div>
 
 <h2 id="installing-ruby-on-rails-pre-requisites">Installing Ruby on Rails Pre-requisites</h2>
 
@@ -179,45 +172,39 @@ git pull origin master
 
 <p>Lets add NodeJS official repository to our system.</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code>curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl <span class="nt">-sL</span> https://deb.nodesource.com/setup_4.x | <span class="nb">sudo</span> <span class="nt">-E</span> bash -
+</code></pre></div></div>
 
 <p>Now that the official respository is mapped to our system we will need to install NodeJS.</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code>sudo apt-get install -y nodejs
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt-get <span class="nb">install</span> <span class="nt">-y</span> nodejs
+</code></pre></div></div>
 
 <p>Awesome, lets just take a minute to make a little sanity check before we continue on installing Rails. Lets just make sure that NodeJS is installed.</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code>nodejs -v
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nodejs <span class="nt">-v</span>
+</code></pre></div></div>
 
-<p>You should get something like <code class="highlighter-rouge">v4.8.1</code>. If you get a version with the last command lets continue on installing Rails.</p>
+<p>You should get something like <code class="language-plaintext highlighter-rouge">v4.8.1</code>. If you get a version with the last command lets continue on installing Rails.</p>
 
 <h2 id="installing-ruby-on-rails">Installing Ruby on Rails</h2>
 
 <p>Now that we’ve got Ruby and all of our pre-requisites for Rails installed we can go ahead and install Rails.</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code>gem install rails
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gem <span class="nb">install </span>rails
+</code></pre></div></div>
 
-<p>Pretty straightforward really but we have to remember to <code class="highlighter-rouge">rehash</code> our environment so we have all the correct pointers.</p>
+<p>Pretty straightforward really but we have to remember to <code class="language-plaintext highlighter-rouge">rehash</code> our environment so we have all the correct pointers.</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code>rbenv rehash
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rbenv rehash
+</code></pre></div></div>
 
 <p>Now lets check to see we have the correct version of Rails installed.</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code>rails -v
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rails <span class="nt">-v</span>
+</code></pre></div></div>
 
-<p>We should hopefully get <code class="highlighter-rouge">v5.0.2</code> or a similar version. Again mileage may vary.</p>
+<p>We should hopefully get <code class="language-plaintext highlighter-rouge">v5.0.2</code> or a similar version. Again mileage may vary.</p>
 
 <p><strong>AWESOME!</strong> We’ve got Rails installed on our system!</p>
 
@@ -239,7 +226,7 @@ git pull origin master
 
 <p>Follow along with the “Setup Wizard” leaving the defaults checked. If you want to install the additional packages you can but it’s not necessary and we don’t need the extra bloat.</p>
 
-<p>Once you get to the “Password” section set up your password that you want for your <code class="highlighter-rouge">postgres</code> user account. I choose to just have my password be <code class="highlighter-rouge">password</code> for ease of use in my local environment. You can choose whatever password that you want but you will need to remember it later on in our work.</p>
+<p>Once you get to the “Password” section set up your password that you want for your <code class="language-plaintext highlighter-rouge">postgres</code> user account. I choose to just have my password be <code class="language-plaintext highlighter-rouge">password</code> for ease of use in my local environment. You can choose whatever password that you want but you will need to remember it later on in our work.</p>
 
 <p><strong>DO NOT USE “PASSWORD” FOR YOUR PASSWORD IN YOUR PRODUCTION ENVIRONMENT!!!</strong></p>
 
@@ -247,95 +234,86 @@ git pull origin master
 
 <p>Run this command from your Bash terminal.</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code>psql -p 5432 -h localhost -U postgres
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>psql <span class="nt">-p</span> 5432 <span class="nt">-h</span> localhost <span class="nt">-U</span> postgres
+</code></pre></div></div>
 
 <p>If everything was installed properly you should get a response similar to this and the postgres shell prompt.</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code>psql <span class="o">(</span>9.5.6, server 9.6.2<span class="o">)</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>psql <span class="o">(</span>9.5.6, server 9.6.2<span class="o">)</span>
 WARNING: psql major version 9.5, server major version 9.6.
          Some psql features might not work.
 Type <span class="s2">"help"</span> <span class="k">for </span>help.
 
 <span class="nv">postgres</span><span class="o">=</span><span class="c">#</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<p>Great we got it working. Now type <code class="highlighter-rouge">\q</code> to exit the postgres shell.</p>
+<p>Great we got it working. Now type <code class="language-plaintext highlighter-rouge">\q</code> to exit the postgres shell.</p>
 
 <h2 id="creating-our-rails-application">Creating our Rails application</h2>
 
 <p>First we want to make sure that we are in the correct directory. I use a directory on my desktop to keep my files organized, again your mileage may vary. We will use my file locations for an example and you will have to substitute where it is necessarry.</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="nb">cd</span> /mnt/c/Users/User/Desktop/projects/applications
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> /mnt/c/Users/User/Desktop/projects/applications
+</code></pre></div></div>
 
-<p>Note that we are storing our application in our <strong>Windows</strong> filesystem and <strong>NOT</strong> our Linux Subsystem. This is why we are changing directory into <code class="highlighter-rouge">/mnt/c/Users</code> from here you will have to identify your Windows user account, you can do this by running <code class="highlighter-rouge">ls</code> and seeing what shows up. For me my user account name is <code class="highlighter-rouge">User</code>. After that you will have to <code class="highlighter-rouge">cd</code> your way to the directory that you want to work in.</p>
+<p>Note that we are storing our application in our <strong>Windows</strong> filesystem and <strong>NOT</strong> our Linux Subsystem. This is why we are changing directory into <code class="language-plaintext highlighter-rouge">/mnt/c/Users</code> from here you will have to identify your Windows user account, you can do this by running <code class="language-plaintext highlighter-rouge">ls</code> and seeing what shows up. For me my user account name is <code class="language-plaintext highlighter-rouge">User</code>. After that you will have to <code class="language-plaintext highlighter-rouge">cd</code> your way to the directory that you want to work in.</p>
 
 <p>Now that we are in the proper directory lets create our first application.</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code>rails new windows_bash_test_application --database<span class="o">=</span>postgresql
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rails new windows_bash_test_application <span class="nt">--database</span><span class="o">=</span>postgresql
+</code></pre></div></div>
 
 <p>We should see rails creating the application.</p>
 
 <p>Change directory into your application.</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="nb">cd </span>windows_bash_test_application
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>windows_bash_test_application
+</code></pre></div></div>
 
-<p>Lets setup our <code class="highlighter-rouge">database.yml</code> file real quick just to make sure everything is still going good with our PostgreSQL installation.</p>
+<p>Lets setup our <code class="language-plaintext highlighter-rouge">database.yml</code> file real quick just to make sure everything is still going good with our PostgreSQL installation.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>default: &amp;default
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>default: &amp;default
   adapter: postgresql
   encoding: unicode
   pool: &lt;%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %&gt;
   host: localhost
 
 development:
-  &lt;&lt;: \\*default
+  &lt;&lt;: \\\*default
   database: windows_bash_test_application_development
   username: postgres
   password: password
 
 test:
-  &lt;&lt;: \\*default
+  &lt;&lt;: \\\*default
   database: windows_bash_test_application_test
   username: postgres
   password: password
 
 production:
-  &lt;&lt;: \\*default
+  &lt;&lt;: \\\*default
   database: windows_bash_test_application_production
   username: windows_bash_test_application
   password: &lt;%= ENV['WINDOWS_BASH_TEST_APPLICATION_DATABASE_PASSWORD'] %&gt;
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Now from our terminal lets create our database.</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code>rake db:create
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rake db:create
+</code></pre></div></div>
 
 <p>If everything is working good we should get a message saying our development and test database was created.</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code>Created database <span class="s1">'windows_bash_test_application_development'</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Created database <span class="s1">'windows_bash_test_application_development'</span>
 Created database <span class="s1">'windows_bash_test_application_test'</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Lets run our Rails server and make sure everything is working.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>rails s
-</code></pre>
-</div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rails s
+</code></pre></div></div>
 
-<p>Now in your browser go the your <code class="highlighter-rouge">localhost:3000</code> and you should be presented with verification that Rails is indeed running and installed.</p>
+<p>Now in your browser go the your <code class="language-plaintext highlighter-rouge">localhost:3000</code> and you should be presented with verification that Rails is indeed running and installed.</p>
 
 <p><img src="/uploads/versions/rails-verification---x----511-375x---.png" alt="" /></p>
 
@@ -370,7 +348,7 @@ Created database <span class="s1">'windows_bash_test_application_test'</span>
 
 <footer>
 
-  <div class="copyright">&copy; Colin Rubbert 2017</div>
+  <div class="copyright">&copy; Colin Rubbert 2020</div>
   <div class="social-media-wrapper">
     <!-- Github -->
     <a href="https://github.com/colinrubbert" class="social-media-link" target="_blank">

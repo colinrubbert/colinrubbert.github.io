@@ -1,30 +1,33 @@
 /**
- * Table of Contents
- *
- * 1. Imported Fonts
- * 2. Sass Variables
- * 3. Typography
- * 4. Global Settings & HTML Elements
- * 5. Navigation Styling
- * 6. About Styling
- * 7. Work Styling
- * 8. Articles Index Styling
- * 9. Post Styling
- * 10. Contact Styling
- * 11. Footer Styling
- *
- */
+  * Table of Contents
+  *
+  * 1. Imported Fonts
+  * 2. Sass Variables
+  * 3. Typography
+  * 4. Global Settings & HTML Elements
+  * 5. Navigation Styling
+  * 6. About Styling
+  * 7. Work Styling
+  * 8. Articles Index Styling
+  * 9. Post Styling
+  * 10. Contact Styling
+  * 11. Footer Styling
+  *
+  */
 /* 1. Imported Fonts */
 @import url("https://fonts.googleapis.com/css?family=Lato:300,400,700");
 @font-face {
-  font-family: "Haptik Regular";
+  font-family: 'Haptik Regular';
   src: url("/assets/fonts/Haptik-Regular.woff"); }
+
 @font-face {
-  font-family: "Haptik Light";
+  font-family: 'Haptik Light';
   src: url("/assets/fonts/Haptik-Light.woff"); }
+
 @font-face {
-  font-family: "Haptik Rotalic";
+  font-family: 'Haptik Rotalic';
   src: url("/assets/fonts/Haptik-Light-Rotalic.woff"); }
+
 /* 2. Sass Variables */
 /* 3. Typography */
 body {
@@ -100,6 +103,7 @@ body {
   .container {
     width: 80%;
     padding: 0; } }
+
 /* Buttons */
 .button {
   padding: 5px 20px;
@@ -115,7 +119,7 @@ body {
 input, textarea {
   border: none;
   border-radius: 3px;
-  padding: 0.25rem;
+  padding: .25rem;
   font-family: "Haptik", "Helvetica Nueue", Helvetica, sans-serif;
   font-weight: 700; }
 
@@ -133,6 +137,7 @@ svg {
 @media screen and (min-width: 900px) {
   svg {
     height: 160px; } }
+
 /* Section */
 section {
   padding: 3rem 0; }
@@ -146,9 +151,11 @@ section {
 @media screen and (min-width: 900px) {
   .section-header {
     width: 80%; } }
+
 @media screen and (min-width: 1200px) {
   .section-header {
     width: 50%; } }
+
 /* Pre & Code */
 pre {
   padding: 1rem;
@@ -157,7 +164,7 @@ pre {
 pre, code {
   color: #050709;
   background: #f3f3f3;
-  font-family: "Source Code Pro", monospace;
+  font-family: 'Source Code Pro', monospace;
   text-align: left;
   white-space: pre;
   tab-size: 2;
@@ -235,12 +242,11 @@ header {
     width: 80%;
     margin: 0 auto;
     padding: 0; }
-
   .navigation-branding {
     font-size: 2rem; }
-
   .navigation-menu-wrapper a {
     font-size: 4rem; } }
+
 /* 6. About Styling */
 .about-wrapper {
   padding: 20px;
@@ -249,9 +255,11 @@ header {
 @media screen and (min-width: 900px) {
   .about-wrapper {
     width: 80%; } }
+
 @media screen and (min-width: 1200px) {
   .about-wrapper {
     width: 50%; } }
+
 /* 7. Work Styling */
 #work {
   background: linear-gradient(90deg, #1D976C, #7FE0A3);
@@ -322,7 +330,7 @@ header {
 .work-item-link-image {
   height: 1.75rem;
   width: auto;
-  margin-right: 0.25rem; }
+  margin-right: .25rem; }
   .work-item-link-image path {
     fill: #345695; }
 
@@ -364,16 +372,16 @@ header {
   .work-item-wrapper {
     width: 80%;
     max-width: 80%; }
-
   .work-case-study-wrapper {
     padding: 20px 10%; } }
+
 @media screen and (min-width: 1200px) {
   .work-item-wrapper {
     width: 30%;
     max-width: 30%; }
-
   .work-case-study-wrapper {
     padding: 20px 25%; } }
+
 /* 8. Articles Index Styling */
 .articles-index-wrapper {
   width: 90%;
@@ -396,18 +404,18 @@ header {
   .articles-index-wrapper {
     width: 80%;
     max-width: 80%; }
-
   .articles-pagination-wrapper {
     width: 60%;
     max-width: 60%; } }
+
 @media screen and (min-width: 1200px) {
   .articles-index-wrapper {
     width: 60%;
     max-width: 60%; }
-
   .articles-pagination-wrapper {
     width: 40%;
     max-width: 40%; } }
+
 /* 9. Post Styling */
 .post-wrapper {
   width: 90%;
@@ -426,10 +434,12 @@ header {
   .post-wrapper {
     width: 80%;
     max-width: 80%; } }
+
 @media screen and (min-width: 1200px) {
   .post-wrapper {
     width: 60%;
     max-width: 60%; } }
+
 /* 10. Post Styling */
 #contact {
   background: linear-gradient(90deg, #EF473A, #CB2D3E);
@@ -453,8 +463,8 @@ header {
     margin-bottom: 1rem; }
   .contact-form-info-group input {
     width: 100%;
-    margin-top: 0.5rem;
-    padding: 0.75rem;
+    margin-top: .5rem;
+    padding: .75rem;
     display: flex;
     flex-direction: column; }
 
@@ -463,8 +473,8 @@ header {
   max-width: 100%;
   margin-bottom: 1.5rem; }
   .contact-form-message textarea {
-    margin-top: 0.5rem;
-    padding: 0.75rem;
+    margin-top: .5rem;
+    padding: .75rem;
     width: 100%; }
 
 .contact-form-submit .button {
@@ -481,32 +491,30 @@ header {
   .contact-form-wrapper {
     width: 80%;
     max-width: 80%; }
-
   .contact-form-info-group {
     width: 100%;
     max-width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-between; }
-
   .contact-form-message {
     width: 100%;
     max-width: 100%; } }
+
 @media screen and (min-width: 1200px) {
   .contact-form-wrapper {
     width: 60%;
     max-width: 60%; }
-
   .contact-form-info-group {
     width: 100%;
     max-width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-between; }
-
   .contact-form-message {
     width: 100%;
     max-width: 100%; } }
+
 /* 11. Post Styling */
 footer {
   display: flex;
@@ -543,19 +551,19 @@ footer {
     max-width: 80%;
     margin: 2rem auto 0 auto;
     height: 80px; }
-
   .copyright {
     margin: 0;
     text-align: left; }
-
   .social-media-wrapper {
     width: 30%;
     max-width: 30%; } }
+
 @media screen and (min-width: 1200px) {
   footer {
     width: 60%;
     max-width: 60%; }
-
   .social-media-wrapper {
     width: 20%;
     max-width: 20%; } }
+
+/*# sourceMappingURL=main.css.map */

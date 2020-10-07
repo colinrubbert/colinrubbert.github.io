@@ -1,4 +1,950 @@
-<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="http://0.0.0.0:4000//feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.3.1">Jekyll</generator><link href="http://0.0.0.0:4000//feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0:4000//" rel="alternate" type="text/html" /><updated>2017-03-28T20:36:51-05:00</updated><id>http://0.0.0.0:4000///</id><title type="html">Colin Rubbert - Designer Developer Creative</title><subtitle>Colin Rubbert is a designer, developer, creative, terribly sporadic writer, and was the kid who day dreamed while staring out the window during class. Always open for a good conversation or adventure, currently for hire.</subtitle><entry><title type="html">Installing Ruby on Rails in Windows 10 w/Bash &amp;amp; PostgreSQL</title><link href="http://0.0.0.0:4000//installing-ruby-on-rails-in-windows-10-with-bash-and-postgresql" rel="alternate" type="text/html" title="Installing Ruby on Rails in Windows 10 w/Bash &amp; PostgreSQL" /><published>2017-03-28T00:00:00-05:00</published><updated>2017-03-28T00:00:00-05:00</updated><id>http://0.0.0.0:4000//installing-ruby-on-rails-in-windows-10-with-bash-and-postgresql</id><content type="html" xml:base="http://0.0.0.0:4000//installing-ruby-on-rails-in-windows-10-with-bash-and-postgresql">&lt;h2 id=&quot;installing-rails-the-steps&quot;&gt;Installing Rails: The Steps&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://0.0.0.0:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0:4000/" rel="alternate" type="text/html" /><updated>2020-10-07T08:20:42-07:00</updated><id>http://0.0.0.0:4000/feed.xml</id><title type="html">Colin Rubbert - Designer Developer Creative</title><subtitle>Colin Rubbert is a designer, developer, creative, terribly sporadic writer, and was the kid who day dreamed while staring out the window during class. Always open for a good conversation or adventure, currently for hire.</subtitle><entry><title type="html">Pi-hole Logs in the HELK Stack</title><link href="http://0.0.0.0:4000/pi-hole-logs-in-the-helk-stack" rel="alternate" type="text/html" title="Pi-hole Logs in the HELK Stack" /><published>2020-10-06T00:00:00-07:00</published><updated>2020-10-06T00:00:00-07:00</updated><id>http://0.0.0.0:4000/pi-hole-logs-in-the-helk-stack</id><content type="html" xml:base="http://0.0.0.0:4000/pi-hole-logs-in-the-helk-stack">&lt;h2 id=&quot;getting-started&quot;&gt;Getting started&lt;/h2&gt;
+
+&lt;p&gt;The purpose of this tutorial is to extend the HELK stack to ingest pi-hole log data. This tutorial can easily extend data ingestion to any custom data that we would need to monitor in our environments.&lt;/p&gt;
+
+&lt;p&gt;The use of pi-hole is to stop ads at the DNS level, effectively cutting potential infection and compromization via malicious ads. This tactic additionally reduces the amount of data that is collected and tracked by blocking ad tracking domains such as Facebook Pixel and Google AdWords.&lt;/p&gt;
+
+&lt;p&gt;Why we chose pi-hole for our introduction to DNS filtering and blocking is the simplicity to get it running, the low cost of deployment (a Raspberry Pi or a small VM or docker container), and the large community support for the project.&lt;/p&gt;
+
+&lt;h2 id=&quot;requirements&quot;&gt;Requirements&lt;/h2&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;HELK Stack - &lt;a href=&quot;https://github.com/Cyb3rWard0g/HELK/&quot;&gt;https://github.com/Cyb3rWard0g/HELK/&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Pi-hole - &lt;a href=&quot;https://pi-hole.net/&quot;&gt;https://pi-hole.net/&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;**This document will not cover the installation of these software infrastructures&lt;/p&gt;
+
+&lt;h2 id=&quot;installing-filebeat-on-the-pi-hole-os&quot;&gt;Installing Filebeat on the Pi-hole OS&lt;/h2&gt;
+
+&lt;p&gt;This document will cover a Debian based installation, if you are not running a Debian based installation go to Elastic’s Filebeat documentation and follow the proper installation for your particular flavor of Linux, MacOS, or Windows&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.elastic.co/guide/en/beats/filebeat/current/filebeat-installation-configuration.html&quot;&gt;https://www.elastic.co/guide/en/beats/filebeat/current/filebeat-installation-configuration.html&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;**This documentation will be for &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Filebeat 7.9.2&lt;/code&gt; this may be dated by the time you read it, if so follow the above link for current documentation.&lt;/p&gt;
+
+&lt;h3 id=&quot;install-filebeat&quot;&gt;Install Filebeat&lt;/h3&gt;
+
+&lt;p&gt;Open the Terminal and enter the following commands to add the Elastic company’s repository to your Debian installation.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;wget &lt;span class=&quot;nt&quot;&gt;-qO&lt;/span&gt; - https://artifacts.elastic.co/GPG-KEY-elasticsearch | &lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-key add -
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;You may need to install the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;apt-transport-https&lt;/code&gt; package of Debian so double-check to see if either you have it but if you don’t then install it.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;apt-transport-https
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Run &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;apt update&lt;/code&gt; to pull down the package list and update your repository to reflect that we just added the Elastic repo. Then install &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Filebeat&lt;/code&gt;. You can accomplish both by running these commands.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt update &lt;span class=&quot;nt&quot;&gt;-y&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;filebeat &lt;span class=&quot;nt&quot;&gt;-y&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Configure Filebeat to start automatically during boot.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;systemctl &lt;span class=&quot;nb&quot;&gt;enable &lt;/span&gt;filebeat
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Filebeat should be installed now.&lt;/p&gt;
+
+&lt;h3 id=&quot;customizing-filebeat-for-collecting-pi-hole-logs&quot;&gt;Customizing Filebeat for collecting Pi-hole logs&lt;/h3&gt;
+
+&lt;p&gt;The pi-hole stores longterm query data inside of a sqlite database and for the intents of this article we will not be going over how to import longterm or historical pi-hole data into our Logstash environment, not yet at least. What we will be collecting is current and future pi-hole traffic.&lt;/p&gt;
+
+&lt;p&gt;To collect pi-hole traffic we will want to monitor the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;pihole.log&lt;/code&gt; log file. This file is located in the following location &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/var/log/pihole.log&lt;/code&gt; . This log file will have all of the queried domains, ip addresses, blocked domains, etc. essentially all of the data we want to ingest.&lt;/p&gt;
+
+&lt;p&gt;To start monitoring this data we will want to edit our &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;filebeat.yml&lt;/code&gt; file. The file can be found in the following location: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/etc/filebeat/filebeat.yml&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Replace or update your current &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;filebeat.yml&lt;/code&gt; file with the following configuration.&lt;/p&gt;
+
+&lt;p&gt;**Replace the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;tags&lt;/code&gt; sections with the specific tags you would like BUT keep the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;pihole&lt;/code&gt; tag for our Logstash filtering process for later.&lt;/p&gt;
+
+&lt;p&gt;**Replace both the Kibana and Logstash host location with your relevant host location. HELK specific examples are provided in within this example filebeat configuration file&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;###################### Filebeat Configuration Example #########################&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# This file is an example configuration file highlighting only the most common&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# options. The filebeat.reference.yml file from the same directory contains all the&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# supported options with more comments. You can use it as a reference.&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;#&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# You can find the full configuration reference here:&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# https://www.elastic.co/guide/en/beats/filebeat/index.html&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# For more available modules and options, please see the filebeat.reference.yml sample&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# configuration file.&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# ============================== Filebeat inputs ===============================&lt;/span&gt;
+
+filebeat.inputs:
+
+&lt;span class=&quot;c&quot;&gt;# Each - is an input. Most options can be set at the input level, so&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# you can use different inputs for various configurations.&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# Below are the input specific configurations.&lt;/span&gt;
+
+- &lt;span class=&quot;nb&quot;&gt;type&lt;/span&gt;: log
+
+  &lt;span class=&quot;c&quot;&gt;# Change to true to enable this input configuration.&lt;/span&gt;
+  enabled: &lt;span class=&quot;nb&quot;&gt;true&lt;/span&gt;
+
+  &lt;span class=&quot;c&quot;&gt;# Paths that should be crawled and fetched. Glob based paths.&lt;/span&gt;
+  paths:
+    - /var/log/pihole.log
+    &lt;span class=&quot;c&quot;&gt;#- c:\programdata\elasticsearch\logs\*&lt;/span&gt;
+
+  &lt;span class=&quot;c&quot;&gt;# Exclude lines. A list of regular expressions to match. It drops the lines that are&lt;/span&gt;
+  &lt;span class=&quot;c&quot;&gt;# matching any regular expression from the list.&lt;/span&gt;
+  &lt;span class=&quot;c&quot;&gt;#exclude_lines: ['^DBG']&lt;/span&gt;
+
+  &lt;span class=&quot;c&quot;&gt;# Include lines. A list of regular expressions to match. It exports the lines that are&lt;/span&gt;
+  &lt;span class=&quot;c&quot;&gt;# matching any regular expression from the list.&lt;/span&gt;
+  &lt;span class=&quot;c&quot;&gt;#include_lines: ['^ERR', '^WARN']&lt;/span&gt;
+
+  &lt;span class=&quot;c&quot;&gt;# Exclude files. A list of regular expressions to match. Filebeat drops the files that&lt;/span&gt;
+  &lt;span class=&quot;c&quot;&gt;# are matching any regular expression from the list. By default, no files are dropped.&lt;/span&gt;
+  &lt;span class=&quot;c&quot;&gt;#exclude_files: ['.gz$']&lt;/span&gt;
+
+  &lt;span class=&quot;c&quot;&gt;# Optional additional fields. These fields can be freely picked&lt;/span&gt;
+  &lt;span class=&quot;c&quot;&gt;# to add additional information to the crawled log files for filtering&lt;/span&gt;
+  fields:
+    level: debug
+  &lt;span class=&quot;c&quot;&gt;#  review: 1&lt;/span&gt;
+
+  &lt;span class=&quot;c&quot;&gt;### Multiline options&lt;/span&gt;
+
+  &lt;span class=&quot;c&quot;&gt;# Multiline can be used for log messages spanning multiple lines. This is common&lt;/span&gt;
+  &lt;span class=&quot;c&quot;&gt;# for Java Stack Traces or C-Line Continuation&lt;/span&gt;
+
+  &lt;span class=&quot;c&quot;&gt;# The regexp Pattern that has to be matched. The example pattern matches all lines starting with [&lt;/span&gt;
+  &lt;span class=&quot;c&quot;&gt;#multiline.pattern: ^\[&lt;/span&gt;
+
+  &lt;span class=&quot;c&quot;&gt;# Defines if the pattern set under pattern should be negated or not. Default is false.&lt;/span&gt;
+  &lt;span class=&quot;c&quot;&gt;#multiline.negate: false&lt;/span&gt;
+
+  &lt;span class=&quot;c&quot;&gt;# Match can be set to &quot;after&quot; or &quot;before&quot;. It is used to define if lines should be append to a pattern&lt;/span&gt;
+  &lt;span class=&quot;c&quot;&gt;# that was (not) matched before or after or as long as a pattern is not matched based on negate.&lt;/span&gt;
+  &lt;span class=&quot;c&quot;&gt;# Note: After is the equivalent to previous and before is the equivalent to to next in Logstash&lt;/span&gt;
+  &lt;span class=&quot;c&quot;&gt;#multiline.match: after&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# ============================== Filebeat modules ==============================&lt;/span&gt;
+
+filebeat.config.modules:
+  &lt;span class=&quot;c&quot;&gt;# Glob pattern for configuration loading&lt;/span&gt;
+  path: &lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.config&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;/modules.d/&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;.yml
+
+  &lt;span class=&quot;c&quot;&gt;# Set to true to enable config reloading&lt;/span&gt;
+  reload.enabled: &lt;span class=&quot;nb&quot;&gt;false&lt;/span&gt;
+
+  &lt;span class=&quot;c&quot;&gt;# Period on which files under path should be checked for changes&lt;/span&gt;
+  &lt;span class=&quot;c&quot;&gt;#reload.period: 10s&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# ======================= Elasticsearch template setting =======================&lt;/span&gt;
+
+setup.template.settings:
+  index.number_of_shards: 1
+  &lt;span class=&quot;c&quot;&gt;#index.codec: best_compression&lt;/span&gt;
+  &lt;span class=&quot;c&quot;&gt;#_source.enabled: false&lt;/span&gt;
+setup.template.name: &lt;span class=&quot;s2&quot;&gt;&quot;logs-dns-pihole&quot;&lt;/span&gt;
+setup.template.pattern: &lt;span class=&quot;s2&quot;&gt;&quot;logs-dns-pihole-*&quot;&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# ================================== General ===================================&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# The name of the shipper that publishes the network data. It can be used to group&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# all the transactions sent by a single shipper in the web interface.&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;#name:&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# The tags of the shipper are included in their own field with each&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# transaction published.&lt;/span&gt;
+tags: &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;pihole&quot;&lt;/span&gt;, &lt;span class=&quot;s2&quot;&gt;&quot;additional tags&quot;&lt;/span&gt;, &lt;span class=&quot;s2&quot;&gt;&quot;tags that could be specific to a certain locations&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# Optional fields that you can specify to add additional information to the&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# output.&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;#fields:&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;#  env: staging&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# ================================= Dashboards =================================&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# These settings control loading the sample dashboards to the Kibana index. Loading&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# the dashboards is disabled by default and can be enabled either by setting the&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# options here or by using the `setup` command.&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;#setup.dashboards.enabled: false&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# The URL from where to download the dashboards archive. By default this URL&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# has a value which is computed based on the Beat name and version. For released&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# versions, this URL points to the dashboard archive on the artifacts.elastic.co&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# website.&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;#setup.dashboards.url:&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# =================================== Kibana ===================================&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# Starting with Beats version 6.0.0, the dashboards are loaded via the Kibana API.&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# This requires a Kibana endpoint configuration.&lt;/span&gt;
+setup.kibana:
+
+  &lt;span class=&quot;c&quot;&gt;# Kibana Host&lt;/span&gt;
+  &lt;span class=&quot;c&quot;&gt;# Scheme and port can be left out and will be set to the default (http and 5601)&lt;/span&gt;
+  &lt;span class=&quot;c&quot;&gt;# In case you specify and additional path, the scheme is required: http://localhost:5601/path&lt;/span&gt;
+  &lt;span class=&quot;c&quot;&gt;# IPv6 addresses should always be defined as: https://[2001:db8::1]:5601&lt;/span&gt;
+  &lt;span class=&quot;c&quot;&gt;# HELK does not expose :5601 as a domain location, it uses nginx to host the site at :80 or :443&lt;/span&gt;
+  &lt;span class=&quot;c&quot;&gt;# host: &quot;example.com/app/kibana&quot;&lt;/span&gt;
+  host: &lt;span class=&quot;s2&quot;&gt;&quot;YOUR HOST DOMAIN/IP ADDRESS AND PORT FOR KIBANA&quot;&lt;/span&gt;
+
+  &lt;span class=&quot;c&quot;&gt;# Kibana Space ID&lt;/span&gt;
+  &lt;span class=&quot;c&quot;&gt;# ID of the Kibana Space into which the dashboards should be loaded. By default,&lt;/span&gt;
+  &lt;span class=&quot;c&quot;&gt;# the Default Space will be used.&lt;/span&gt;
+  &lt;span class=&quot;c&quot;&gt;#space.id:&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# =============================== Elastic Cloud ================================&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# These settings simplify using Filebeat with the Elastic Cloud (https://cloud.elastic.co/).&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# The cloud.id setting overwrites the `output.elasticsearch.hosts` and&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# `setup.kibana.host` options.&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# You can find the `cloud.id` in the Elastic Cloud web UI.&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;#cloud.id:&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# The cloud.auth setting overwrites the `output.elasticsearch.username` and&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# `output.elasticsearch.password` settings. The format is `&amp;lt;user&amp;gt;:&amp;lt;pass&amp;gt;`.&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;#cloud.auth:&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# ================================== Outputs ===================================&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# Configure what output to use when sending the data collected by the beat.&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# ---------------------------- Elasticsearch Output ----------------------------&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# output.elasticsearch:&lt;/span&gt;
+  &lt;span class=&quot;c&quot;&gt;# Array of hosts to connect to.&lt;/span&gt;
+  &lt;span class=&quot;c&quot;&gt;# hosts: [&quot;localhost:9200&quot;]&lt;/span&gt;
+
+  &lt;span class=&quot;c&quot;&gt;# Protocol - either `http` (default) or `https`.&lt;/span&gt;
+  &lt;span class=&quot;c&quot;&gt;#protocol: &quot;https&quot;&lt;/span&gt;
+
+  &lt;span class=&quot;c&quot;&gt;# Authentication credentials - either API key or username/password.&lt;/span&gt;
+  &lt;span class=&quot;c&quot;&gt;#api_key: &quot;id:api_key&quot;&lt;/span&gt;
+  &lt;span class=&quot;c&quot;&gt;#username: &quot;elastic&quot;&lt;/span&gt;
+  &lt;span class=&quot;c&quot;&gt;#password: &quot;changeme&quot;&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# ------------------------------ Logstash Output -------------------------------&lt;/span&gt;
+output.logstash:
+  &lt;span class=&quot;c&quot;&gt;# The Logstash hosts&lt;/span&gt;
+  &lt;span class=&quot;c&quot;&gt;# hosts: [&quot;example.com:5044&quot;]&lt;/span&gt;
+  hosts: &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;YOUR HOST DOMAIN/IP ADDRESS AND PORT FOR LOGSTASH:5601&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+
+  &lt;span class=&quot;c&quot;&gt;# Optional SSL. By default is off.&lt;/span&gt;
+  &lt;span class=&quot;c&quot;&gt;# List of root certificates for HTTPS server verifications&lt;/span&gt;
+  &lt;span class=&quot;c&quot;&gt;#ssl.certificate_authorities: [&quot;/etc/pki/root/ca.pem&quot;]&lt;/span&gt;
+
+  &lt;span class=&quot;c&quot;&gt;# Certificate for SSL client authentication&lt;/span&gt;
+  &lt;span class=&quot;c&quot;&gt;#ssl.certificate: &quot;/etc/pki/client/cert.pem&quot;&lt;/span&gt;
+
+  &lt;span class=&quot;c&quot;&gt;# Client Certificate Key&lt;/span&gt;
+  &lt;span class=&quot;c&quot;&gt;#ssl.key: &quot;/etc/pki/client/cert.key&quot;&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# ================================= Processors =================================&lt;/span&gt;
+processors:
+  - add_host_metadata:
+      when.not.contains.tags: forwarded
+  - add_cloud_metadata: ~
+  - add_docker_metadata: ~
+  - add_kubernetes_metadata: ~
+
+&lt;span class=&quot;c&quot;&gt;# ================================== Logging ===================================&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# Sets log level. The default log level is info.&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# Available log levels are: error, warning, info, debug&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;#logging.level: debug&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# At debug level, you can selectively enable logging only for some components.&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# To enable all selectors use [&quot;*&quot;]. Examples of other selectors are &quot;beat&quot;,&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# &quot;publish&quot;, &quot;service&quot;.&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;#logging.selectors: [&quot;*&quot;]&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# ============================= X-Pack Monitoring ==============================&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# Filebeat can export internal metrics to a central Elasticsearch monitoring&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# cluster.  This requires xpack monitoring to be enabled in Elasticsearch.  The&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# reporting is disabled by default.&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# Set to true to enable the monitoring reporter.&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;#monitoring.enabled: false&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# Sets the UUID of the Elasticsearch cluster under which monitoring data for this&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# Filebeat instance will appear in the Stack Monitoring UI. If output.elasticsearch&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# is enabled, the UUID is derived from the Elasticsearch cluster referenced by output.elasticsearch.&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;#monitoring.cluster_uuid:&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# Uncomment to send the metrics to Elasticsearch. Most settings from the&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# Elasticsearch output are accepted here as well.&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# Note that the settings should point to your Elasticsearch *monitoring* cluster.&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# Any setting that is not set is automatically inherited from the Elasticsearch&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# output configuration, so if you have the Elasticsearch output configured such&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# that it is pointing to your Elasticsearch monitoring cluster, you can simply&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# uncomment the following line.&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;#monitoring.elasticsearch:&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# ============================== Instrumentation ===============================&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# Instrumentation support for the filebeat.&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;#instrumentation:&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;# Set to true to enable instrumentation of filebeat.&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;#enabled: false&lt;/span&gt;
+
+    &lt;span class=&quot;c&quot;&gt;# Environment in which filebeat is running on (eg: staging, production, etc.)&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;#environment: &quot;&quot;&lt;/span&gt;
+
+    &lt;span class=&quot;c&quot;&gt;# APM Server hosts to report instrumentation results to.&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;#hosts:&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;#  - http://localhost:8200&lt;/span&gt;
+
+    &lt;span class=&quot;c&quot;&gt;# API Key for the APM Server(s).&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;# If api_key is set then secret_token will be ignored.&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;#api_key:&lt;/span&gt;
+
+    &lt;span class=&quot;c&quot;&gt;# Secret token for the APM Server(s).&lt;/span&gt;
+    &lt;span class=&quot;c&quot;&gt;#secret_token:&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# ================================= Migration ==================================&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# This allows to enable 6.7 migration aliases&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;#migration.6_to_7.enabled: true&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Restart the Filebeat service to make sure the new configuration is being used properly.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;systemctl restart filebeat
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Now our pi-hole should be using the new configuration and setup to start sending pi-hole data to our HELK Logstash instance.&lt;/p&gt;
+
+&lt;h2 id=&quot;configuring-helk-logstash-to-ingest-pi-hole-logs&quot;&gt;Configuring HELK Logstash to ingest Pi-hole logs&lt;/h2&gt;
+
+&lt;p&gt;This section will assume the default HELK installation, however, there shouldn’t an issue to modify or tweak some settings to apply to your own Logstash environment.&lt;/p&gt;
+
+&lt;h2 id=&quot;creating-the-pi-hole-configuration-file&quot;&gt;Creating the Pi-hole configuration file&lt;/h2&gt;
+
+&lt;p&gt;Navigate to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HELK/docker/helk-logstash/pipeline&lt;/code&gt; this is where we will add our custom configuration files. This location will be reflected within our helk-logstash container at build time.&lt;/p&gt;
+
+&lt;p&gt;First we will want to create a file called &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;0100-dns-pihole.conf&lt;/code&gt; there is no particular naming reason why I chose this number just looked like a solid order to place it in.&lt;/p&gt;
+
+&lt;p&gt;Next we will want to add the following contents to our &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;0100-dns-pihole.conf&lt;/code&gt; file. Use your favorite command line editor to edit the file.&lt;/p&gt;
+
+&lt;p&gt;**Some of the patterns to match are commented out for the sake of my own personal environments being on the latest version of pi-hole and the commented out queries don’t particularly apply to the latest version.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# HELK pihole dns conf file&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# HELK build Stage: Alpha&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# Author: Colin Rubbert (@colinrubbert)&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# License: GPL-3.0&lt;/span&gt;
+
+input &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+  beats &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    port &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; 5044
+  &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+filter &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+
+  &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;pihole&quot;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;tags] &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    grok &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+      patterns_dir &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;LS_HOME&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;/pipeline/patterns&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+      match &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;s2&quot;&gt;&quot;message&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;
+
+          &lt;span class=&quot;c&quot;&gt;# request - query type&lt;/span&gt;
+          &lt;span class=&quot;s2&quot;&gt;&quot;^%{DNSMASQPREFIX} query&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;%{DATA:query_type}&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\]&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt; %{FQDN:domain_request} from %{IP:request_from}$&quot;&lt;/span&gt;,
+
+          &lt;span class=&quot;c&quot;&gt;# reponse domain to ip&lt;/span&gt;
+          &lt;span class=&quot;s2&quot;&gt;&quot;^%{DNSMASQPREFIX} reply %{FQDN:domain_request} is %{IP:ip_response}$&quot;&lt;/span&gt;,
+
+          &lt;span class=&quot;c&quot;&gt;# response domain is NXDOMAIN&lt;/span&gt;
+          &lt;span class=&quot;s2&quot;&gt;&quot;^%{DNSMASQPREFIX} reply %{FQDN:domain_request} is NXDOMAIN$&quot;&lt;/span&gt;,
+
+          &lt;span class=&quot;c&quot;&gt;# response config domain is NXDOMAIN&lt;/span&gt;
+          &lt;span class=&quot;c&quot;&gt;# &quot;^%{DNSMASQPREFIX} config %{FQDN:domain_request} is NXDOMAIN$&quot;,&lt;/span&gt;
+
+          &lt;span class=&quot;c&quot;&gt;# response config domain is no - DATA&lt;/span&gt;
+          &lt;span class=&quot;c&quot;&gt;# &quot;^%{DNSMASQPREFIX} config %{FQDN:domain_request} is NODATA-IPv[4,6]$&quot;,&lt;/span&gt;
+
+          &lt;span class=&quot;c&quot;&gt;# reponse domain to ip cname&lt;/span&gt;
+          &lt;span class=&quot;s2&quot;&gt;&quot;^%{DNSMASQPREFIX} reply %{FQDN:domain_request} is &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&amp;lt;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;CNAME&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&amp;gt;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;$&quot;&lt;/span&gt;,
+
+          &lt;span class=&quot;c&quot;&gt;# respone ip to domain&lt;/span&gt;
+          &lt;span class=&quot;s2&quot;&gt;&quot;^%{DNSMASQPREFIX} reply %{IP:ip_request} is %{FQDN:domain_response}$&quot;&lt;/span&gt;,
+
+          &lt;span class=&quot;c&quot;&gt;# piholed&lt;/span&gt;
+          &lt;span class=&quot;c&quot;&gt;# &quot;^%{DNSMASQPREFIX} \/etc\/pihole\/gravity\.list %{FQDN:blocked_domain} is %{IP:pihole}$&quot;,&lt;/span&gt;
+
+          &lt;span class=&quot;c&quot;&gt;# piholed 5.0&lt;/span&gt;
+          &lt;span class=&quot;s2&quot;&gt;&quot;^%{DNSMASQPREFIX} gravity blocked %{FQDN:blocked_domain} is %{IP:pihole}$&quot;&lt;/span&gt;,
+
+          &lt;span class=&quot;c&quot;&gt;# piholed local&lt;/span&gt;
+          &lt;span class=&quot;c&quot;&gt;# &quot;^%{DNSMASQPREFIX} \/etc\/pihole\/local\.list %{FQDN:blocked_domain} is %{IP:pihole}$&quot;,&lt;/span&gt;
+
+          &lt;span class=&quot;c&quot;&gt;# piholed CNAME inspection&lt;/span&gt;
+          &lt;span class=&quot;c&quot;&gt;# &quot;^%{DNSMASQPREFIX} reply %{FQDN:domain_request} is blocked during CNAME inspection&quot;,&lt;/span&gt;
+
+          &lt;span class=&quot;c&quot;&gt;# blacklist&lt;/span&gt;
+          &lt;span class=&quot;c&quot;&gt;# &quot;^%{DNSMASQPREFIX} \/etc\/pihole\/black\.list %{FQDN:blocked_domain} is %{IP:pihole}$&quot;,&lt;/span&gt;
+
+          &lt;span class=&quot;c&quot;&gt;# regex&lt;/span&gt;
+          &lt;span class=&quot;c&quot;&gt;# &quot;^%{DNSMASQPREFIX} \/etc\/pihole\/regex\.list %{FQDN:blocked_domain} is %{IP:pihole}$&quot;,&lt;/span&gt;
+
+          &lt;span class=&quot;c&quot;&gt;# reverse response etc hosts ip to domain&lt;/span&gt;
+          &lt;span class=&quot;c&quot;&gt;# &quot;^%{DNSMASQPREFIX} \/etc\/hosts %{IP:ip_request} is %{FQDN:domain_response}$&quot;,&lt;/span&gt;
+
+          &lt;span class=&quot;c&quot;&gt;# reverse response etc hosts domain to ip&lt;/span&gt;
+          &lt;span class=&quot;c&quot;&gt;# &quot;^%{DNSMASQPREFIX} \/etc\/hosts %{FQDN:domain_request} is %{IP:ip_response}$&quot;,&lt;/span&gt;
+
+          &lt;span class=&quot;c&quot;&gt;# forward dns to&lt;/span&gt;
+          &lt;span class=&quot;s2&quot;&gt;&quot;^%{DNSMASQPREFIX} forwarded %{FQDN:domain_request_forward} to %{IP:dns_forward_to}$&quot;&lt;/span&gt;,
+
+          &lt;span class=&quot;c&quot;&gt;# cached domain to ip&lt;/span&gt;
+          &lt;span class=&quot;s2&quot;&gt;&quot;^%{DNSMASQPREFIX} cached %{FQDN:domain_request} is %{IP:ip_response}$&quot;&lt;/span&gt;,
+
+          &lt;span class=&quot;c&quot;&gt;# cached ip to domain&lt;/span&gt;
+          &lt;span class=&quot;c&quot;&gt;# &quot;^%{DNSMASQPREFIX} cached %{IP:ip_request} is %{FQDN:domain_response}$&quot;,&lt;/span&gt;
+
+          &lt;span class=&quot;c&quot;&gt;# cached is srv&lt;/span&gt;
+          &lt;span class=&quot;c&quot;&gt;# &quot;^%{DNSMASQPREFIX} cached %{SRV} is \&amp;lt;SRV\&amp;gt;$&quot;,&lt;/span&gt;
+
+          &lt;span class=&quot;c&quot;&gt;# response is srv&lt;/span&gt;
+          &lt;span class=&quot;c&quot;&gt;# &quot;^%{DNSMASQPREFIX} reply %{SRV} is \&amp;lt;SRV\&amp;gt;$&quot;,&lt;/span&gt;
+
+          &lt;span class=&quot;c&quot;&gt;# cached domain to ip cname&lt;/span&gt;
+          &lt;span class=&quot;s2&quot;&gt;&quot;^%{DNSMASQPREFIX} cached %{FQDN:domain_request} is &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&amp;lt;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;CNAME&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&amp;gt;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;$&quot;&lt;/span&gt;,
+
+          &lt;span class=&quot;c&quot;&gt;# cached domain is NXDOMAIN&lt;/span&gt;
+          &lt;span class=&quot;s2&quot;&gt;&quot;^%{DNSMASQPREFIX} cached %{FQDN:domain_request} is NXDOMAIN$&quot;&lt;/span&gt;,
+
+          &lt;span class=&quot;c&quot;&gt;# cached domain is no - DATA&lt;/span&gt;
+          &lt;span class=&quot;s2&quot;&gt;&quot;^%{DNSMASQPREFIX} cached %{FQDN:domain_request} is NODATA-IPv[4,6]$&quot;&lt;/span&gt;,
+
+          &lt;span class=&quot;c&quot;&gt;# cached domain is no - DATA&lt;/span&gt;
+          &lt;span class=&quot;s2&quot;&gt;&quot;^%{DNSMASQPREFIX} cached %{FQDN:domain_request} is NODATA$&quot;&lt;/span&gt;,
+
+          &lt;span class=&quot;c&quot;&gt;# domain is no - DATA&lt;/span&gt;
+          &lt;span class=&quot;s2&quot;&gt;&quot;^%{DNSMASQPREFIX} reply %{FQDN:domain_request} is NODATA-IPv[4,6]$&quot;&lt;/span&gt;,
+
+          &lt;span class=&quot;c&quot;&gt;# domain is no - DATA&lt;/span&gt;
+          &lt;span class=&quot;s2&quot;&gt;&quot;^%{DNSMASQPREFIX} reply %{FQDN:domain_request} is NODATA$&quot;&lt;/span&gt;,
+
+          &lt;span class=&quot;c&quot;&gt;# exactly blacklisted&lt;/span&gt;
+          &lt;span class=&quot;s2&quot;&gt;&quot;^%{DNSMASQPREFIX} exactly blacklisted %{FQDN:blocked_domain} is %{IP:pihole}$&quot;&lt;/span&gt;,
+
+          &lt;span class=&quot;c&quot;&gt;# regex blacklisted&lt;/span&gt;
+          &lt;span class=&quot;s2&quot;&gt;&quot;^%{DNSMASQPREFIX} regex blacklisted %{FQDN:blocked_domain} is %{IP:pihole}$&quot;&lt;/span&gt;,
+
+          &lt;span class=&quot;c&quot;&gt;# PTR - delete ?&lt;/span&gt;
+          &lt;span class=&quot;c&quot;&gt;# &quot;^%{DNSMASQPREFIX} query\[%{WORD:query_type}\] %{HOSTNAMEPTR:request} from %{IP:request_from}$&quot;,&lt;/span&gt;
+
+          &lt;span class=&quot;c&quot;&gt;# PTR forwarded - delete ?&lt;/span&gt;
+          &lt;span class=&quot;c&quot;&gt;# &quot;^%{DNSMASQPREFIX} forwarded %{HOSTNAMEPTR:request} to %{IP:dns_forward_to}$&quot;,&lt;/span&gt;
+
+          &lt;span class=&quot;c&quot;&gt;# clients sending url instead of domain&lt;/span&gt;
+          &lt;span class=&quot;c&quot;&gt;# &quot;^%{DNSMASQPREFIX} (query\[.*\]|config|forwarded|reply|cached) %{URI:URI}.*$&quot;,&lt;/span&gt;
+
+          &lt;span class=&quot;c&quot;&gt;# SERVFAIL&lt;/span&gt;
+          &lt;span class=&quot;s2&quot;&gt;&quot;^%{DNSMASQPREFIX} reply error is SERVFAIL&quot;&lt;/span&gt;
+
+        &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+      &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;c&quot;&gt;# to do cached and cached reverse&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;message] &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;~ &lt;span class=&quot;s2&quot;&gt;&quot;cached&quot;&lt;/span&gt;
+    and &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;message] &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;~ &lt;span class=&quot;s2&quot;&gt;&quot;NXDOMAIN&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+      mutate &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        add_tag &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;cached NXDOMAIN&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+      &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;else if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;NODATA] &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+      mutate &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        add_tag &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;NODATA&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+      &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;request_from] and &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;message] &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;~ &lt;span class=&quot;s2&quot;&gt;&quot;query&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+      mutate &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        add_tag &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;request and query type&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+      &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;else if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;ip_response] and &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;message] &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;~ &lt;span class=&quot;s2&quot;&gt;&quot;reply&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+      geoip &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nb&quot;&gt;source&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;ip_response&quot;&lt;/span&gt;
+      &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+      mutate &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        add_tag &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;response domain to ip&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+      &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;else if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;message] &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;~ &lt;span class=&quot;s2&quot;&gt;&quot;CNAME&quot;&lt;/span&gt;
+    and &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;message] &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;~ &lt;span class=&quot;s2&quot;&gt;&quot;reply&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+      mutate &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        add_tag &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;response domain to ip CNAME&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+      &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;else if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;domain_response] and &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;message] &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;~&lt;span class=&quot;s2&quot;&gt;&quot;reply&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+      mutate &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        add_tag &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;response ip to domain&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+      &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+      geoip &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nb&quot;&gt;source&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;ip_request&quot;&lt;/span&gt;
+      &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;else if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;blocked_domain] &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+      mutate &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        add_tag &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;piholed&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+      &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;message] &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;~ &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\/&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;etc&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\/&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;hosts&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+      mutate &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        add_tag &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;reverse hostsfile&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+      &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;dns_forward_to] &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+      mutate &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        add_tag &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;dns forward&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+      &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;ip_request] and &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;message] &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;~ &lt;span class=&quot;s2&quot;&gt;&quot;cached&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+      mutate &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        add_tag &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;cached ip to domain&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+      &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+      geoip &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nb&quot;&gt;source&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;ip_request&quot;&lt;/span&gt;
+      &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;else if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;domain_request] and &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;message] &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;~ &lt;span class=&quot;s2&quot;&gt;&quot;cached&quot;&lt;/span&gt;
+    and &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;message] &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;~ &lt;span class=&quot;s2&quot;&gt;&quot;CNAME&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+      mutate &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        add_tag &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;cached domain to ip cname&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+      &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;else if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;domain_request] and &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;message] &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;~ &lt;span class=&quot;s2&quot;&gt;&quot;cached&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+      mutate &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        add_tag &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;cached domain to ip&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+      &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+      geoip &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nb&quot;&gt;source&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;ip_response&quot;&lt;/span&gt;
+      &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;domain_request] &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+      geoip &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;c&quot;&gt;# cache_size =&amp;gt; &quot;10000&quot;&lt;/span&gt;
+        &lt;span class=&quot;nb&quot;&gt;source&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;domain_request&quot;&lt;/span&gt;
+      &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;ip_response] &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+      mutate &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        add_field &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+          &lt;span class=&quot;s2&quot;&gt;&quot;ip_or_domain_response&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;%{domain_request}&quot;&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+      &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;domain_response] &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+      mutate &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        add_field &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+          &lt;span class=&quot;s2&quot;&gt;&quot;ip_or_domain_response&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;%{domain_response}&quot;&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+      &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;blocked_domain] &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+      mutate &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        add_field &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+          &lt;span class=&quot;s2&quot;&gt;&quot;ip_or_domain_response&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;%{blocked_domain}&quot;&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+      &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+    mutate &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+      add_field &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;s2&quot;&gt;&quot;[source_fqdn]&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;%{source_host}&quot;&lt;/span&gt;
+      &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+    mutate &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+      remove_field &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;port&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+    dns &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+      nameserver &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;localhost&quot;&lt;/span&gt;
+      reverse &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;source_fqdn&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+      action &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;replace&quot;&lt;/span&gt;
+      hit_cache_size &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; 10000
+      hit_cache_ttl &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; 900
+      failed_cache_size &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; 512
+      failed_cache_ttl &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; 900
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;nb&quot;&gt;date&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+      match &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;date&quot;&lt;/span&gt;, &lt;span class=&quot;s2&quot;&gt;&quot;MMM  d HH:mm:ss&quot;&lt;/span&gt;, &lt;span class=&quot;s2&quot;&gt;&quot;MMM dd HH:mm:ss&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+      timezone &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;America/Chicago&quot;&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+  &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+  &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;%&quot;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;source_host] &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    mutate &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+      gsub &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;
+        &lt;span class=&quot;s2&quot;&gt;&quot;source_host&quot;&lt;/span&gt;, &lt;span class=&quot;s2&quot;&gt;&quot;%.*$&quot;&lt;/span&gt;, &lt;span class=&quot;s2&quot;&gt;&quot;&quot;&lt;/span&gt;
+      &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+output &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# stdout { codec =&amp;gt; rubydebug }&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;pihole&quot;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;tags]&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    elasticsearch &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+      hosts &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;helk-elasticsearch:9200&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+      manage_template &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;true
+      &lt;/span&gt;index &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;logs-dns-pihole-%{+YYYY.MM.dd}&quot;&lt;/span&gt;
+      user &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'elastic'&lt;/span&gt;
+      &lt;span class=&quot;c&quot;&gt;#password =&amp;gt; 'elasticpassword'&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Our configuration file is now done but before we restart our helk-logstash instance we need to create a custom pattern since our configuration file uses custom variables for the filtering process.&lt;/p&gt;
+
+&lt;h3 id=&quot;creating-a-custom-pattern-for-our-dns-pihole-configuration&quot;&gt;Creating a custom pattern for our dns-pihole configuration&lt;/h3&gt;
+
+&lt;p&gt;HELK out of the box doesn’t have a spot for you to place your custom configurations but since we know that the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;pipeline&lt;/code&gt; directory will be reflected at build time of our docker container we can make a custom folder within our pipeline directory for our custom patterns.&lt;/p&gt;
+
+&lt;p&gt;To create our custom folder in our pipeline file we will need to make a new folder. We should already be in our &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HELK/docker/helk-logstash/pipeline&lt;/code&gt; folder.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# From the HELK/docker/helk-logstash/pipeline directory&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;mkdir &lt;/span&gt;patterns
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Moving to our new directory we will need to make our file for our custom pattern and we will name it &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dns-pihole&lt;/code&gt; to do this we will run the following command.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# From the HELK/docker/helk-logstash/pipeline/patterns directory&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;touch &lt;/span&gt;dns-pihole
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Next we will want to edit our &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dns-pihole&lt;/code&gt; file with our custom pattern. Edit the file and add the following custom variable patterns.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# dns-pihole pattern&lt;/span&gt;
+HOSTNAMEPTR &lt;span class=&quot;se&quot;&gt;\b&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;?:[&lt;span class=&quot;se&quot;&gt;\.&lt;/span&gt;_0-9A-Za-z][0-9A-Za-z-]&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;0,62&lt;span class=&quot;o&quot;&gt;})(&lt;/span&gt;?:&lt;span class=&quot;se&quot;&gt;\.&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;?:[&lt;span class=&quot;se&quot;&gt;\.&lt;/span&gt;_0-9A-Za-z][0-9A-Za-z-]&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;0,62&lt;span class=&quot;o&quot;&gt;}))&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\.&lt;/span&gt;?|&lt;span class=&quot;se&quot;&gt;\b&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+NODATA NODATA-[[:word:]]+
+SRV _+.+&lt;span class=&quot;se&quot;&gt;\S&lt;/span&gt;
+FQDN &lt;span class=&quot;se&quot;&gt;\b&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;?:[&lt;span class=&quot;se&quot;&gt;\w&lt;/span&gt;-][&lt;span class=&quot;se&quot;&gt;\w&lt;/span&gt;-]&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;0,62&lt;span class=&quot;o&quot;&gt;})(&lt;/span&gt;?:&lt;span class=&quot;se&quot;&gt;\.&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;?:[&lt;span class=&quot;se&quot;&gt;\w&lt;/span&gt;-][&lt;span class=&quot;se&quot;&gt;\w&lt;/span&gt;-]&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;0,62&lt;span class=&quot;o&quot;&gt;}))&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\.&lt;/span&gt;?|&lt;span class=&quot;se&quot;&gt;\b&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+DNSMASQPREFIX %&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;SYSLOGTIMESTAMP:date&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; %&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;SYSLOGPROG&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;: %&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;INT:logrow&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; %&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;IP:source_host&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\/&lt;/span&gt;%&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;POSINT:source_port&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+URI %&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;URIPROTO&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;:&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;//&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;?&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;?:%&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;URIHOST&lt;span class=&quot;o&quot;&gt;})&lt;/span&gt;?&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;?:%&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;URIPATH&lt;span class=&quot;o&quot;&gt;})&lt;/span&gt;?
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Now we will have to restart our helk-logstash container to rebuild our custom pi-hole configuration.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# Restart helk-logstash docker container&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;docker restart helk-logstash
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Now if everything is working we should be ingesting our Pi-hole logs into our HELK Logstash endpoint.&lt;/p&gt;
+
+&lt;p&gt;We should now see an options for &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;logs-dns-pihole*&lt;/code&gt; index pattern in our HELK Kibana instance.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/post-images/pi-hole-logs-in-the-helk-stack/pi_hole_1.png&quot; alt=&quot;Kibana discovery Pi-hole change index pattern&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;If it’s not there you may have to go into your &lt;strong&gt;&lt;em&gt;management&lt;/em&gt;&lt;/strong&gt; page and look and see if it’s present in your Kibana &lt;strong&gt;&lt;em&gt;index patterns&lt;/em&gt;&lt;/strong&gt;, if it’s not in your &lt;strong&gt;&lt;em&gt;index patterns&lt;/em&gt;&lt;/strong&gt; check and see if there are any logs that are indicating that there is an error anywhere.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/post-images/pi-hole-logs-in-the-helk-stack/pi_hole_2.png&quot; alt=&quot;Kibana index management index patterns&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;The HELK project is a fantastic out of the box logging infrastructure and extending the ingestion and collection of your data and providing new data sources with custom patterns is fairly easy once you know how to do it.&lt;/p&gt;
+
+&lt;p&gt;As with any project, your mileage may vary, but the resources for the ELK stack as well as the HELK Github repository are valuable resources to troubleshoot any issues.&lt;/p&gt;
+
+&lt;p&gt;This article focuses on the pi-hole, however, applying these steps could be easily be applied to other custom data points for extending your logs.&lt;/p&gt;</content><author><name></name></author><summary type="html">Getting started</summary></entry><entry><title type="html">Installing Elixir and Phoenix in Windows 10 w/Bash &amp;amp; PostgreSQL</title><link href="http://0.0.0.0:4000/installing-elixir-phoenix-in-windows-10-with-bash-and-postgresql" rel="alternate" type="text/html" title="Installing Elixir and Phoenix in Windows 10 w/Bash &amp;amp; PostgreSQL" /><published>2017-09-13T00:00:00-07:00</published><updated>2017-09-13T00:00:00-07:00</updated><id>http://0.0.0.0:4000/installing-elixir-phoenix-in-windows-subsystem-for-linux-with-postgresql-on-windows-10</id><content type="html" xml:base="http://0.0.0.0:4000/installing-elixir-phoenix-in-windows-10-with-bash-and-postgresql">&lt;h2 id=&quot;installing-elixir--phoenix-the-steps&quot;&gt;Installing Elixir &amp;amp; Phoenix: The Steps&lt;/h2&gt;
+
+&lt;p&gt;This guide will focus on installing all the requirements to get Elixir &amp;amp; Phoenix installed on a Windows 10 machine via the Windows Subsystem for Linux (WSL) and getting PostgreSQL as the primary database.
+This guide will assume that you already know how to install WSL Bash on Windows 10. I won’t go over that because a simple Google search will give you plenty of useful links to get this rocking.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Disclaimer:&lt;/strong&gt; I have coded absolutely &lt;strong&gt;zero&lt;/strong&gt; things in Elixir or Phoenix. It’s always been on my todo list but haven’t had the time to sit down and bite into it. So why am I doing this then? Well because someone asked me to and why the hell not give it a go? Maybe it’ll give me the kick in the ass to learn Elixir &amp;amp; Phoenix but I digress…&lt;/p&gt;
+
+&lt;p&gt;This may also look familiar to the process and steps I took to write my Ruby on Rails WSL in Windows 10 guide that you can find here. Lets crack on.&lt;/p&gt;
+
+&lt;h2 id=&quot;installing-the-pre-requisites&quot;&gt;Installing the pre-requisites&lt;/h2&gt;
+
+&lt;p&gt;My install is truly a fresh install of Windows 10 Pro and the WSL Bash (my primary hard drive failed so I had to start from scratch).&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Pro Tip:&lt;/strong&gt; If you ever run into an issue or you just need to figure out what command or procedure you need to do for specific tasks in regards to Bash on Windows you can simply Google the question and reference Ubuntu. Bash on Windows is built on top of and in partnership with Ubuntu which makes troubleshooting (Linux specific issues &amp;amp; procedures) quite easy.&lt;/p&gt;
+
+&lt;p&gt;First let me state that this information and process is being pulled straight from both the &lt;a href=&quot;https://elixir-lang.org/getting-started/introduction.html&quot;&gt;Elixir&lt;/a&gt; and &lt;a href=&quot;https://hexdocs.pm/phoenix/installation.html#content&quot;&gt;Phoenix&lt;/a&gt; docs so if you need reference points you can check them there, this is just an attempt to get it in a single, easy to read, guide for everyone to be able to get up and running.&lt;/p&gt;
+
+&lt;p&gt;Let’s start with updating our instance of WSL via the Bash command line.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo apt-get update
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Now we need to add some repositories to our instance of WSL. First we will add the Erlang repository. If you are unaware Elixir is built on top of the Erlang language.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;wget https://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb &amp;amp;&amp;amp; sudo dpkg -i erlang-solutions_1.0_all.deb
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Now that we’ve got the Erlang repository added to our instance lets make sure we update our system again. To do this we will run the update package command again.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo apt-get update
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Sweet, looks like we’re getting our packages we required from Erlang pulled into our system. Our first win!&lt;/p&gt;
+
+&lt;p&gt;Now we need to install the Erlang/OTP platform and all of the required applications associated with it.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo apt-get install -y esl-erlang
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Fantastic, no errors! Now that we’ve got all the Erlang dependencies we can now install Elixir.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo apt-get install -y elixir
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Sweet! Let’s just verify that we’ve got access to Elixir and that it was installed properly by checking the version number.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;elixir --version
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;As of writing this I’ve got version &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Elixir 1.5.1&lt;/code&gt; installed.&lt;/p&gt;
+
+&lt;p&gt;Just to be on the safe side let’s just double check we can do Elixir things. We’re going to open up the &lt;strong&gt;Interactive mode&lt;/strong&gt; so that we can just do some simple math inside of Elixir’s interactive mode which is very similar to Ruby’s interactive mode.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;iex
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;This command will get you into the interactive mode. Now for some simple commands.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;5 + 5
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;This should result in this.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;iex(1)&amp;gt; 5 + 5
+10
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;All good? Great. Now press &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ctrl + c&lt;/code&gt; twice to exit out of the interactive menu.&lt;/p&gt;
+
+&lt;p&gt;Perfect. We’ve got Erlang, Elixir and all the required dependencies for both installed.&lt;/p&gt;
+
+&lt;h2 id=&quot;installing-phoenix-web-framework&quot;&gt;Installing Phoenix web framework&lt;/h2&gt;
+
+&lt;p&gt;We got most of our dependencies installed for Phoenix but just like Rails needs Bundler, Phoenix needs Hex. So let’s install the hex package manager.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mix local.hex
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Now that we’ve got all of our essential Phoenix dependencies we can grab our Phoenix archive and install it on our system.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mix archive.install https://github.com/phoenixframework/archives/raw/master/phx_new.ez
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Perfect, Phoenix is now installed. There will be some dependencies that will need to be installed but we will let Phoenix handle those once we build our first application.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-odds-and-ends&quot;&gt;The odds and ends&lt;/h2&gt;
+
+&lt;p&gt;Like Rails, Phoenix utilizes some &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;npm&lt;/code&gt; packages to handle static assets specifically brunch.io. What we will need to do is install Node.js to get all the essential files.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
+sudo apt-get install -y nodejs
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Let’s just make sure we got the right version.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;npm -v
+node -v
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;As of writing this article I’ve got &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;npm 3.10.10&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;node v6.11.3&lt;/code&gt;. That should work. We will additionally need the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;build-essential&lt;/code&gt; package for additional node/npm addons as well as &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;inotify-tool&lt;/code&gt; so that we can have live reloads for our Phoenix server later on.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo apt-get install -y build-essential inotify-tools
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;installing-postgresql-in-bash-on-windows-primary&quot;&gt;Installing PostgreSQL in Bash on Windows (primary)&lt;/h2&gt;
+
+&lt;p&gt;The last piece of our puzzle is to install PostgreSQL on our system. Now let me make a disclaimer right here: &lt;strong&gt;I’ve got no idea how well this will work, your mileage may vary depending on your Windows 10 version&lt;/strong&gt;. I’m feeling a bit saucy so we’re going to try this.&lt;/p&gt;
+
+&lt;p&gt;If it doesn’t work with your version I will include a workaround that we had to use for the Rails installations because WSL wasn’t ready for handling postgres stuff.&lt;/p&gt;
+
+&lt;p&gt;First we will have to install our postgres repository.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo sh -c &quot;echo 'deb http://apt.postgresql.org/pub/repos/apt/ xenial-pgdg main' &amp;gt; /etc/apt/sources.list.d/pgdg.list&quot;
+wget --quiet -O - 
+http://apt.postgresql.org/pub/repos/apt/ACCC4CF8.asc | sudo apt-key add -
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Now let’s update our package lists and install the actual postgres packages.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo apt-get update
+sudo apt-get install postgresql-common
+sudo apt-get install postgresql-9.5 libpq-dev
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Great, that looks like it worked. We won’t truly know until we build our application if the database connectors work. Let’s keep on keepin’ on.&lt;/p&gt;
+
+&lt;p&gt;Before we setup our user’s password we need to make sure our postgres server is running.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo service postgresql start
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;We should’ve got a message indicating that the service is starting.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Side note:&lt;/strong&gt; you will likely have to do this every time you start bash and want to use your postgres database and that’s because it doesn’t, by default, automatically start at startup.&lt;/p&gt;
+
+&lt;p&gt;Let’s setup a user for our postgres dev environment that we can use for our applications authentication. We will be using the built in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;postgres&lt;/code&gt; user since the default Phoenix application build process assumes this to be the case.&lt;/p&gt;
+
+&lt;p&gt;First we need to be in the postgres console.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo -u postgres psql
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;We should see this (or a very close variation of this depending on the versioning).&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;psql (9.5.9)
+Type &quot;help&quot; for help.
+postgres=#
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Now to set the password as &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;postgres&lt;/code&gt;. &lt;strong&gt;Disclaimer: NEVER EVER EVER set your password as POSTGRES in a production database, NEVER. Did I say NEVER yet, don’t do! EVER!&lt;/strong&gt; This username/password combo should and only be used in a local development environment that &lt;strong&gt;DOESN’T&lt;/strong&gt; use actual customer/client/user/consumer information.&lt;/p&gt;
+
+&lt;p&gt;Now onto setting the password. Type &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;\password postgres&lt;/code&gt;. This will start the password prompt for the postgres user. This is what the prompt will look like.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;psql (9.5.9)
+Type &quot;help&quot; for help.
+postgres=# \password postgres
+Enter new password:
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Now type the password &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;postgres&lt;/code&gt; twice. See previous disclaimer! Things should now look like this. The prompts will be blank as you type the password.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;psql (9.5.9)
+Type &quot;help&quot; for help.
+postgres=# \password postgres
+Enter new password:
+Enter it again:
+postgres=#
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Perfect, finally we have to type &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;\q&lt;/code&gt; to exit out of the psql console.&lt;/p&gt;
+
+&lt;p&gt;PosgresSQL should now be installed and a user configured for our application.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;DISCLAIMER: Phoenix assumes your password for postgres will be &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;postgres&lt;/code&gt; with the default username of &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;postgres&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;installing-postgresql-in-bash-on-windows-alternative&quot;&gt;Installing PostgreSQL in Bash on Windows (alternative)&lt;/h2&gt;
+
+&lt;p&gt;As of Windows build version 15024 this should’ve been patched, however, if you are not currently on this build or have issues we will need to setup postgres the old fashion way.&lt;/p&gt;
+
+&lt;p&gt;This is the &lt;strong&gt;workaround&lt;/strong&gt; version for getting postgres to work if you don’t need this skip this part.&lt;/p&gt;
+
+&lt;p&gt;First we need to go and grab the binary (.exe) for the PostgreSQL installation. Let’s download and install the latest stable version of PostgreSQL Windows binary.&lt;/p&gt;
+
+&lt;p&gt;PostgreSQL 9.6.2 provided by BigSQL: &lt;a href=&quot;http://oscg-downloads.s3.amazonaws.com/packages/PostgreSQL-9.6.2-2-win64-bigsql.exe&quot;&gt;Download&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Now that we have the PostgreSQL downloaded, let’s begin to install it.
+Follow along with the “Setup Wizard” leaving the defaults checked. If you want to install the additional packages you can but it’s not necessary and we don’t need the extra bloat.&lt;/p&gt;
+
+&lt;p&gt;Once you get to the “Password” section set up your password that you want for your &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;postgres&lt;/code&gt; user account. Phoenix assumes that the password will be &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;postgres&lt;/code&gt; as such we need that to be our password&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;DO NOT USE “POSTGRES” FOR YOUR PASSWORD IN YOUR PRODUCTION ENVIRONMENT!!!&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Great we got that installed, we got our password set, lets do a quick sanity check to make sure that our Bash WSL is connecting to our Windows installation of PostgreSQL.&lt;/p&gt;
+
+&lt;p&gt;Run this command from your Bash terminal.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;psql -p 5432 -h localhost -U postgres
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;If everything was installed properly you should get a response similar to this and the postgres shell prompt.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;psql (9.5.6, server 9.6.2)
+WARNING: psql major version 9.5, server major version 9.6.
+         Some psql features might not work.
+Type &quot;help&quot; for help.
+postgres=#
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Great we got it working. Now type &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;\q&lt;/code&gt; to exit the postgres shell.&lt;/p&gt;
+
+&lt;h2 id=&quot;building-our-first-phoenix-application&quot;&gt;Building our first Phoenix application&lt;/h2&gt;
+
+&lt;p&gt;Now as a reminder, this is uncharted waters for me so cross our fingers and hope this all works!&lt;/p&gt;
+
+&lt;p&gt;By this point we should have all our dependencies installed: Erlang, Elixir, Hex, Phoenix, Node.js and PostgreSQL.&lt;/p&gt;
+
+&lt;p&gt;Before we run our first command to create our application we should probably migrate to our Windows C:\ drive where we will keep our development files. For me that will be a folder on my Desktop. From here you will have to substitute in your folder location since it will be slightly different from mine. Here is where I will be changing directory to and storing my project files.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cd /mnt/c/Users/Colin/Desktop/projects/phoenix
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;See how my username name is &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/Colin/&lt;/code&gt; this is likely where you will have to input your Windows username and your local file path. Unless of course your name is Colin, which case internet high five!&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://media.giphy.com/media/GYU7rBEQtBGfe/giphy.gif&quot; alt=&quot;Horse Head High Five&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;So yeah, there’s that…&lt;/p&gt;
+
+&lt;p&gt;Let’s proceed. Run the command to start the application creation and build process. Accept the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;fetch and install&lt;/code&gt; question that you may be prompted with. Also, the structure of creating your app will be &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;mix phx.new [the name of your application]&lt;/code&gt; just as an aside.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mix phx.new hello
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;We should see this as the result (this is just the bottom section of the output).&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;We are almost there! The following steps are missing:
+$ cd hello
+    $ mix deps.get
+    $ cd assets &amp;amp;&amp;amp; npm install &amp;amp;&amp;amp; node node_modules/brunch/bin/brunch build
+Then configure your database in config/dev.exs and run:
+$ mix ecto.create
+Start your Phoenix app with:
+$ mix phx.server
+You can also run your app inside IEx (Interactive Elixir) as:
+$ iex -S mix phx.server
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Now we have to change directory into our applications folder.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cd hello
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Before we create our database we need to grab some dependencies and build our assets.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mix deps.get
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Build the assets.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cd assets &amp;amp;&amp;amp; npm install &amp;amp;&amp;amp; node node_modules/brunch/bin/brunch build
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Now we can create our database for our application (fingers crossed), we also need to change our directory one level up to the root of our project’s folder in order to use ecto.create (install any dependencies it asks for).&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cd ..
+mix ecto.create
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;w00t!!! Hopefully you get this message!&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;The database for Hello.Repo has been created
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Let’s start our Phoenix server.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mix phx.server
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Now we need to open up our browser and navigate to localhost:4000 if all worked out as intended you should see this webpage. If you see it &lt;strong&gt;CONGRATULATIONS!!!!&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://cdn-images-1.medium.com/max/800/1*t_wg-0zuTTvgEVm0pL2w-A.png&quot; alt=&quot;Welcome to Phoenix Landing Page&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;Hot damn we got it installed and running! That should be it folks. Elixir and Phoenix up and running on Windows Subsystem for Linux in Windows 10.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://media.giphy.com/media/62PP2yEIAZF6g/giphy.gif&quot; alt=&quot;Too Cool&quot; /&gt;&lt;/p&gt;</content><author><name></name></author><summary type="html">Installing Elixir &amp;amp; Phoenix: The Steps This guide will focus on installing all the requirements to get Elixir &amp;amp; Phoenix installed on a Windows 10 machine via the Windows Subsystem for Linux (WSL) and getting PostgreSQL as the primary database. This guide will assume that you already know how to install WSL Bash on Windows 10. I won’t go over that because a simple Google search will give you plenty of useful links to get this rocking. Disclaimer: I have coded absolutely zero things in Elixir or Phoenix. It’s always been on my todo list but haven’t had the time to sit down and bite into it. So why am I doing this then? Well because someone asked me to and why the hell not give it a go? Maybe it’ll give me the kick in the ass to learn Elixir &amp;amp; Phoenix but I digress… This may also look familiar to the process and steps I took to write my Ruby on Rails WSL in Windows 10 guide that you can find here. Lets crack on. Installing the pre-requisites My install is truly a fresh install of Windows 10 Pro and the WSL Bash (my primary hard drive failed so I had to start from scratch). Pro Tip: If you ever run into an issue or you just need to figure out what command or procedure you need to do for specific tasks in regards to Bash on Windows you can simply Google the question and reference Ubuntu. Bash on Windows is built on top of and in partnership with Ubuntu which makes troubleshooting (Linux specific issues &amp;amp; procedures) quite easy. First let me state that this information and process is being pulled straight from both the Elixir and Phoenix docs so if you need reference points you can check them there, this is just an attempt to get it in a single, easy to read, guide for everyone to be able to get up and running. Let’s start with updating our instance of WSL via the Bash command line. sudo apt-get update Now we need to add some repositories to our instance of WSL. First we will add the Erlang repository. If you are unaware Elixir is built on top of the Erlang language. wget https://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb &amp;amp;&amp;amp; sudo dpkg -i erlang-solutions_1.0_all.deb Now that we’ve got the Erlang repository added to our instance lets make sure we update our system again. To do this we will run the update package command again. sudo apt-get update Sweet, looks like we’re getting our packages we required from Erlang pulled into our system. Our first win! Now we need to install the Erlang/OTP platform and all of the required applications associated with it. sudo apt-get install -y esl-erlang Fantastic, no errors! Now that we’ve got all the Erlang dependencies we can now install Elixir. sudo apt-get install -y elixir Sweet! Let’s just verify that we’ve got access to Elixir and that it was installed properly by checking the version number. elixir --version As of writing this I’ve got version Elixir 1.5.1 installed. Just to be on the safe side let’s just double check we can do Elixir things. We’re going to open up the Interactive mode so that we can just do some simple math inside of Elixir’s interactive mode which is very similar to Ruby’s interactive mode. iex This command will get you into the interactive mode. Now for some simple commands. 5 + 5 This should result in this. iex(1)&amp;gt; 5 + 5 10 All good? Great. Now press ctrl + c twice to exit out of the interactive menu. Perfect. We’ve got Erlang, Elixir and all the required dependencies for both installed. Installing Phoenix web framework We got most of our dependencies installed for Phoenix but just like Rails needs Bundler, Phoenix needs Hex. So let’s install the hex package manager. mix local.hex Now that we’ve got all of our essential Phoenix dependencies we can grab our Phoenix archive and install it on our system. mix archive.install https://github.com/phoenixframework/archives/raw/master/phx_new.ez Perfect, Phoenix is now installed. There will be some dependencies that will need to be installed but we will let Phoenix handle those once we build our first application. The odds and ends Like Rails, Phoenix utilizes some npm packages to handle static assets specifically brunch.io. What we will need to do is install Node.js to get all the essential files. curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash - sudo apt-get install -y nodejs Let’s just make sure we got the right version. npm -v node -v As of writing this article I’ve got npm 3.10.10 and node v6.11.3. That should work. We will additionally need the build-essential package for additional node/npm addons as well as inotify-tool so that we can have live reloads for our Phoenix server later on. sudo apt-get install -y build-essential inotify-tools Installing PostgreSQL in Bash on Windows (primary) The last piece of our puzzle is to install PostgreSQL on our system. Now let me make a disclaimer right here: I’ve got no idea how well this will work, your mileage may vary depending on your Windows 10 version. I’m feeling a bit saucy so we’re going to try this. If it doesn’t work with your version I will include a workaround that we had to use for the Rails installations because WSL wasn’t ready for handling postgres stuff. First we will have to install our postgres repository. sudo sh -c &quot;echo 'deb http://apt.postgresql.org/pub/repos/apt/ xenial-pgdg main' &amp;gt; /etc/apt/sources.list.d/pgdg.list&quot; wget --quiet -O - http://apt.postgresql.org/pub/repos/apt/ACCC4CF8.asc | sudo apt-key add - Now let’s update our package lists and install the actual postgres packages. sudo apt-get update sudo apt-get install postgresql-common sudo apt-get install postgresql-9.5 libpq-dev Great, that looks like it worked. We won’t truly know until we build our application if the database connectors work. Let’s keep on keepin’ on. Before we setup our user’s password we need to make sure our postgres server is running. sudo service postgresql start We should’ve got a message indicating that the service is starting. Side note: you will likely have to do this every time you start bash and want to use your postgres database and that’s because it doesn’t, by default, automatically start at startup. Let’s setup a user for our postgres dev environment that we can use for our applications authentication. We will be using the built in postgres user since the default Phoenix application build process assumes this to be the case. First we need to be in the postgres console. sudo -u postgres psql We should see this (or a very close variation of this depending on the versioning). psql (9.5.9) Type &quot;help&quot; for help. postgres=# Now to set the password as postgres. Disclaimer: NEVER EVER EVER set your password as POSTGRES in a production database, NEVER. Did I say NEVER yet, don’t do! EVER! This username/password combo should and only be used in a local development environment that DOESN’T use actual customer/client/user/consumer information. Now onto setting the password. Type \password postgres. This will start the password prompt for the postgres user. This is what the prompt will look like. psql (9.5.9) Type &quot;help&quot; for help. postgres=# \password postgres Enter new password: Now type the password postgres twice. See previous disclaimer! Things should now look like this. The prompts will be blank as you type the password. psql (9.5.9) Type &quot;help&quot; for help. postgres=# \password postgres Enter new password: Enter it again: postgres=# Perfect, finally we have to type \q to exit out of the psql console. PosgresSQL should now be installed and a user configured for our application. DISCLAIMER: Phoenix assumes your password for postgres will be postgres with the default username of postgres Installing PostgreSQL in Bash on Windows (alternative) As of Windows build version 15024 this should’ve been patched, however, if you are not currently on this build or have issues we will need to setup postgres the old fashion way. This is the workaround version for getting postgres to work if you don’t need this skip this part. First we need to go and grab the binary (.exe) for the PostgreSQL installation. Let’s download and install the latest stable version of PostgreSQL Windows binary. PostgreSQL 9.6.2 provided by BigSQL: Download Now that we have the PostgreSQL downloaded, let’s begin to install it. Follow along with the “Setup Wizard” leaving the defaults checked. If you want to install the additional packages you can but it’s not necessary and we don’t need the extra bloat. Once you get to the “Password” section set up your password that you want for your postgres user account. Phoenix assumes that the password will be postgres as such we need that to be our password DO NOT USE “POSTGRES” FOR YOUR PASSWORD IN YOUR PRODUCTION ENVIRONMENT!!! Great we got that installed, we got our password set, lets do a quick sanity check to make sure that our Bash WSL is connecting to our Windows installation of PostgreSQL. Run this command from your Bash terminal. psql -p 5432 -h localhost -U postgres If everything was installed properly you should get a response similar to this and the postgres shell prompt. psql (9.5.6, server 9.6.2) WARNING: psql major version 9.5, server major version 9.6. Some psql features might not work. Type &quot;help&quot; for help. postgres=# Great we got it working. Now type \q to exit the postgres shell. Building our first Phoenix application Now as a reminder, this is uncharted waters for me so cross our fingers and hope this all works! By this point we should have all our dependencies installed: Erlang, Elixir, Hex, Phoenix, Node.js and PostgreSQL. Before we run our first command to create our application we should probably migrate to our Windows C:\ drive where we will keep our development files. For me that will be a folder on my Desktop. From here you will have to substitute in your folder location since it will be slightly different from mine. Here is where I will be changing directory to and storing my project files. cd /mnt/c/Users/Colin/Desktop/projects/phoenix See how my username name is /Colin/ this is likely where you will have to input your Windows username and your local file path. Unless of course your name is Colin, which case internet high five! So yeah, there’s that… Let’s proceed. Run the command to start the application creation and build process. Accept the fetch and install question that you may be prompted with. Also, the structure of creating your app will be mix phx.new [the name of your application] just as an aside. mix phx.new hello We should see this as the result (this is just the bottom section of the output). We are almost there! The following steps are missing: $ cd hello $ mix deps.get $ cd assets &amp;amp;&amp;amp; npm install &amp;amp;&amp;amp; node node_modules/brunch/bin/brunch build Then configure your database in config/dev.exs and run: $ mix ecto.create Start your Phoenix app with: $ mix phx.server You can also run your app inside IEx (Interactive Elixir) as: $ iex -S mix phx.server Now we have to change directory into our applications folder. cd hello Before we create our database we need to grab some dependencies and build our assets. mix deps.get Build the assets. cd assets &amp;amp;&amp;amp; npm install &amp;amp;&amp;amp; node node_modules/brunch/bin/brunch build Now we can create our database for our application (fingers crossed), we also need to change our directory one level up to the root of our project’s folder in order to use ecto.create (install any dependencies it asks for). cd .. mix ecto.create w00t!!! Hopefully you get this message! The database for Hello.Repo has been created Let’s start our Phoenix server. mix phx.server Now we need to open up our browser and navigate to localhost:4000 if all worked out as intended you should see this webpage. If you see it CONGRATULATIONS!!!! Conclusion Hot damn we got it installed and running! That should be it folks. Elixir and Phoenix up and running on Windows Subsystem for Linux in Windows 10.</summary></entry><entry><title type="html">Installing Ruby on Rails in Windows 10 w/Bash &amp;amp; PostgreSQL</title><link href="http://0.0.0.0:4000/installing-ruby-on-rails-in-windows-10-with-bash-and-postgresql" rel="alternate" type="text/html" title="Installing Ruby on Rails in Windows 10 w/Bash &amp;amp; PostgreSQL" /><published>2017-03-28T00:00:00-07:00</published><updated>2017-03-28T00:00:00-07:00</updated><id>http://0.0.0.0:4000/installing-ruby-on-rails-in-windows-10-wbash--postgresql</id><content type="html" xml:base="http://0.0.0.0:4000/installing-ruby-on-rails-in-windows-10-with-bash-and-postgresql">&lt;h2 id=&quot;installing-rails-the-steps&quot;&gt;Installing Rails: The Steps&lt;/h2&gt;
 
 &lt;p&gt;This will focus on installing Ruby, Rails, and getting PostgreSQL to play nicely with Rails and Bash on Windows 10. We will be leveraging the Linux subsystem on Windows 10. This article will not go over installing the Linux Subsystem and getting Bash up and running, there’s already great articles on that very subject. Here is Microsoft’s guide on installing the &lt;a href=&quot;https://msdn.microsoft.com/en-us/commandline/wsl/install_guide&quot;&gt;Linux Subsystem&lt;/a&gt;.&lt;/p&gt;
 
@@ -12,52 +958,48 @@
 
 &lt;p&gt;Lets update and install some prerequisites.&lt;/p&gt;
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo apt-get udpate
-sudo apt-get install git-core curl zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev python-software-properties libffi-dev postgresql-client-common postgresql-client libpq-dev
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get update
+&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;git-core curl zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev python-software-properties libffi-dev postgresql-client-common postgresql-client libpq-dev
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;The terminal will likely prompt you to make sure that it’s okay to install a specific package, just type &lt;code class=&quot;highlighter-rouge&quot;&gt;Y&lt;/code&gt; and hit &lt;code class=&quot;highlighter-rouge&quot;&gt;Enter&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;The terminal will likely prompt you to make sure that it’s okay to install a specific package, just type &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Y&lt;/code&gt; and hit &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Enter&lt;/code&gt;.&lt;/p&gt;
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;After this operation, 6,082 kB of additional disk space will be used. Do you want to &lt;span class=&quot;k&quot;&gt;continue&lt;/span&gt;? &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;Y/n] Y
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;After this operation, 6,082 kB of additional disk space will be used. Do you want to &lt;span class=&quot;k&quot;&gt;continue&lt;/span&gt;? &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;Y/n] Y
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;That should cover all of the pre-requisites that we will need to be installed to continue on with the process. The pre-reqs are required to get Ruby installed and PostgreSQL (which we will be going over a little bit later).&lt;/p&gt;
 
 &lt;h2 id=&quot;installing-ruby&quot;&gt;Installing Ruby&lt;/h2&gt;
 
-&lt;p&gt;In order for us to install Rails we first need to install Ruby. For the purpose of this article we will be installing &lt;code class=&quot;highlighter-rouge&quot;&gt;Ruby 2.4.1&lt;/code&gt;, your version may differ but at the time of writing this &lt;code class=&quot;highlighter-rouge&quot;&gt;Ruby 2.4.1&lt;/code&gt; is the latest stable build.&lt;/p&gt;
+&lt;p&gt;In order for us to install Rails we first need to install Ruby. For the purpose of this article we will be installing &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Ruby 2.4.1&lt;/code&gt;, your version may differ but at the time of writing this &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Ruby 2.4.1&lt;/code&gt; is the latest stable build.&lt;/p&gt;
 
-&lt;p&gt;In order to install Ruby we will be using &lt;code class=&quot;highlighter-rouge&quot;&gt;rbenv&lt;/code&gt; to handle the install and management of our Ruby gems.&lt;/p&gt;
+&lt;p&gt;In order to install Ruby we will be using &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;rbenv&lt;/code&gt; to handle the install and management of our Ruby gems.&lt;/p&gt;
 
 &lt;p&gt;Here is a script that will make life for us just a little bit easier. You should be able to just copy and paste this into your terminal but just like life, your mileage may vary.&lt;/p&gt;
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;cd
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;cd
 &lt;/span&gt;git clone https://github.com/rbenv/rbenv.git ~/.rbenv
-&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'export PATH=&quot;$HOME/.rbenv/bin:$PATH&quot;'&lt;/span&gt; &amp;gt;&amp;gt; ~/.bashrc
-&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'eval &quot;$(rbenv init -)&quot;'&lt;/span&gt; &amp;gt;&amp;gt; ~/.bashrc
+&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'export PATH=&quot;$HOME/.rbenv/bin:$PATH&quot;'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; ~/.bashrc
+&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'eval &quot;$(rbenv init -)&quot;'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; ~/.bashrc
 &lt;span class=&quot;nb&quot;&gt;exec&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$SHELL&lt;/span&gt;
 
 git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
-&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'export PATH=&quot;$HOME/.rbenv/plugins/ruby-build/bin:$PATH&quot;'&lt;/span&gt; &amp;gt;&amp;gt; ~/.bashrc
+&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'export PATH=&quot;$HOME/.rbenv/plugins/ruby-build/bin:$PATH&quot;'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; ~/.bashrc
 &lt;span class=&quot;nb&quot;&gt;exec&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$SHELL&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;Now that we have our path built and plugin directory installed for rbenv and Ruby we can now install the latest Ruby version.&lt;/p&gt;
 
 &lt;p&gt;Installing Ruby this way takes a bit running through the terminal; patience young grasshopper.&lt;/p&gt;
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;rbenv install 2.4.1
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;rbenv &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;2.4.1
 rbenv global 2.4.1
-ruby -v
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+ruby &lt;span class=&quot;nt&quot;&gt;-v&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;strong&gt;Disclaimer&lt;/strong&gt; if you are like me and already had rbenv &amp;amp; Ruby previously installed and are getting a message that says…&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ruby-build: definition not found: 2.4.1
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ruby-build: definition not found: 2.4.1
 
 The following versions contain `2.4.1' in the name:
   rbx-2.4.1
@@ -67,32 +1009,28 @@ See all available versions with `rbenv install --list'.
 If the version you need is missing, try upgrading ruby-build:
 
   cd /home/cr/.rbenv/plugins/ruby-build &amp;amp;&amp;amp; git pull &amp;amp;&amp;amp; cd -
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;… you will need to pull the latest version of rbenv and it’s definitions so that you can install the latest version of Ruby. To do that simple input this into your terminal.&lt;/p&gt;
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/.rbenv/plugins/ruby-build/
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/.rbenv/plugins/ruby-build/
 git pull origin master
 &lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; -
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;Now you can go back to the previous step and install the latest Ruby version you have in your definitions.&lt;/p&gt;
 
 &lt;h2 id=&quot;installing-bundler&quot;&gt;Installing Bundler&lt;/h2&gt;
 
-&lt;p&gt;Next we need to install &lt;code class=&quot;highlighter-rouge&quot;&gt;Bundler&lt;/code&gt; Ruby’s package manager. This one is pretty simple.&lt;/p&gt;
+&lt;p&gt;Next we need to install &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Bundler&lt;/code&gt; Ruby’s package manager. This one is pretty simple.&lt;/p&gt;
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;gem install bundler
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;gem &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;bundler
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;Now we need to &lt;code class=&quot;highlighter-rouge&quot;&gt;rehash&lt;/code&gt; our gems, this updates the pointers to the right location of the new packages.&lt;/p&gt;
+&lt;p&gt;Now we need to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;rehash&lt;/code&gt; our gems, this updates the pointers to the right location of the new packages.&lt;/p&gt;
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;rbenv rehash
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;rbenv rehash
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h2 id=&quot;installing-ruby-on-rails-pre-requisites&quot;&gt;Installing Ruby on Rails Pre-requisites&lt;/h2&gt;
 
@@ -100,45 +1038,39 @@ git pull origin master
 
 &lt;p&gt;Lets add NodeJS official repository to our system.&lt;/p&gt;
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;curl &lt;span class=&quot;nt&quot;&gt;-sL&lt;/span&gt; https://deb.nodesource.com/setup_4.x | &lt;span class=&quot;nb&quot;&gt;sudo&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-E&lt;/span&gt; bash -
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;Now that the official respository is mapped to our system we will need to install NodeJS.&lt;/p&gt;
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo apt-get install -y nodejs
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get &lt;span class=&quot;nb&quot;&gt;install&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-y&lt;/span&gt; nodejs
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;Awesome, lets just take a minute to make a little sanity check before we continue on installing Rails. Lets just make sure that NodeJS is installed.&lt;/p&gt;
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;nodejs -v
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;nodejs &lt;span class=&quot;nt&quot;&gt;-v&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;You should get something like &lt;code class=&quot;highlighter-rouge&quot;&gt;v4.8.1&lt;/code&gt;. If you get a version with the last command lets continue on installing Rails.&lt;/p&gt;
+&lt;p&gt;You should get something like &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;v4.8.1&lt;/code&gt;. If you get a version with the last command lets continue on installing Rails.&lt;/p&gt;
 
 &lt;h2 id=&quot;installing-ruby-on-rails&quot;&gt;Installing Ruby on Rails&lt;/h2&gt;
 
 &lt;p&gt;Now that we’ve got Ruby and all of our pre-requisites for Rails installed we can go ahead and install Rails.&lt;/p&gt;
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;gem install rails
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;gem &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;rails
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;Pretty straightforward really but we have to remember to &lt;code class=&quot;highlighter-rouge&quot;&gt;rehash&lt;/code&gt; our environment so we have all the correct pointers.&lt;/p&gt;
+&lt;p&gt;Pretty straightforward really but we have to remember to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;rehash&lt;/code&gt; our environment so we have all the correct pointers.&lt;/p&gt;
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;rbenv rehash
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;rbenv rehash
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;Now lets check to see we have the correct version of Rails installed.&lt;/p&gt;
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;rails -v
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;rails &lt;span class=&quot;nt&quot;&gt;-v&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;We should hopefully get &lt;code class=&quot;highlighter-rouge&quot;&gt;v5.0.2&lt;/code&gt; or a similar version. Again mileage may vary.&lt;/p&gt;
+&lt;p&gt;We should hopefully get &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;v5.0.2&lt;/code&gt; or a similar version. Again mileage may vary.&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;AWESOME!&lt;/strong&gt; We’ve got Rails installed on our system!&lt;/p&gt;
 
@@ -160,7 +1092,7 @@ git pull origin master
 
 &lt;p&gt;Follow along with the “Setup Wizard” leaving the defaults checked. If you want to install the additional packages you can but it’s not necessary and we don’t need the extra bloat.&lt;/p&gt;
 
-&lt;p&gt;Once you get to the “Password” section set up your password that you want for your &lt;code class=&quot;highlighter-rouge&quot;&gt;postgres&lt;/code&gt; user account. I choose to just have my password be &lt;code class=&quot;highlighter-rouge&quot;&gt;password&lt;/code&gt; for ease of use in my local environment. You can choose whatever password that you want but you will need to remember it later on in our work.&lt;/p&gt;
+&lt;p&gt;Once you get to the “Password” section set up your password that you want for your &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;postgres&lt;/code&gt; user account. I choose to just have my password be &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;password&lt;/code&gt; for ease of use in my local environment. You can choose whatever password that you want but you will need to remember it later on in our work.&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;DO NOT USE “PASSWORD” FOR YOUR PASSWORD IN YOUR PRODUCTION ENVIRONMENT!!!&lt;/strong&gt;&lt;/p&gt;
 
@@ -168,95 +1100,86 @@ git pull origin master
 
 &lt;p&gt;Run this command from your Bash terminal.&lt;/p&gt;
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;psql -p 5432 -h localhost -U postgres
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;psql &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; 5432 &lt;span class=&quot;nt&quot;&gt;-h&lt;/span&gt; localhost &lt;span class=&quot;nt&quot;&gt;-U&lt;/span&gt; postgres
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;If everything was installed properly you should get a response similar to this and the postgres shell prompt.&lt;/p&gt;
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;psql &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;9.5.6, server 9.6.2&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;psql &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;9.5.6, server 9.6.2&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
 WARNING: psql major version 9.5, server major version 9.6.
          Some psql features might not work.
 Type &lt;span class=&quot;s2&quot;&gt;&quot;help&quot;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;help.
 
 &lt;span class=&quot;nv&quot;&gt;postgres&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;c&quot;&gt;#&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;Great we got it working. Now type &lt;code class=&quot;highlighter-rouge&quot;&gt;\q&lt;/code&gt; to exit the postgres shell.&lt;/p&gt;
+&lt;p&gt;Great we got it working. Now type &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;\q&lt;/code&gt; to exit the postgres shell.&lt;/p&gt;
 
 &lt;h2 id=&quot;creating-our-rails-application&quot;&gt;Creating our Rails application&lt;/h2&gt;
 
 &lt;p&gt;First we want to make sure that we are in the correct directory. I use a directory on my desktop to keep my files organized, again your mileage may vary. We will use my file locations for an example and you will have to substitute where it is necessarry.&lt;/p&gt;
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; /mnt/c/Users/User/Desktop/projects/applications
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; /mnt/c/Users/User/Desktop/projects/applications
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;Note that we are storing our application in our &lt;strong&gt;Windows&lt;/strong&gt; filesystem and &lt;strong&gt;NOT&lt;/strong&gt; our Linux Subsystem. This is why we are changing directory into &lt;code class=&quot;highlighter-rouge&quot;&gt;/mnt/c/Users&lt;/code&gt; from here you will have to identify your Windows user account, you can do this by running &lt;code class=&quot;highlighter-rouge&quot;&gt;ls&lt;/code&gt; and seeing what shows up. For me my user account name is &lt;code class=&quot;highlighter-rouge&quot;&gt;User&lt;/code&gt;. After that you will have to &lt;code class=&quot;highlighter-rouge&quot;&gt;cd&lt;/code&gt; your way to the directory that you want to work in.&lt;/p&gt;
+&lt;p&gt;Note that we are storing our application in our &lt;strong&gt;Windows&lt;/strong&gt; filesystem and &lt;strong&gt;NOT&lt;/strong&gt; our Linux Subsystem. This is why we are changing directory into &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/mnt/c/Users&lt;/code&gt; from here you will have to identify your Windows user account, you can do this by running &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ls&lt;/code&gt; and seeing what shows up. For me my user account name is &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;User&lt;/code&gt;. After that you will have to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cd&lt;/code&gt; your way to the directory that you want to work in.&lt;/p&gt;
 
 &lt;p&gt;Now that we are in the proper directory lets create our first application.&lt;/p&gt;
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;rails new windows_bash_test_application --database&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;postgresql
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;rails new windows_bash_test_application &lt;span class=&quot;nt&quot;&gt;--database&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;postgresql
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;We should see rails creating the application.&lt;/p&gt;
 
 &lt;p&gt;Change directory into your application.&lt;/p&gt;
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;windows_bash_test_application
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;windows_bash_test_application
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;Lets setup our &lt;code class=&quot;highlighter-rouge&quot;&gt;database.yml&lt;/code&gt; file real quick just to make sure everything is still going good with our PostgreSQL installation.&lt;/p&gt;
+&lt;p&gt;Lets setup our &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;database.yml&lt;/code&gt; file real quick just to make sure everything is still going good with our PostgreSQL installation.&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;default: &amp;amp;default
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;default: &amp;amp;default
   adapter: postgresql
   encoding: unicode
   pool: &amp;lt;%= ENV.fetch(&quot;RAILS_MAX_THREADS&quot;) { 5 } %&amp;gt;
   host: localhost
 
 development:
-  &amp;lt;&amp;lt;: \\*default
+  &amp;lt;&amp;lt;: \\\*default
   database: windows_bash_test_application_development
   username: postgres
   password: password
 
 test:
-  &amp;lt;&amp;lt;: \\*default
+  &amp;lt;&amp;lt;: \\\*default
   database: windows_bash_test_application_test
   username: postgres
   password: password
 
 production:
-  &amp;lt;&amp;lt;: \\*default
+  &amp;lt;&amp;lt;: \\\*default
   database: windows_bash_test_application_production
   username: windows_bash_test_application
   password: &amp;lt;%= ENV['WINDOWS_BASH_TEST_APPLICATION_DATABASE_PASSWORD'] %&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;Now from our terminal lets create our database.&lt;/p&gt;
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;rake db:create
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;rake db:create
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;If everything is working good we should get a message saying our development and test database was created.&lt;/p&gt;
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Created database &lt;span class=&quot;s1&quot;&gt;'windows_bash_test_application_development'&lt;/span&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Created database &lt;span class=&quot;s1&quot;&gt;'windows_bash_test_application_development'&lt;/span&gt;
 Created database &lt;span class=&quot;s1&quot;&gt;'windows_bash_test_application_test'&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;Lets run our Rails server and make sure everything is working.&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;rails s
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;rails s
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;Now in your browser go the your &lt;code class=&quot;highlighter-rouge&quot;&gt;localhost:3000&lt;/code&gt; and you should be presented with verification that Rails is indeed running and installed.&lt;/p&gt;
+&lt;p&gt;Now in your browser go the your &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;localhost:3000&lt;/code&gt; and you should be presented with verification that Rails is indeed running and installed.&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/uploads/versions/rails-verification---x----511-375x---.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
@@ -264,7 +1187,7 @@ Created database &lt;span class=&quot;s1&quot;&gt;'windows_bash_test_application
 
 &lt;p&gt;That’s it, you’re all set to go. We now have Rails running with PostgreSQL on a Windows 10! Give yourself a pat on the back!! Woohoo!!!&lt;/p&gt;
 
-&lt;p&gt;If you have any questions you can contact me and I will do my best to help you along, there are some pretty common gotchas but if you just spend a few minutes Googling them you should find your resolution. Remember Google is your friend. If you still are having issues reach out and I’ll see what I can do to give you a hand.&lt;/p&gt;</content><summary type="html">Installing Rails: The Steps</summary></entry><entry><title type="html">Writing For Fun and Profit</title><link href="http://0.0.0.0:4000//writing-for-fun-and-profit" rel="alternate" type="text/html" title="Writing For Fun and Profit" /><published>2015-12-12T00:00:00-06:00</published><updated>2015-12-12T00:00:00-06:00</updated><id>http://0.0.0.0:4000//writing-for-fun-and-profit</id><content type="html" xml:base="http://0.0.0.0:4000//writing-for-fun-and-profit">&lt;p&gt;The other day a student had asked about how to get started blogging, if anyone could provide examples of non-technical technical blogs that she could emulate (or at least that was what I gleaned from the question/comment). I gave some advice as a response but it also got me thinking. I started to think about how I got started and how anyone could get started.&lt;/p&gt;
+&lt;p&gt;If you have any questions you can contact me and I will do my best to help you along, there are some pretty common gotchas but if you just spend a few minutes Googling them you should find your resolution. Remember Google is your friend. If you still are having issues reach out and I’ll see what I can do to give you a hand.&lt;/p&gt;</content><author><name></name></author><summary type="html">Installing Rails: The Steps</summary></entry><entry><title type="html">Writing For Fun and Profit</title><link href="http://0.0.0.0:4000/writing-for-fun-and-profit" rel="alternate" type="text/html" title="Writing For Fun and Profit" /><published>2015-12-12T00:00:00-08:00</published><updated>2015-12-12T00:00:00-08:00</updated><id>http://0.0.0.0:4000/writing-for-fun-and-profit</id><content type="html" xml:base="http://0.0.0.0:4000/writing-for-fun-and-profit">&lt;p&gt;The other day a student had asked about how to get started blogging, if anyone could provide examples of non-technical technical blogs that she could emulate (or at least that was what I gleaned from the question/comment). I gave some advice as a response but it also got me thinking. I started to think about how I got started and how anyone could get started.&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;Why Are You Writing?&lt;/strong&gt;&lt;/p&gt;
 
@@ -306,7 +1229,7 @@ Created database &lt;span class=&quot;s1&quot;&gt;'windows_bash_test_application
 
 &lt;p&gt;Publishing your thoughts is scary but from my experience they will be well received, people identify and understand that it is not an easy task. We tend to hide behind masks but when we step out from behind them it turns out people are much more receptive and appreciative of who we are and respect us more. Anyone who publishes their inner thoughts I have immense respect for and will never look down upon them or think they are less because of this. It can be a very nerve wracking experience.&lt;/p&gt;
 
-&lt;p&gt;Blogging can be incredibly intimidating when wanting to get started. The most important thing you need to do is to just get started writing, from there it all falls into place. You don’t need to fear what you are going to write about or how people will receive it, none of that matters. When writing the only thing that matters is that you are better off writing than you were when you weren’t and you will be. Whether you write and not publish or you write and publish the process of writing will help you work through anything that is running through your mind and you will be profoundly better off because of it.&lt;/p&gt;</content><summary type="html">The other day a student had asked about how to get started blogging, if anyone could provide examples of non-technical technical blogs that she could emulate (or at least that was what I gleaned from the question/comment). I gave some advice as a response but it also got me thinking. I started to think about how I got started and how anyone could get started.</summary></entry><entry><title type="html">Coding Is Not Just Coding</title><link href="http://0.0.0.0:4000//2015/12/01/coding-is-not-just-coding/" rel="alternate" type="text/html" title="Coding Is Not Just Coding" /><published>2015-12-01T00:00:00-06:00</published><updated>2015-12-01T00:00:00-06:00</updated><id>http://0.0.0.0:4000//2015/12/01/coding-is-not-just-coding</id><content type="html" xml:base="http://0.0.0.0:4000//2015/12/01/coding-is-not-just-coding/">&lt;hr /&gt;
+&lt;p&gt;Blogging can be incredibly intimidating when wanting to get started. The most important thing you need to do is to just get started writing, from there it all falls into place. You don’t need to fear what you are going to write about or how people will receive it, none of that matters. When writing the only thing that matters is that you are better off writing than you were when you weren’t and you will be. Whether you write and not publish or you write and publish the process of writing will help you work through anything that is running through your mind and you will be profoundly better off because of it.&lt;/p&gt;</content><author><name></name></author><summary type="html">The other day a student had asked about how to get started blogging, if anyone could provide examples of non-technical technical blogs that she could emulate (or at least that was what I gleaned from the question/comment). I gave some advice as a response but it also got me thinking. I started to think about how I got started and how anyone could get started.</summary></entry><entry><title type="html">Coding Is Not Just Coding</title><link href="http://0.0.0.0:4000/2015/12/01/coding-is-not-just-coding/" rel="alternate" type="text/html" title="Coding Is Not Just Coding" /><published>2015-12-01T00:00:00-08:00</published><updated>2015-12-01T00:00:00-08:00</updated><id>http://0.0.0.0:4000/2015/12/01/coding-is-not-just-coding</id><content type="html" xml:base="http://0.0.0.0:4000/2015/12/01/coding-is-not-just-coding/">&lt;hr /&gt;
 
 &lt;p&gt;&lt;strong&gt;Just like martial arts, cooking, travelling, photography,&lt;/strong&gt;and nearly everything else that we do there are more to our activities than the activities themselves. They help us discover who we are and define our personal narrative. Recently I’ve been realizing there is more to coding than just coding. I’ve noticed that when I code I’ve been discovering things about myself and my thoughts.&lt;/p&gt;
 
@@ -322,7 +1245,7 @@ Created database &lt;span class=&quot;s1&quot;&gt;'windows_bash_test_application
 
 &lt;p&gt;Coding is more than just coding; it’s a craft and a centering of self. The further we stay present in our code and be mindful of their interactions we can further develop our craft to something truly powerful. The coding byproduct assists the present us by lending a meditative state to work through any concern or idea we may have weighing in our mind.&lt;/p&gt;
 
-&lt;p&gt;Once our skills grow our mind automates more and more of the task which results in more of our time spent empty (at true zen, a complete focus) allowing us to start discovering things about ourselves and our purpose. Giving us opportunity to take notice of all the things that are in our lives good or bad, and giving us a method to resolve our thoughts.  &lt;/p&gt;</content><summary type="html"></summary></entry><entry><title type="html">Web Dev Weekly Roundup</title><link href="http://0.0.0.0:4000//2015/11/19/Web-Dev-Weekly-Roundup/" rel="alternate" type="text/html" title="Web Dev Weekly Roundup" /><published>2015-11-19T00:00:00-06:00</published><updated>2015-11-19T00:00:00-06:00</updated><id>http://0.0.0.0:4000//2015/11/19/Web-Dev-Weekly-Roundup</id><content type="html" xml:base="http://0.0.0.0:4000//2015/11/19/Web-Dev-Weekly-Roundup/">&lt;p&gt;&lt;strong&gt;I’ll never go back to doing a website without a mockup.&lt;/strong&gt; That was my big takeaway from this last week. I experienced the pain the previous week with multiple site redesigns, scraping ideas and having to start over because I had no clear vision of the direction that I wanted to go.
+&lt;p&gt;Once our skills grow our mind automates more and more of the task which results in more of our time spent empty (at true zen, a complete focus) allowing us to start discovering things about ourselves and our purpose. Giving us opportunity to take notice of all the things that are in our lives good or bad, and giving us a method to resolve our thoughts.  &lt;/p&gt;</content><author><name></name></author><summary type="html"></summary></entry><entry><title type="html">Web Dev Weekly Roundup</title><link href="http://0.0.0.0:4000/2015/11/19/Web-Dev-Weekly-Roundup/" rel="alternate" type="text/html" title="Web Dev Weekly Roundup" /><published>2015-11-19T00:00:00-08:00</published><updated>2015-11-19T00:00:00-08:00</updated><id>http://0.0.0.0:4000/2015/11/19/Web-Dev-Weekly-Roundup</id><content type="html" xml:base="http://0.0.0.0:4000/2015/11/19/Web-Dev-Weekly-Roundup/">&lt;p&gt;&lt;strong&gt;I’ll never go back to doing a website without a mockup.&lt;/strong&gt; That was my big takeaway from this last week. I experienced the pain the previous week with multiple site redesigns, scraping ideas and having to start over because I had no clear vision of the direction that I wanted to go.
 &lt;!--more--&gt;&lt;/p&gt;
 
 &lt;p&gt;In the last week I finished up a Jekyll theme where we worked off of a mockup and then this week I’ve been spending some time redesigning and rebuilding my personal site with Jekyll but with a mockup in hand. A couple of nuggets of insight happened this week too but the biggest was the mockups.&lt;/p&gt;
@@ -343,7 +1266,7 @@ Created database &lt;span class=&quot;s1&quot;&gt;'windows_bash_test_application
 
 &lt;p&gt;It’s a pretty incredible service with a lot of useful information but it’s like a drug, you’re just chasing that score and just like drugs you’ll never be able to achieve what you’re looking for. I’ve spent days optimizing my photography and gallery settings for my new site chasing that stupid dragon finally to realize, Google Insights is not the end all be all and it’s pretty inconsistent. I started with a 4/100, then got to 40/100, then compressed and resized more images getting me to 62/100 and then finally super compressing and resizing my thumbnails which got me to 76/100. This was a good level for me and I was satisfied but then I just decided to reload the Google Insights page without doing anything to my site or code and it came back with an 84/100. This makes no damn sense! At all! Finally I decided to performance test on other benchmark sites and consistently got a 90% and up in performance so none of it actually makes sense. That being said it gave me the direction I needed to optimize my site, the number results don’t matter as much as the end result of your site, optimization. This is another topic that could go real deep into and have already gone too deep for this. Use &lt;a href=&quot;https://developers.google.com/speed/pagespeed/insights/&quot;&gt;Google Insights&lt;/a&gt; and see how your site scores.&lt;/p&gt;
 
-&lt;p&gt;Well this became far longer than I anticipated it would so we’ll end here. Here’s the TL:DR version; build mockups and use them (they’ll save you a ton of time in the long run), Cloud Cannon is a bitching Jekyll CMS &amp;amp; hosting platform that makes Jekyll more like Wordpress, and Google Insights will give you great direction in optimizing your site but be careful of chasing the dragon, it’s not the end all be all performance benchmarking system. That’s all folks see you next week.&lt;/p&gt;</content><summary type="html">I’ll never go back to doing a website without a mockup. That was my big takeaway from this last week. I experienced the pain the previous week with multiple site redesigns, scraping ideas and having to start over because I had no clear vision of the direction that I wanted to go.</summary></entry><entry><title type="html">Web Dev Weekly Roundup</title><link href="http://0.0.0.0:4000//2015/11/11/Web-Dev-Weekly-Roundup/" rel="alternate" type="text/html" title="Web Dev Weekly Roundup" /><published>2015-11-11T00:00:00-06:00</published><updated>2015-11-11T00:00:00-06:00</updated><id>http://0.0.0.0:4000//2015/11/11/Web-Dev-Weekly-Roundup</id><content type="html" xml:base="http://0.0.0.0:4000//2015/11/11/Web-Dev-Weekly-Roundup/">&lt;p&gt;&lt;strong&gt;WooHoo another week done and much accomplished.&lt;/strong&gt; This week I got an MVP done, an MVP of my business website (which I’ll end up trashing and starting over because why not), and halfway through building a custom Jekyll theme that I can use for potential clients in the near future. I switched up my mindset this last week and kicked back into &lt;em&gt;getting shit done&lt;/em&gt; mode.&lt;/p&gt;
+&lt;p&gt;Well this became far longer than I anticipated it would so we’ll end here. Here’s the TL:DR version; build mockups and use them (they’ll save you a ton of time in the long run), Cloud Cannon is a bitching Jekyll CMS &amp;amp; hosting platform that makes Jekyll more like Wordpress, and Google Insights will give you great direction in optimizing your site but be careful of chasing the dragon, it’s not the end all be all performance benchmarking system. That’s all folks see you next week.&lt;/p&gt;</content><author><name></name></author><summary type="html">I’ll never go back to doing a website without a mockup. That was my big takeaway from this last week. I experienced the pain the previous week with multiple site redesigns, scraping ideas and having to start over because I had no clear vision of the direction that I wanted to go.</summary></entry><entry><title type="html">Web Dev Weekly Roundup</title><link href="http://0.0.0.0:4000/2015/11/11/Web-Dev-Weekly-Roundup/" rel="alternate" type="text/html" title="Web Dev Weekly Roundup" /><published>2015-11-11T00:00:00-08:00</published><updated>2015-11-11T00:00:00-08:00</updated><id>http://0.0.0.0:4000/2015/11/11/Web-Dev-Weekly-Roundup</id><content type="html" xml:base="http://0.0.0.0:4000/2015/11/11/Web-Dev-Weekly-Roundup/">&lt;p&gt;&lt;strong&gt;WooHoo another week done and much accomplished.&lt;/strong&gt; This week I got an MVP done, an MVP of my business website (which I’ll end up trashing and starting over because why not), and halfway through building a custom Jekyll theme that I can use for potential clients in the near future. I switched up my mindset this last week and kicked back into &lt;em&gt;getting shit done&lt;/em&gt; mode.&lt;/p&gt;
 
 &lt;p&gt;To start off this week I did a bit of an inventory check to figure out where I was at with my day to day activities and see how I could adjust it to be more efficient. Last year I spent much of the year building daily habits that were based off of starting my day off with positivity, however, in the last few months I slowly started to strip those positive actions away from my daily ritual. The results were a reduction of productivity and focus throughout the day. I started going for the low hanging fruit all the day and doing the least possible that I had to but something triggered in me and reminded me that I wasn’t performing at the best thus triggering the inventory check. I figured out where I was slipping away and I adjusted my daily routine. In the last week of refocusing I’ve written more, spent less time on negative things like the news or social media, wrote a lot more code, and generally speaking I’ve just been happier. Daily routines work and they’re important to start your day off right, it feels good to be back at a positive daily routine.&lt;/p&gt;
 
@@ -355,7 +1278,7 @@ Created database &lt;span class=&quot;s1&quot;&gt;'windows_bash_test_application
 
 &lt;p&gt;Finally in the last few days I’ve been working on building a Jekyll theme that I will possibly be able to use in client work or my own projects. It’s been a great process of understanding Jekyll even more and having a great opportunity to build up my foundational knowledge of SASS and using Bourbon mixins versus relying heavily on Bootstrap. It’s been a joy to go through the process so far and have been making some great headway on it. While I’m loosely following a guide on this one it’s giving me the understanding to keep building more and more themes for future projects. It’s also the first time using pure SASS vs SCSS and that’s been an interesting journey. It’s been an enlightening experience so far, that’s for sure.&lt;/p&gt;
 
-&lt;p&gt;That’s what I have this week and next week should be just as packed with activities. Looking forward to sticking to my old daily routine of filling my mornings with positive wins and building more cool things. It’s been a great week and I’ve managed to get a lot done in the process. It’s amazing how switching a couple small things right away in the morning can lead to huge wins throughout the day.&lt;/p&gt;</content><summary type="html">WooHoo another week done and much accomplished. This week I got an MVP done, an MVP of my business website (which I’ll end up trashing and starting over because why not), and halfway through building a custom Jekyll theme that I can use for potential clients in the near future. I switched up my mindset this last week and kicked back into getting shit done mode.</summary></entry><entry><title type="html">Web Dev Weekly Roundup</title><link href="http://0.0.0.0:4000//2015/11/05/Web-Dev-Weekly-Roundup/" rel="alternate" type="text/html" title="Web Dev Weekly Roundup" /><published>2015-11-05T00:00:00-06:00</published><updated>2015-11-05T00:00:00-06:00</updated><id>http://0.0.0.0:4000//2015/11/05/Web-Dev-Weekly-Roundup</id><content type="html" xml:base="http://0.0.0.0:4000//2015/11/05/Web-Dev-Weekly-Roundup/">&lt;p&gt;Another week done and gone. My big concerns and focuses this week in my web dev pursuits was more so on the business side of things. With my recent decision to go freelance I’ve launched into research and development mode. Having a history of IT consulting, working for small businesses, and knowing many small business owners I definitely have some solid knowledge of how a business should be ran and more importantly how a business SHOULDN’T be ran. The difficulty is that when it comes to the web design and development I don’t know a lot of the ins and outs of this world, in terms of business ownership at least. This lack of knowledge has launched me into R&amp;amp;D mode.&lt;/p&gt;
+&lt;p&gt;That’s what I have this week and next week should be just as packed with activities. Looking forward to sticking to my old daily routine of filling my mornings with positive wins and building more cool things. It’s been a great week and I’ve managed to get a lot done in the process. It’s amazing how switching a couple small things right away in the morning can lead to huge wins throughout the day.&lt;/p&gt;</content><author><name></name></author><summary type="html">WooHoo another week done and much accomplished. This week I got an MVP done, an MVP of my business website (which I’ll end up trashing and starting over because why not), and halfway through building a custom Jekyll theme that I can use for potential clients in the near future. I switched up my mindset this last week and kicked back into getting shit done mode.</summary></entry><entry><title type="html">Web Dev Weekly Roundup</title><link href="http://0.0.0.0:4000/2015/11/05/Web-Dev-Weekly-Roundup/" rel="alternate" type="text/html" title="Web Dev Weekly Roundup" /><published>2015-11-05T00:00:00-08:00</published><updated>2015-11-05T00:00:00-08:00</updated><id>http://0.0.0.0:4000/2015/11/05/Web-Dev-Weekly-Roundup</id><content type="html" xml:base="http://0.0.0.0:4000/2015/11/05/Web-Dev-Weekly-Roundup/">&lt;p&gt;Another week done and gone. My big concerns and focuses this week in my web dev pursuits was more so on the business side of things. With my recent decision to go freelance I’ve launched into research and development mode. Having a history of IT consulting, working for small businesses, and knowing many small business owners I definitely have some solid knowledge of how a business should be ran and more importantly how a business SHOULDN’T be ran. The difficulty is that when it comes to the web design and development I don’t know a lot of the ins and outs of this world, in terms of business ownership at least. This lack of knowledge has launched me into R&amp;amp;D mode.&lt;/p&gt;
 
 &lt;p&gt;The week began with me finally making the decision that I am going to jump into freelance and truly commit to it. Of course that means I’ve been scouring the internet for things that I will need and need to know, which I kind of love this research mode since I’m fascinated by learning new things. I’ve dug into some concepts but the biggest thing that I needed was to understand my local economy and see what was available for me to build a client base. Since I’ve decided that January will be when I truly “launch” my freelance business I needed to start collecting information.&lt;/p&gt;
 
@@ -365,7 +1288,7 @@ Created database &lt;span class=&quot;s1&quot;&gt;'windows_bash_test_application
 
 &lt;p&gt;Having some work already going with development projects I wanted to also continue to devote some time to design and front-end static work which I will need but many small business clients are mostly static websites. Like passion projects for development, it’s important to work on front-end work for design related work so I’m rebuilding my IT consulting website from the ground up and doing my best to not cut corners but really learn the intricacies of the foundations that we all use but take for granted.&lt;/p&gt;
 
-&lt;p&gt;Those are my biggest accomplishments this last week in my pursuits of web development and design. It’s going to be an interesting journey and I’ve been considering to do another series about the journey into freelancing but that may come at a later date. The experience and direction that I have been taking has been pretty productive and been very valuable building what I hope to be a successful freelance career. Figuring out your direction and purpose certainly takes a load off of my shoulders and I feel good about this decision.&lt;/p&gt;</content><summary type="html">Another week done and gone. My big concerns and focuses this week in my web dev pursuits was more so on the business side of things. With my recent decision to go freelance I’ve launched into research and development mode. Having a history of IT consulting, working for small businesses, and knowing many small business owners I definitely have some solid knowledge of how a business should be ran and more importantly how a business SHOULDN’T be ran. The difficulty is that when it comes to the web design and development I don’t know a lot of the ins and outs of this world, in terms of business ownership at least. This lack of knowledge has launched me into R&amp;amp;D mode.</summary></entry><entry><title type="html">Web Dev Weekly Roundup</title><link href="http://0.0.0.0:4000//2015/10/30/Web-Dev-Weekly-Roundup/" rel="alternate" type="text/html" title="Web Dev Weekly Roundup" /><published>2015-10-30T00:00:00-05:00</published><updated>2015-10-30T00:00:00-05:00</updated><id>http://0.0.0.0:4000//2015/10/30/Web-Dev-Weekly-Roundup</id><content type="html" xml:base="http://0.0.0.0:4000//2015/10/30/Web-Dev-Weekly-Roundup/">&lt;p&gt;Having taken a couple of side jobs this week I didn’t get to put as much time into coding as I had hoped this week but it all works in the larger scheme of things for my next move. Currently I’ve been working to build out my IT consulting business and currently gearing up to include web design and development to the list of services I can provide. Sometimes you’ve just got to take things into your own hands. I did get some coding in and development related activities.&lt;/p&gt;
+&lt;p&gt;Those are my biggest accomplishments this last week in my pursuits of web development and design. It’s going to be an interesting journey and I’ve been considering to do another series about the journey into freelancing but that may come at a later date. The experience and direction that I have been taking has been pretty productive and been very valuable building what I hope to be a successful freelance career. Figuring out your direction and purpose certainly takes a load off of my shoulders and I feel good about this decision.&lt;/p&gt;</content><author><name></name></author><summary type="html">Another week done and gone. My big concerns and focuses this week in my web dev pursuits was more so on the business side of things. With my recent decision to go freelance I’ve launched into research and development mode. Having a history of IT consulting, working for small businesses, and knowing many small business owners I definitely have some solid knowledge of how a business should be ran and more importantly how a business SHOULDN’T be ran. The difficulty is that when it comes to the web design and development I don’t know a lot of the ins and outs of this world, in terms of business ownership at least. This lack of knowledge has launched me into R&amp;amp;D mode.</summary></entry><entry><title type="html">Web Dev Weekly Roundup</title><link href="http://0.0.0.0:4000/2015/10/30/Web-Dev-Weekly-Roundup/" rel="alternate" type="text/html" title="Web Dev Weekly Roundup" /><published>2015-10-30T00:00:00-07:00</published><updated>2015-10-30T00:00:00-07:00</updated><id>http://0.0.0.0:4000/2015/10/30/Web-Dev-Weekly-Roundup</id><content type="html" xml:base="http://0.0.0.0:4000/2015/10/30/Web-Dev-Weekly-Roundup/">&lt;p&gt;Having taken a couple of side jobs this week I didn’t get to put as much time into coding as I had hoped this week but it all works in the larger scheme of things for my next move. Currently I’ve been working to build out my IT consulting business and currently gearing up to include web design and development to the list of services I can provide. Sometimes you’ve just got to take things into your own hands. I did get some coding in and development related activities.&lt;/p&gt;
 
 &lt;p&gt;The biggest highlight of this last week was lightning talks. As usual they were fantastic and it’s been awhile since I gave one so I jumped in and got my feet wet again. I forgot how much I enjoy giving a talk and how satisfying it is to do research and teach a topic. The biggest talk that I found incredible value in is John’s &lt;a href=&quot;https://www.youtube.com/watch?v=1s0WdUzj_20&quot;&gt;talk on getting paid&lt;/a&gt; as a freelance web developer. Having our backgrounds in IT be quite similar with where we’re working and the direction we’re going it was quite insightful in how to expand into the web design and development contract world. It came at good timing since I had a lot of questions about freelancing but not many answers yet since I’m at the very beginning stages of deploying it as a service. The talks were all fantastic and I came away from every talk learning something new and that’s the whole point of the talks.&lt;/p&gt;
 
@@ -375,7 +1298,7 @@ Created database &lt;span class=&quot;s1&quot;&gt;'windows_bash_test_application
 
 &lt;p&gt;My next project I’ve been working on is a client intake tracker and counselor communication logger. It’s something that there really isn’t a piece of lean and affordable piece of software for rehab and halfway houses. Having a working knowledge of that industry with a handful of my business clients being part of that industry has given me a great insight and access to what they would need. It’s a niche industry but that’s where there is often not software that represents the needs of those fields. That app hasn’t gone far, I’m in the very beginning phases of development and research but it’s an excellent way to expanding my skills and build a more robust skillset. From the beginning I’ve been sold on the idea that the best way to improve your skills is to apply them to real world examples and this is just one of the ways in which I plan to become a better developer.&lt;/p&gt;
 
-&lt;p&gt;This last week was a better calmer pace and pushing more of my IT consulting services and working on finding where I can fit those in with my web development pursuits. With priorities having to be adjusted for my personal situation and seeing a serious lack of quality and affordable web design and development in my area it seems like the perfect time to start ramping up the hustle and start building out my company a bit more. It’s all very much in the works but it’s exciting to see where I can take this. This coming week will hopefully be a more impactful and active web development week.&lt;/p&gt;</content><summary type="html">Having taken a couple of side jobs this week I didn’t get to put as much time into coding as I had hoped this week but it all works in the larger scheme of things for my next move. Currently I’ve been working to build out my IT consulting business and currently gearing up to include web design and development to the list of services I can provide. Sometimes you’ve just got to take things into your own hands. I did get some coding in and development related activities.</summary></entry><entry><title type="html">Web Dev Weekly Roundup</title><link href="http://0.0.0.0:4000//2015/10/21/Web-Dev-Weekly-Roundup/" rel="alternate" type="text/html" title="Web Dev Weekly Roundup" /><published>2015-10-21T00:00:00-05:00</published><updated>2015-10-21T00:00:00-05:00</updated><id>http://0.0.0.0:4000//2015/10/21/Web-Dev-Weekly-Roundup</id><content type="html" xml:base="http://0.0.0.0:4000//2015/10/21/Web-Dev-Weekly-Roundup/">&lt;p&gt;I stepped away for a little bit to regain my breath since I’ve been working 60-70 hours a week for the last month I needed a bit of break so this will be a web dev recap on this last week but not the week before. Sometimes you just need to step away and recapture your breath.&lt;/p&gt;
+&lt;p&gt;This last week was a better calmer pace and pushing more of my IT consulting services and working on finding where I can fit those in with my web development pursuits. With priorities having to be adjusted for my personal situation and seeing a serious lack of quality and affordable web design and development in my area it seems like the perfect time to start ramping up the hustle and start building out my company a bit more. It’s all very much in the works but it’s exciting to see where I can take this. This coming week will hopefully be a more impactful and active web development week.&lt;/p&gt;</content><author><name></name></author><summary type="html">Having taken a couple of side jobs this week I didn’t get to put as much time into coding as I had hoped this week but it all works in the larger scheme of things for my next move. Currently I’ve been working to build out my IT consulting business and currently gearing up to include web design and development to the list of services I can provide. Sometimes you’ve just got to take things into your own hands. I did get some coding in and development related activities.</summary></entry><entry><title type="html">Web Dev Weekly Roundup</title><link href="http://0.0.0.0:4000/2015/10/21/Web-Dev-Weekly-Roundup/" rel="alternate" type="text/html" title="Web Dev Weekly Roundup" /><published>2015-10-21T00:00:00-07:00</published><updated>2015-10-21T00:00:00-07:00</updated><id>http://0.0.0.0:4000/2015/10/21/Web-Dev-Weekly-Roundup</id><content type="html" xml:base="http://0.0.0.0:4000/2015/10/21/Web-Dev-Weekly-Roundup/">&lt;p&gt;I stepped away for a little bit to regain my breath since I’ve been working 60-70 hours a week for the last month I needed a bit of break so this will be a web dev recap on this last week but not the week before. Sometimes you just need to step away and recapture your breath.&lt;/p&gt;
 
 &lt;p&gt;The biggest thing that has happened in the last week or so is that my software development contract will not be extended. This is definitely not the way in which I had wanted it to turn out but I agree with my former boss with why the decision had to be made. Simply put we were both looking for two totally different things and I don’t think either of us were completely happy. I wanted someone I could learn and train with and he needed someone who had an intermediate level amount of experience in areas in which I had next to zero. Unfortunately it didn’t work out for either of us but I had the opportunity to learn and be introduced to quite a few things that I hadn’t prior to this experience. Overall I came out with a net positive perspective on the experience which I’m quite happy about.&lt;/p&gt;
 
@@ -385,24 +1308,4 @@ Created database &lt;span class=&quot;s1&quot;&gt;'windows_bash_test_application
 
 &lt;p&gt;Finally with this last week I have taken on a client project for one of my business clients. They need an web app built that currently doesn’t exist in the form in which they need it. I find having a purpose when learning new things is essential to make the most out of what you are learning. Having a path on your learning journey is much more efficient than going at it blind. The app is relatively simple but there are some interesting hurdles that will have to be met; multi-tenancy, multiple locations, admin dashboards, user assignments and restrictions and a couple other hurdles. It should overall be an excellent experience and present a great opportunity build a service that doesn’t exist.&lt;/p&gt;
 
-&lt;p&gt;This last week came off of a bit of a disappointment but I turned it around by creating a path for the future. I took my shortcomings as areas of growth which I take very seriously and will use that to build my skillset. It’s not always the easiest road but the roadblocks are often the obstacles that we can use to level up. This next week will be a push to build out my foundations and grow my skillset.&lt;/p&gt;</content><summary type="html">I stepped away for a little bit to regain my breath since I’ve been working 60-70 hours a week for the last month I needed a bit of break so this will be a web dev recap on this last week but not the week before. Sometimes you just need to step away and recapture your breath.</summary></entry><entry><title type="html">Web Dev Weekly Roundup</title><link href="http://0.0.0.0:4000//2015/10/07/Web-Dev-Weekly-Roundup/" rel="alternate" type="text/html" title="Web Dev Weekly Roundup" /><published>2015-10-07T00:00:00-05:00</published><updated>2015-10-07T00:00:00-05:00</updated><id>http://0.0.0.0:4000//2015/10/07/Web-Dev-Weekly-Roundup</id><content type="html" xml:base="http://0.0.0.0:4000//2015/10/07/Web-Dev-Weekly-Roundup/">&lt;p&gt;This week was filled with a bunch of fun code related activities from lightning talks, frontend JS validations, frontend styling and jQuery mobile menus. It’s been an interesting week with lots of new learning experiences. It’s all kind of merged into a single day it seems but it was, for me, a very productive and educational experience.&lt;/p&gt;
-
-&lt;p&gt;Starting out in this last week was lightning talks, the bi-monthly Firehose Project student get together to give talks on tech and development. As usual I loved the lightning talks and learned a bunch of valuable information. The lightning talks are great because it gives myself and other students an opportunity to learn about something new or expand upon previous knowledge. I particularly enjoyed the SASS/SCSS talk, it really helped me up my game in the styling frontend world which wound up coming in super helpful later on in the week.&lt;/p&gt;
-
-&lt;p&gt;I’ve been working on a lot of frontend stuff lately and part of that was to setup field validations within our Ember JS application. The purpose of the validations is to ensure that the form is completely filled before sending off to the server to feed up the proper requests. This normally would be pretty simple and we had all the backend validations lined up but we wanted to make sure that the frontend had a nice validation for the end-users to intuitively know what is required. Making the frontend validations was a bit tricky because it was going to be validated 100% in JavaScript meaning that I had to write validations in a language that I am super unfamiliar with. It was certainly a good experience and gave me some great exposure to Ember JS and JavaScript. Getting that exposure helped cement some knowledge that I haven’t had the opportunity to experience yet to this point. If you get a chance to experience Ember JS and JS you should jump at it because it really helps you realize all of the possibilities and your fingertips that you may have not been aware of to this point.&lt;/p&gt;
-
-&lt;p&gt;Moving on from JS validations I tackled implementing the styling and layout of our application. Now I’ve never been great at CSS and design but since using Bootstrap it has really gave me a ton of power that I didn’t have before. However, this time around there was no Bootstrap to the rescue. Instead it was Bourbon and Neat, a framework to this point I had zero exposure to and doesn’t give you a lot of the spoon fed features that Bootstrap does. Starting out it was a war of attrition and I was losing but then I remembered that I’m not going to get anywhere by attacking the problem as a whole, I needed to break it down into smaller pieces. Once I broke it down it no longer was a problem and it became enjoyable. I cranked through everything and when it was near finished I was pretty damn happy with the outcome. Bourbon and Neat was a pretty good less in doing only what is necessary and it served its purpose really well in this situation.&lt;/p&gt;
-
-&lt;p&gt;To wrap up the week I need to implement a mobile responsive menu like Slack uses on their primary website. It looks simple in design and for the most part, now that I have done it, it was pretty simple in application. The problem was that I’ve always used Bootstrap to handle this sort of thing and I have had next to no jQuery experience which is what was required in this specific situation to get the menu to be responsive and work the way in which we wanted it to. It took me a damn long time to figure out what the hell I need to do but in the end I managed to get it figured out and it was relatively easy. It was another situation that attacking it head on as a whole was getting me nowhere but the minute I started to break it down into smaller chunks I was starting to be able to see the light at the end of the tunnel and make some progress to the goal in which I sought to achieve. In the end the entire process of implementing the site styling and design turned out to be a pretty amazing thing and it was extremely beneficial to have the opportunity and the hurdles in which I overcame. I will be able to use this moving forward in other projects because of how nice it looks and feels.&lt;/p&gt;
-
-&lt;p&gt;This week was spent mostly on the frontend, an area that I don’t get a ton of exposure to, and it was extremely beneficial to start learning some of these new technologies and frameworks to implement ideas where Bootstrap had previously spoon fed me the information that I needed. It was a good week, productive, and allowed me to grow in areas that I needed it. After it’s all said and done it was a pleasure to have had these experiences and struggles. I look forward to what comes up in the next week.&lt;/p&gt;</content><summary type="html">This week was filled with a bunch of fun code related activities from lightning talks, frontend JS validations, frontend styling and jQuery mobile menus. It’s been an interesting week with lots of new learning experiences. It’s all kind of merged into a single day it seems but it was, for me, a very productive and educational experience.</summary></entry><entry><title type="html">Web Dev Weekly Roundup</title><link href="http://0.0.0.0:4000//2015/09/30/Web-Dev-Weekly-Roundup/" rel="alternate" type="text/html" title="Web Dev Weekly Roundup" /><published>2015-09-30T00:00:00-05:00</published><updated>2015-09-30T00:00:00-05:00</updated><id>http://0.0.0.0:4000//2015/09/30/Web-Dev-Weekly-Roundup</id><content type="html" xml:base="http://0.0.0.0:4000//2015/09/30/Web-Dev-Weekly-Roundup/">&lt;p&gt;A week into my web dev gig and there’s a TON of information that has been consumed with a faulted attempt to process it in a reasonable way. My task for this contract is to get up to speed as soon as I can with, from my point of view, a fairly complicated codebase. I like the challenge though. Things have always came pretty natural to me throughout my life and for once I actually feel like I’m truly being challenged on a daily basis, it’s frustrating but rewarding feeling. This week came with some pretty big realizations, struggles and jumping into unfamiliar territories.&lt;/p&gt;
-
-&lt;p&gt;First off I wasn’t prepared for this, not in a bad way but I definitely didn’t expect the complexity of the tasks that I would have to perform right out the gate. It’s not that I find them to be too difficult but that I have so little exposure to them that they seem confusing. The codebase that I am working with is based off an API first mentality meaning that Rails is the API and, in this situation, the front end is Ember JS. Two things that I haven’t had much experience with, I’ve been learning primary with a Ruby/Rails full stack with a focus on CRUD apps with a little bit of added complexity. It’s a bit overwhelming but I see the incredible value that it serves and look forward to truly understanding it all.&lt;/p&gt;
-
-&lt;p&gt;Not being able to have the safety net of the Rails frontend everything is verified and built via TDD/BDD using RSpec. Another area that I don’t have a ton of experience with so this has created another layer of complexity. I got a swift realization that my testing skills are atrocious but with time I will get better and better at them. Right now things are moving painfully slow because I want to do my best to focus on writing good tests and develop the application in a pure TDD approach. This is pretty different from how one starts out learning Ruby/Rails. If you are starting to learn Rails make sure you are also learning TDD in tandem so that when you land your first dev position you can jump right in with writing tests.&lt;/p&gt;
-
-&lt;p&gt;The big focus of my week was focusing on the HelloSign API which was an interesting learning experience in how a more complex API integrates and interacts with a Rails application. It was pretty frustrating at points but that’s because I was over complicating things, it can be a real problem for me. I had to be reminded and remind myself that I need to break things down into smaller chunks. If you’re like me and have been doing a technical job for quite some time you take for granted and often forget about how in the beginning when you were learning that you needed to break it down into its smaller parts. In my current IT role I can roll multiple tasks up in one because I know what I’m doing but with software development since I’m fairly green in experience I find myself slipping into wanting to roll multiple tasks up in one but since I don’t know all the moving parts I run into frustrations and complications. My biggest learning experience this week was that I need to remember to always break things down into smaller parts or I will create undue hardships for myself. The learning of the API was valuable but the re-learning of the troubleshooting process was far more valuable.&lt;/p&gt;
-
-&lt;p&gt;The last few days have consisted of working with Ember JS and I’ve got to say seeing the results of what it’s capable of I’m fairly impressed, however, JavaScript is still a pain in the ass. Since I haven’t focused on JavaScript really at all in my development career so far this has been an interesting battle of attrition. I currently have this horrendous love/hate relationship with Ember JS and JavaScript as a whole. I know how powerful and quick it can be but at the same time it’s like trying to write a book in ancient sanskrit; it’s painful, frustrating, and most of the time I don’t know what the hell I am writing but having seen the results I’m motivated to keep learning and persevere through the attrition.&lt;/p&gt;
-
-&lt;p&gt;This week hasn’t been easy from my side of things because of the learning curve and having to work two jobs but the challenge is real and it’s what I’ve been looking for for many years. There’s a lot to learn out in the world but what I can say from this week is learn TDD, if it isn’t working and you think it should be easy it’s because you’re making it hard, break things down into smaller chunks, and make sure you are reading and comprehending your tasks properly. Jumping into your first dev gig isn’t as easy as maybe some of us may wish but if you get a difficult one with a great company it’s worth all the attrition and pain you may endure. It’s always hardest before it isn’t and that’s what you’ve got to remember.&lt;/p&gt;</content><summary type="html">A week into my web dev gig and there’s a TON of information that has been consumed with a faulted attempt to process it in a reasonable way. My task for this contract is to get up to speed as soon as I can with, from my point of view, a fairly complicated codebase. I like the challenge though. Things have always came pretty natural to me throughout my life and for once I actually feel like I’m truly being challenged on a daily basis, it’s frustrating but rewarding feeling. This week came with some pretty big realizations, struggles and jumping into unfamiliar territories.</summary></entry></feed>
+&lt;p&gt;This last week came off of a bit of a disappointment but I turned it around by creating a path for the future. I took my shortcomings as areas of growth which I take very seriously and will use that to build my skillset. It’s not always the easiest road but the roadblocks are often the obstacles that we can use to level up. This next week will be a push to build out my foundations and grow my skillset.&lt;/p&gt;</content><author><name></name></author><summary type="html">I stepped away for a little bit to regain my breath since I’ve been working 60-70 hours a week for the last month I needed a bit of break so this will be a web dev recap on this last week but not the week before. Sometimes you just need to step away and recapture your breath.</summary></entry></feed>

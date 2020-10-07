@@ -5,6 +5,7 @@
   <meta http-equiv="Content-Type" content="text/html"; charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="canonical" href="http://0.0.0.0:4000/blog/2015/7/8/thefirehoseproject-week-9">
   <link rel="shortcut icon" href="/assets/icons/favicon/favicon-32.png">
   <link rel="stylesheet" type="text/css" href="/assets/css/main.css">
 </head>
@@ -79,7 +80,7 @@
 
       <p>Three quarters of the way through theFirehoseProject wrapped up, week 9 is over. Painting a car, the 4th of July holiday weekend, and the Women’s World Cup final (which was AMAZING, hell yes USA! Carli Lloyd, what a beast but I digress) kind of threw me off my schedule a bit so I didn’t get as much in as I would’ve liked, such is life. What I did get in, in terms of coding, was very useful and will be extremely beneficial as I move forward with my career. My week has covered foreign_key associations, learning how to test, STI (single table inheritance), moving forward with lightning talks and troubleshooting virtual layers. Looking back even with the holiday I managed to fit a lot in this week! So where we go.</p>
 
-<p>Foreign keys, a way to link one table to another by attaching a foreign key to another table’s primary key. Well that’s the best way I can explain that. The task at hand was to be able to pull a <code class="highlighter-rouge">user_id</code> from one table and then place that <code class="highlighter-rouge">user_id</code> in either a <code class="highlighter-rouge">black_user_id</code> or a <code class="highlighter-rouge">white_user_id</code> for when we start a new chess game. Instead of creating a super sophisticated or redundant way of approaching this option Rails has a wonderful way of dealing with relational databases and using <code class="highlighter-rouge">foreign_key</code> associations it made that task pretty easy. It’s sort of hard for me to explain without showing with a few examples but alas this is not the time nor place (I have recently been tossing around the idea of having a strictly technical blog but we’ll see). So foreign_key associations a great way of dealing with relational databases in Rails. Worked beautifully for what I needed.</p>
+<p>Foreign keys, a way to link one table to another by attaching a foreign key to another table’s primary key. Well that’s the best way I can explain that. The task at hand was to be able to pull a <code class="language-plaintext highlighter-rouge">user_id</code> from one table and then place that <code class="language-plaintext highlighter-rouge">user_id</code> in either a <code class="language-plaintext highlighter-rouge">black_user_id</code> or a <code class="language-plaintext highlighter-rouge">white_user_id</code> for when we start a new chess game. Instead of creating a super sophisticated or redundant way of approaching this option Rails has a wonderful way of dealing with relational databases and using <code class="language-plaintext highlighter-rouge">foreign_key</code> associations it made that task pretty easy. It’s sort of hard for me to explain without showing with a few examples but alas this is not the time nor place (I have recently been tossing around the idea of having a strictly technical blog but we’ll see). So foreign_key associations a great way of dealing with relational databases in Rails. Worked beautifully for what I needed.</p>
 
 <p>After talking a the foreign keys and since I was working on this project with a group of people I didn’t have a way to see if my code worked. Enter TDD (test driven development), asking one of the founders if he had suggestions on testing what I built he gave me a great starting position for building tests to test my code, I had to really start somewhere. So I begun, I know TDD is super important so I took this as a challenge to learn more, and I definitely struggled. First I went at it in my console since that was explained to me that’s the best way to start thinking about writing tests, write the test like you would write it in your console. I wrote it in my console, then I wrote on a piece of paper (unfortunately it lacks the immediate feedback loop), and then I wrote it in test file. BANG! It worked! Feeling a wonderful sense of accomplishment, no matter how simplistic and mundane my actual test was it was a boost to my confidence.</p>
 
@@ -116,7 +117,7 @@
 
 <footer>
 
-  <div class="copyright">&copy; Colin Rubbert 2017</div>
+  <div class="copyright">&copy; Colin Rubbert 2020</div>
   <div class="social-media-wrapper">
     <!-- Github -->
     <a href="https://github.com/colinrubbert" class="social-media-link" target="_blank">

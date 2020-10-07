@@ -1,0 +1,286 @@
+I"0J<h2 id="installing-elixir--phoenix-the-steps">Installing Elixir &amp; Phoenix: The Steps</h2>
+
+<p>This guide will focus on installing all the requirements to get Elixir &amp; Phoenix installed on a Windows 10 machine via the Windows Subsystem for Linux (WSL) and getting PostgreSQL as the primary database.
+This guide will assume that you already know how to install WSL Bash on Windows 10. I won’t go over that because a simple Google search will give you plenty of useful links to get this rocking.</p>
+
+<p><strong>Disclaimer:</strong> I have coded absolutely <strong>zero</strong> things in Elixir or Phoenix. It’s always been on my todo list but haven’t had the time to sit down and bite into it. So why am I doing this then? Well because someone asked me to and why the hell not give it a go? Maybe it’ll give me the kick in the ass to learn Elixir &amp; Phoenix but I digress…</p>
+
+<p>This may also look familiar to the process and steps I took to write my Ruby on Rails WSL in Windows 10 guide that you can find here. Lets crack on.</p>
+
+<h2 id="installing-the-pre-requisites">Installing the pre-requisites</h2>
+
+<p>My install is truly a fresh install of Windows 10 Pro and the WSL Bash (my primary hard drive failed so I had to start from scratch).</p>
+
+<p><strong>Pro Tip:</strong> If you ever run into an issue or you just need to figure out what command or procedure you need to do for specific tasks in regards to Bash on Windows you can simply Google the question and reference Ubuntu. Bash on Windows is built on top of and in partnership with Ubuntu which makes troubleshooting (Linux specific issues &amp; procedures) quite easy.</p>
+
+<p>First let me state that this information and process is being pulled straight from both the <a href="https://elixir-lang.org/getting-started/introduction.html">Elixir</a> and <a href="https://hexdocs.pm/phoenix/installation.html#content">Phoenix</a> docs so if you need reference points you can check them there, this is just an attempt to get it in a single, easy to read, guide for everyone to be able to get up and running.</p>
+
+<p>Let’s start with updating our instance of WSL via the Bash command line.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo apt-get update
+</code></pre></div></div>
+
+<p>Now we need to add some repositories to our instance of WSL. First we will add the Erlang repository. If you are unaware Elixir is built on top of the Erlang language.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget https://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb &amp;&amp; sudo dpkg -i erlang-solutions_1.0_all.deb
+</code></pre></div></div>
+
+<p>Now that we’ve got the Erlang repository added to our instance lets make sure we update our system again. To do this we will run the update package command again.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo apt-get update
+</code></pre></div></div>
+
+<p>Sweet, looks like we’re getting our packages we required from Erlang pulled into our system. Our first win!</p>
+
+<p>Now we need to install the Erlang/OTP platform and all of the required applications associated with it.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo apt-get install -y esl-erlang
+</code></pre></div></div>
+
+<p>Fantastic, no errors! Now that we’ve got all the Erlang dependencies we can now install Elixir.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo apt-get install -y elixir
+</code></pre></div></div>
+
+<p>Sweet! Let’s just verify that we’ve got access to Elixir and that it was installed properly by checking the version number.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>elixir --version
+</code></pre></div></div>
+
+<p>As of writing this I’ve got version <code class="language-plaintext highlighter-rouge">Elixir 1.5.1</code> installed.</p>
+
+<p>Just to be on the safe side let’s just double check we can do Elixir things. We’re going to open up the <strong>Interactive mode</strong> so that we can just do some simple math inside of Elixir’s interactive mode which is very similar to Ruby’s interactive mode.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>iex
+</code></pre></div></div>
+
+<p>This command will get you into the interactive mode. Now for some simple commands.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>5 + 5
+</code></pre></div></div>
+
+<p>This should result in this.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>iex(1)&gt; 5 + 5
+10
+</code></pre></div></div>
+
+<p>All good? Great. Now press <code class="language-plaintext highlighter-rouge">ctrl + c</code> twice to exit out of the interactive menu.</p>
+
+<p>Perfect. We’ve got Erlang, Elixir and all the required dependencies for both installed.</p>
+
+<h2 id="installing-phoenix-web-framework">Installing Phoenix web framework</h2>
+
+<p>We got most of our dependencies installed for Phoenix but just like Rails needs Bundler, Phoenix needs Hex. So let’s install the hex package manager.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mix local.hex
+</code></pre></div></div>
+
+<p>Now that we’ve got all of our essential Phoenix dependencies we can grab our Phoenix archive and install it on our system.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mix archive.install https://github.com/phoenixframework/archives/raw/master/phx_new.ez
+</code></pre></div></div>
+
+<p>Perfect, Phoenix is now installed. There will be some dependencies that will need to be installed but we will let Phoenix handle those once we build our first application.</p>
+
+<h2 id="the-odds-and-ends">The odds and ends</h2>
+
+<p>Like Rails, Phoenix utilizes some <code class="language-plaintext highlighter-rouge">npm</code> packages to handle static assets specifically brunch.io. What we will need to do is install Node.js to get all the essential files.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
+sudo apt-get install -y nodejs
+</code></pre></div></div>
+
+<p>Let’s just make sure we got the right version.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm -v
+node -v
+</code></pre></div></div>
+
+<p>As of writing this article I’ve got <code class="language-plaintext highlighter-rouge">npm 3.10.10</code> and <code class="language-plaintext highlighter-rouge">node v6.11.3</code>. That should work. We will additionally need the <code class="language-plaintext highlighter-rouge">build-essential</code> package for additional node/npm addons as well as <code class="language-plaintext highlighter-rouge">inotify-tool</code> so that we can have live reloads for our Phoenix server later on.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo apt-get install -y build-essential inotify-tools
+</code></pre></div></div>
+
+<h2 id="installing-postgresql-in-bash-on-windows-primary">Installing PostgreSQL in Bash on Windows (primary)</h2>
+
+<p>The last piece of our puzzle is to install PostgreSQL on our system. Now let me make a disclaimer right here: <strong>I’ve got no idea how well this will work, your mileage may vary depending on your Windows 10 version</strong>. I’m feeling a bit saucy so we’re going to try this.</p>
+
+<p>If it doesn’t work with your version I will include a workaround that we had to use for the Rails installations because WSL wasn’t ready for handling postgres stuff.</p>
+
+<p>First we will have to install our postgres repository.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo sh -c "echo 'deb http://apt.postgresql.org/pub/repos/apt/ xenial-pgdg main' &gt; /etc/apt/sources.list.d/pgdg.list"
+wget --quiet -O - 
+http://apt.postgresql.org/pub/repos/apt/ACCC4CF8.asc | sudo apt-key add -
+</code></pre></div></div>
+
+<p>Now let’s update our package lists and install the actual postgres packages.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo apt-get update
+sudo apt-get install postgresql-common
+sudo apt-get install postgresql-9.5 libpq-dev
+</code></pre></div></div>
+
+<p>Great, that looks like it worked. We won’t truly know until we build our application if the database connectors work. Let’s keep on keepin’ on.</p>
+
+<p>Before we setup our user’s password we need to make sure our postgres server is running.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo service postgresql start
+</code></pre></div></div>
+
+<p>We should’ve got a message indicating that the service is starting.</p>
+
+<p><strong>Side note:</strong> you will likely have to do this every time you start bash and want to use your postgres database and that’s because it doesn’t, by default, automatically start at startup.</p>
+
+<p>Let’s setup a user for our postgres dev environment that we can use for our applications authentication. We will be using the built in <code class="language-plaintext highlighter-rouge">postgres</code> user since the default Phoenix application build process assumes this to be the case.</p>
+
+<p>First we need to be in the postgres console.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo -u postgres psql
+</code></pre></div></div>
+
+<p>We should see this (or a very close variation of this depending on the versioning).</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>psql (9.5.9)
+Type "help" for help.
+postgres=#
+</code></pre></div></div>
+
+<p>Now to set the password as <code class="language-plaintext highlighter-rouge">postgres</code>. <strong>Disclaimer: NEVER EVER EVER set your password as POSTGRES in a production database, NEVER. Did I say NEVER yet, don’t do! EVER!</strong> This username/password combo should and only be used in a local development environment that <strong>DOESN’T</strong> use actual customer/client/user/consumer information.</p>
+
+<p>Now onto setting the password. Type <code class="language-plaintext highlighter-rouge">\password postgres</code>. This will start the password prompt for the postgres user. This is what the prompt will look like.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>psql (9.5.9)
+Type "help" for help.
+postgres=# \password postgres
+Enter new password:
+</code></pre></div></div>
+
+<p>Now type the password <code class="language-plaintext highlighter-rouge">postgres</code> twice. See previous disclaimer! Things should now look like this. The prompts will be blank as you type the password.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>psql (9.5.9)
+Type "help" for help.
+postgres=# \password postgres
+Enter new password:
+Enter it again:
+postgres=#
+</code></pre></div></div>
+
+<p>Perfect, finally we have to type <code class="language-plaintext highlighter-rouge">\q</code> to exit out of the psql console.</p>
+
+<p>PosgresSQL should now be installed and a user configured for our application.</p>
+
+<p><strong>DISCLAIMER: Phoenix assumes your password for postgres will be <code class="language-plaintext highlighter-rouge">postgres</code> with the default username of <code class="language-plaintext highlighter-rouge">postgres</code></strong></p>
+
+<h2 id="installing-postgresql-in-bash-on-windows-alternative">Installing PostgreSQL in Bash on Windows (alternative)</h2>
+
+<p>As of Windows build version 15024 this should’ve been patched, however, if you are not currently on this build or have issues we will need to setup postgres the old fashion way.</p>
+
+<p>This is the <strong>workaround</strong> version for getting postgres to work if you don’t need this skip this part.</p>
+
+<p>First we need to go and grab the binary (.exe) for the PostgreSQL installation. Let’s download and install the latest stable version of PostgreSQL Windows binary.</p>
+
+<p>PostgreSQL 9.6.2 provided by BigSQL: <a href="http://oscg-downloads.s3.amazonaws.com/packages/PostgreSQL-9.6.2-2-win64-bigsql.exe">Download</a></p>
+
+<p>Now that we have the PostgreSQL downloaded, let’s begin to install it.
+Follow along with the “Setup Wizard” leaving the defaults checked. If you want to install the additional packages you can but it’s not necessary and we don’t need the extra bloat.</p>
+
+<p>Once you get to the “Password” section set up your password that you want for your <code class="language-plaintext highlighter-rouge">postgres</code> user account. Phoenix assumes that the password will be <code class="language-plaintext highlighter-rouge">postgres</code> as such we need that to be our password</p>
+
+<p><strong>DO NOT USE “POSTGRES” FOR YOUR PASSWORD IN YOUR PRODUCTION ENVIRONMENT!!!</strong></p>
+
+<p>Great we got that installed, we got our password set, lets do a quick sanity check to make sure that our Bash WSL is connecting to our Windows installation of PostgreSQL.</p>
+
+<p>Run this command from your Bash terminal.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>psql -p 5432 -h localhost -U postgres
+</code></pre></div></div>
+
+<p>If everything was installed properly you should get a response similar to this and the postgres shell prompt.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>psql (9.5.6, server 9.6.2)
+WARNING: psql major version 9.5, server major version 9.6.
+         Some psql features might not work.
+Type "help" for help.
+postgres=#
+</code></pre></div></div>
+
+<p>Great we got it working. Now type <code class="language-plaintext highlighter-rouge">\q</code> to exit the postgres shell.</p>
+
+<h2 id="building-our-first-phoenix-application">Building our first Phoenix application</h2>
+
+<p>Now as a reminder, this is uncharted waters for me so cross our fingers and hope this all works!</p>
+
+<p>By this point we should have all our dependencies installed: Erlang, Elixir, Hex, Phoenix, Node.js and PostgreSQL.</p>
+
+<p>Before we run our first command to create our application we should probably migrate to our Windows C:\ drive where we will keep our development files. For me that will be a folder on my Desktop. From here you will have to substitute in your folder location since it will be slightly different from mine. Here is where I will be changing directory to and storing my project files.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd /mnt/c/Users/Colin/Desktop/projects/phoenix
+</code></pre></div></div>
+
+<p>See how my username name is <code class="language-plaintext highlighter-rouge">/Colin/</code> this is likely where you will have to input your Windows username and your local file path. Unless of course your name is Colin, which case internet high five!</p>
+
+<p><img src="https://media.giphy.com/media/GYU7rBEQtBGfe/giphy.gif" alt="Horse Head High Five" /></p>
+
+<p>So yeah, there’s that…</p>
+
+<p>Let’s proceed. Run the command to start the application creation and build process. Accept the <code class="language-plaintext highlighter-rouge">fetch and install</code> question that you may be prompted with. Also, the structure of creating your app will be <code class="language-plaintext highlighter-rouge">mix phx.new [the name of your application]</code> just as an aside.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mix phx.new hello
+</code></pre></div></div>
+
+<p>We should see this as the result (this is just the bottom section of the output).</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>We are almost there! The following steps are missing:
+$ cd hello
+    $ mix deps.get
+    $ cd assets &amp;&amp; npm install &amp;&amp; node node_modules/brunch/bin/brunch build
+Then configure your database in config/dev.exs and run:
+$ mix ecto.create
+Start your Phoenix app with:
+$ mix phx.server
+You can also run your app inside IEx (Interactive Elixir) as:
+$ iex -S mix phx.server
+</code></pre></div></div>
+
+<p>Now we have to change directory into our applications folder.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd hello
+</code></pre></div></div>
+
+<p>Before we create our database we need to grab some dependencies and build our assets.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mix deps.get
+</code></pre></div></div>
+
+<p>Build the assets.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd assets &amp;&amp; npm install &amp;&amp; node node_modules/brunch/bin/brunch build
+</code></pre></div></div>
+
+<p>Now we can create our database for our application (fingers crossed), we also need to change our directory one level up to the root of our project’s folder in order to use ecto.create (install any dependencies it asks for).</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd ..
+mix ecto.create
+</code></pre></div></div>
+
+<p>w00t!!! Hopefully you get this message!</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>The database for Hello.Repo has been created
+</code></pre></div></div>
+
+<p>Let’s start our Phoenix server.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mix phx.server
+</code></pre></div></div>
+
+<p>Now we need to open up our browser and navigate to localhost:4000 if all worked out as intended you should see this webpage. If you see it <strong>CONGRATULATIONS!!!!</strong></p>
+
+<p><img src="https://cdn-images-1.medium.com/max/800/1*t_wg-0zuTTvgEVm0pL2w-A.png" alt="Welcome to Phoenix Landing Page" /></p>
+
+<h2 id="conclusion">Conclusion</h2>
+<p>Hot damn we got it installed and running! That should be it folks. Elixir and Phoenix up and running on Windows Subsystem for Linux in Windows 10.</p>
+
+<p><img src="http://media.giphy.com/media/62PP2yEIAZF6g/giphy.gif" alt="Too Cool" /></p>
+:ET
