@@ -84,7 +84,9 @@ em, .text-italic {
   text-align: center; }
 
 a {
-  color: #6689C9; }
+  color: #102A43; }
+  a:hover {
+    color: #CF1124; }
 
 /* 4. Global Settings & HTML Elements */
 *, html {
@@ -192,7 +194,7 @@ header {
   max-width: 720px;
   height: 80px;
   margin: 0 auto;
-  color: #446CB3; }
+  color: #102A43; }
 
 .navigation-branding {
   margin: 0;
@@ -212,7 +214,7 @@ header {
   text-decoration: none;
   font-size: 1.5rem; }
   .navigation-link:hover {
-    color: #FFD200; }
+    color: #CF1124; }
 
 /* Media Queries */
 /* 6. About Styling */
@@ -231,7 +233,7 @@ header {
 /* 7. Work Styling */
 #work {
   background: linear-gradient(90deg, #1D976C, #7FE0A3);
-  color: #fefefe;
+  color: #486581;
   padding: 0;
   text-align: center; }
 
@@ -352,7 +354,11 @@ header {
 
 /* 8. Articles Index Styling */
 #recent_articles .container, #articles .container {
-  max-width: 640px; }
+  max-width: 640px;
+  color: #486581; }
+
+#recent_articles h2, #articles h2 {
+  color: #102A43; }
 
 .article-title {
   text-decoration: none; }
@@ -371,7 +377,7 @@ header {
   max-width: 640px;
   margin: 3rem auto; }
   .post-wrapper h1 {
-    color: #446CB3;
+    color: #102A43;
     margin-bottom: 2rem; }
 
 /* Media Queries */
@@ -389,7 +395,7 @@ footer {
     list-style: none; }
 
 .copyright {
-  color: #6689C9;
+  color: #486581;
   margin-top: 1rem; }
 
 .social-media-wrapper {
