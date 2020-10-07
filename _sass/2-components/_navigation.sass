@@ -2,77 +2,43 @@
 
 header
   height: 80px
-  background: $gradient-messenger
 
 .navigation-wrapper
   display: flex
   flex-direction: row
   justify-content: space-between
   align-items: center
-  width: 100%
+  max-width: 720px
   height: 80px
-  padding: 0 20px
-  overflow: hidden
-  .button
-    color: $secondary-text-color
-    border-color: $secondary-text-color
+  margin: 0 auto
+  color: $primary-color
 
 .navigation-branding
-  color: $secondary-text-color
+  margin: 0
+  font-weight: 500
+  a
+    text-decoration: none
 
 .navigation-menu-wrapper
-  width: 100%
-  height: 100%
-  position: fixed
-  top: 100px
-  right: 0
-  background: $secondary-color
-  transition: $primary-transition
-  color: $secondary-text-color
+  display: flex
   margin: 0
-  padding: 30px
   list-style: none
   text-align: center
-  opacity: 0
-  z-index: -100
-  li
-    margin-bottom: 1.5rem
-  a
-    font-size: 4rem
-
-.navigation-menu-wrapper.open
-  transition: $primary-transition
-  z-index: 100
-  opacity: 1
-
+  align-items: center
 
 .navigation-link
-  color: $secondary-text-color
+  margin-left: 1.5rem
   text-decoration: none
   font-size: 1.5rem
   &:hover
     color: $highlight-color-alt
 
-.closed,
-.opened
-  transition: $primary-transition
-
-.closed::after
-  content: "Menu"
-
-.opened::after
-  content: "Close"
-
 /* Media Queries */
-@media screen and (min-width: $tablet-breakpoint)
-  .navigation-wrapper
-    width: 80%
-    margin: 0 auto
-    padding: 0
+// @media screen and (min-width: $tablet-breakpoint)
+//   .navigation-wrapper
+//     width: 80%
+//     margin: 0 auto
+//     padding: 0
 
-  .navigation-branding
-    font-size: 2rem
-
-  .navigation-menu-wrapper
-    a
-      font-size: 4rem
+//   .navigation-branding
+//     font-size: 2rem

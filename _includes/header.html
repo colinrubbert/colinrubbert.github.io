@@ -2,25 +2,17 @@
 <header>
   <nav>
     <div class="navigation-wrapper">
-      <h2 class="navigation-branding">Colin Rubbert</h2>
-      <button class="button button-primary" onClick="toggleMenu()">
-        <span id="navigation-menu-toggle" class="closed"></span>
-      </button>
+      <h1 class="navigation-branding"><a href="{{site.baseurl}}">Colin Rubbert</a></h1>
+      <ul class="navigation-menu-wrapper" id="navigation-menu-wrapper">
+        <li>
+          <a href="{{ site.baseurl }}articles" class="navigation-link">Articles</a>
+        </li>
+        <li>
+          <a href="{{ site.baseurl }}#contact" class="navigation-link">Contact</a>
+        </li>
+      </ul>
     </div>
-    <ul class="navigation-menu-wrapper" id="navigation-menu-wrapper">
-      <li>
-        <a href="{{ site.baseurl }}" class="navigation-link">Home</a>
-      </li>
-      <li>
-        <a href="{{ site.baseurl }}articles" class="navigation-link">Articles</a>
-      </li>
-      <li>
-        <a href="{{ site.baseurl }}#contact" class="navigation-link">Contact</a>
-      </li>
-    </ul>
+    
   </nav>
 </header>
-<!-- SVG Diagonal -->
-<svg preserveAspectRatio="none" height="50" width="100" viewbox="0 0 100 50" xmlns="http://www.w3.org/2000/svg" version="1.1">
-  <polygon points="0 0, 0 50, 100 25, 100 0" fill="url(#gradient-messenger)"/>
-</svg>
+

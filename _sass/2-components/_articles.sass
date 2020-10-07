@@ -1,10 +1,9 @@
 // Articles index styling
 
-.articles-index-wrapper
-  width: 90%
-  max-width: 90%
-  margin: 20px auto
-
+#recent_articles, #articles
+  .container
+    max-width: 640px
+  
 .article-title
   text-decoration: none
   h2
@@ -18,20 +17,12 @@
 
 /* Media Queries */
 
-@media screen and (min-width: $tablet-breakpoint)
-  .articles-index-wrapper
-    width: 80%
-    max-width: 80%
+// @media screen and (min-width: $tablet-breakpoint)
+//   .articles-pagination-wrapper
+//     width: 60%
+//     max-width: 60%
 
-  .articles-pagination-wrapper
-    width: 60%
-    max-width: 60%
-
-@media screen and (min-width: $desktop-breakpoint)
-  .articles-index-wrapper
-    width: 60%
-    max-width: 60%
-
-  .articles-pagination-wrapper
-    width: 40%
-    max-width: 40%
+// @media screen and (min-width: $desktop-breakpoint)
+//   .articles-pagination-wrapper
+//     width: 40%
+//     max-width: 40%

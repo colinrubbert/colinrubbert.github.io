@@ -1,56 +1,54 @@
 // Footer Styling
 
 footer
-  display: flex
-  flex-direction: column
-  justify-content: center
-  width: 90%
-  max-width: 90%
-  margin: 2rem auto
-  svg
-    height: 2rem
-    width: auto
-    path
-      fill: $highlight-color
-      &:hover
-        fill: darken($highlight-color, 20%)
+  margin: 3rem auto 2rem auto
+
+.footer-wrapper
+  display: grid
+  grid-template-columns: 1fr 1fr
+  ul
+    margin: 0
+    padding: 0
+    list-style: none
 
 .copyright
   color: $highlight-color
-  margin-bottom: 1rem
-  text-align: center
+  margin-top: 1rem
 
 .social-media-wrapper
   display: flex
-  flex-direction: row
-  justify-content: space-around
+  flex-direction: column
+
+.footer-contact-wrapper
+  display: flex
+  flex-direction: column
 
 
 /* Media Queries */
 
-@media screen and (min-width: $tablet-breakpoint)
-  footer
-    flex-direction: row
-    justify-content: space-between
-    align-items: center
-    width: 80%
-    max-width: 80%
-    margin: 2rem auto 0 auto
-    height: 80px
+// @media screen and (min-width: $tablet-breakpoint)
+//   footer
+//     flex-direction: row
+//     justify-content: space-between
+//     align-items: center
+//     width: 80%
+//     max-width: 80%
+//     margin: 2rem auto 0 auto
+//     height: 80px
 
-  .copyright
-    margin: 0
-    text-align: left
+//   .copyright
+//     margin: 0
+//     text-align: left
 
-  .social-media-wrapper
-    width: 30%
-    max-width: 30%
+//   .social-media-wrapper
+//     width: 30%
+//     max-width: 30%
 
-@media screen and (min-width: $desktop-breakpoint)
-  footer
-    width: 60%
-    max-width: 60%
+// @media screen and (min-width: $desktop-breakpoint)
+//   footer
+//     width: 60%
+//     max-width: 60%
 
-  .social-media-wrapper
-    width: 20%
-    max-width: 20%
+//   .social-media-wrapper
+//     width: 20%
+//     max-width: 20%

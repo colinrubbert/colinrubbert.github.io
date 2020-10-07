@@ -34,17 +34,19 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
-  font-family: "Haptik", "Helvetica Nueue", Helvetica, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   margin: 0;
-  padding: 0; }
+  padding: 0;
+  color: #050709; }
 
 h1, h2, h3, h4, h5, h6,
 .huge, .x-large, .large, .medium, .small, .x-small {
   margin: 0 0 1rem 0;
-  padding: 0; }
+  padding: 0;
+  font-weight: 500; }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: "Haptik Light", "Helvetica Nueue", Helvetica, sans-serif; }
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif; }
 
 .huge, h1 {
   font-size: 2rem;
@@ -96,6 +98,7 @@ body {
 /* Containers */
 .container {
   width: 100%;
+  max-width: 720px;
   margin: 0 auto;
   padding: 0 20px; }
 
@@ -120,7 +123,7 @@ input, textarea {
   border: none;
   border-radius: 3px;
   padding: .25rem;
-  font-family: "Haptik", "Helvetica Nueue", Helvetica, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   font-weight: 700; }
 
 label {
@@ -144,7 +147,7 @@ section {
 
 .section-header {
   width: 100%;
-  padding: 0 2rem 1rem 2rem;
+  padding: 0 0 3rem 0;
   margin: 0 auto;
   text-align: center; }
 
@@ -173,80 +176,45 @@ pre, code {
   line-height: 1.5;
   direction: ltr; }
 
+/* Images */
+img {
+  width: 100%; }
+
 /* 5. Navigation Styling */
 header {
-  height: 80px;
-  background: linear-gradient(90deg, #0072FF, #00A2FF); }
+  height: 80px; }
 
 .navigation-wrapper {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
+  max-width: 720px;
   height: 80px;
-  padding: 0 20px;
-  overflow: hidden; }
-  .navigation-wrapper .button {
-    color: #fefefe;
-    border-color: #fefefe; }
+  margin: 0 auto;
+  color: #446CB3; }
 
 .navigation-branding {
-  color: #fefefe; }
+  margin: 0;
+  font-weight: 500; }
+  .navigation-branding a {
+    text-decoration: none; }
 
 .navigation-menu-wrapper {
-  width: 100%;
-  height: 100%;
-  position: fixed;
-  top: 100px;
-  right: 0;
-  background: #ec4a59;
-  transition: all 0.3s ease-in-out;
-  color: #fefefe;
+  display: flex;
   margin: 0;
-  padding: 30px;
   list-style: none;
   text-align: center;
-  opacity: 0;
-  z-index: -100; }
-  .navigation-menu-wrapper li {
-    margin-bottom: 1.5rem; }
-  .navigation-menu-wrapper a {
-    font-size: 4rem; }
-
-.navigation-menu-wrapper.open {
-  transition: all 0.3s ease-in-out;
-  z-index: 100;
-  opacity: 1; }
+  align-items: center; }
 
 .navigation-link {
-  color: #fefefe;
+  margin-left: 1.5rem;
   text-decoration: none;
   font-size: 1.5rem; }
   .navigation-link:hover {
     color: #FFD200; }
 
-.closed,
-.opened {
-  transition: all 0.3s ease-in-out; }
-
-.closed::after {
-  content: "Menu"; }
-
-.opened::after {
-  content: "Close"; }
-
 /* Media Queries */
-@media screen and (min-width: 900px) {
-  .navigation-wrapper {
-    width: 80%;
-    margin: 0 auto;
-    padding: 0; }
-  .navigation-branding {
-    font-size: 2rem; }
-  .navigation-menu-wrapper a {
-    font-size: 4rem; } }
-
 /* 6. About Styling */
 .about-wrapper {
   padding: 20px;
@@ -383,10 +351,8 @@ header {
     padding: 20px 25%; } }
 
 /* 8. Articles Index Styling */
-.articles-index-wrapper {
-  width: 90%;
-  max-width: 90%;
-  margin: 20px auto; }
+#recent_articles .container, #articles .container {
+  max-width: 640px; }
 
 .article-title {
   text-decoration: none; }
@@ -400,170 +366,40 @@ header {
   margin: 0 auto; }
 
 /* Media Queries */
-@media screen and (min-width: 900px) {
-  .articles-index-wrapper {
-    width: 80%;
-    max-width: 80%; }
-  .articles-pagination-wrapper {
-    width: 60%;
-    max-width: 60%; } }
-
-@media screen and (min-width: 1200px) {
-  .articles-index-wrapper {
-    width: 60%;
-    max-width: 60%; }
-  .articles-pagination-wrapper {
-    width: 40%;
-    max-width: 40%; } }
-
 /* 9. Post Styling */
 .post-wrapper {
-  width: 90%;
-  max-width: 90%;
-  margin: 20px auto; }
+  max-width: 640px;
+  margin: 3rem auto; }
   .post-wrapper h1 {
-    color: #4691f6; }
-
-.post-disqus-wrapper {
-  width: 100%;
-  max-width: 100%;
-  margin: 0 auto; }
+    color: #446CB3;
+    margin-bottom: 2rem; }
 
 /* Media Queries */
-@media screen and (min-width: 900px) {
-  .post-wrapper {
-    width: 80%;
-    max-width: 80%; } }
-
-@media screen and (min-width: 1200px) {
-  .post-wrapper {
-    width: 60%;
-    max-width: 60%; } }
-
 /* 10. Post Styling */
-#contact {
-  background: linear-gradient(90deg, #EF473A, #CB2D3E);
-  color: #fefefe;
-  padding: 0; }
-
-.contact-form-wrapper {
-  width: 90%;
-  max-width: 90%;
-  padding: 2rem 0;
-  margin: 0 auto; }
-
-.contact-form-info-group {
-  width: 100%;
-  max-width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  margin-bottom: 1.5rem; }
-  .contact-form-info-group label {
-    margin-bottom: 1rem; }
-  .contact-form-info-group input {
-    width: 100%;
-    margin-top: .5rem;
-    padding: .75rem;
-    display: flex;
-    flex-direction: column; }
-
-.contact-form-message {
-  width: 100%;
-  max-width: 100%;
-  margin-bottom: 1.5rem; }
-  .contact-form-message textarea {
-    margin-top: .5rem;
-    padding: .75rem;
-    width: 100%; }
-
-.contact-form-submit .button {
-  font-size: 1.25rem;
-  border: 3px solid #fefefe;
-  color: #fefefe;
-  transition: all 0.3s ease-in-out; }
-  .contact-form-submit .button:hover {
-    border: 3px solid #FFD200;
-    color: #FFD200; }
-
-/* Media Queries */
-@media screen and (min-width: 900px) {
-  .contact-form-wrapper {
-    width: 80%;
-    max-width: 80%; }
-  .contact-form-info-group {
-    width: 100%;
-    max-width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between; }
-  .contact-form-message {
-    width: 100%;
-    max-width: 100%; } }
-
-@media screen and (min-width: 1200px) {
-  .contact-form-wrapper {
-    width: 60%;
-    max-width: 60%; }
-  .contact-form-info-group {
-    width: 100%;
-    max-width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between; }
-  .contact-form-message {
-    width: 100%;
-    max-width: 100%; } }
-
 /* 11. Post Styling */
 footer {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 90%;
-  max-width: 90%;
-  margin: 2rem auto; }
-  footer svg {
-    height: 2rem;
-    width: auto; }
-    footer svg path {
-      fill: #6689C9; }
-      footer svg path:hover {
-        fill: #345695; }
+  margin: 3rem auto 2rem auto; }
+
+.footer-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr; }
+  .footer-wrapper ul {
+    margin: 0;
+    padding: 0;
+    list-style: none; }
 
 .copyright {
   color: #6689C9;
-  margin-bottom: 1rem;
-  text-align: center; }
+  margin-top: 1rem; }
 
 .social-media-wrapper {
   display: flex;
-  flex-direction: row;
-  justify-content: space-around; }
+  flex-direction: column; }
+
+.footer-contact-wrapper {
+  display: flex;
+  flex-direction: column; }
 
 /* Media Queries */
-@media screen and (min-width: 900px) {
-  footer {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    width: 80%;
-    max-width: 80%;
-    margin: 2rem auto 0 auto;
-    height: 80px; }
-  .copyright {
-    margin: 0;
-    text-align: left; }
-  .social-media-wrapper {
-    width: 30%;
-    max-width: 30%; } }
-
-@media screen and (min-width: 1200px) {
-  footer {
-    width: 60%;
-    max-width: 60%; }
-  .social-media-wrapper {
-    width: 20%;
-    max-width: 20%; } }
 
 /*# sourceMappingURL=main.css.map */
