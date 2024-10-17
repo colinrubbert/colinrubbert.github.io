@@ -2,17 +2,16 @@
 <header>
   <nav>
     <div class="navigation-wrapper">
-      <h1 class="navigation-branding"><a href="{{site.baseurl}}">Colin Rubbert</a></h1>
+      <h1 class="navigation-branding"><a href="{{ "/" | relative_url }}">Colin Rubbert</a></h1>
       <ul class="navigation-menu-wrapper" id="navigation-menu-wrapper">
         <li>
-          <a href="{{ site.baseurl }}articles" class="navigation-link">Articles</a>
+          <a href="{{ "/articles" | relative_url }}" class="navigation-link">Articles</a>
         </li>
         <li>
-          <a href="{{ site.baseurl }}#contact" class="navigation-link">Contact</a>
+          <a href="{{ "/#contact" |relative_url }}" class="navigation-link">Contact</a>
         </li>
       </ul>
     </div>
     
   </nav>
 </header>
-
