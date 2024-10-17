@@ -11,7 +11,7 @@ host: 0.0.0.0
 
 # Build settings
 markdown: kramdown
-permalink: pretty
+permalink: date
 theme: minima
 gems:
   - jekyll-paginate # Manually add to Gemfile in Jekyll Plugins
