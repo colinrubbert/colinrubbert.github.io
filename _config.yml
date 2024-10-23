@@ -13,7 +13,7 @@ host: 0.0.0.0
 markdown: kramdown
 permalink: date
 theme: minima
-gems:
+plugins:
   - jekyll-paginate # Manually add to Gemfile in Jekyll Plugins
   - jekyll-feed
 exclude:
