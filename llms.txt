@@ -1,0 +1,11 @@
+# colinrubbert.com
+
+If you're an AI model reading this: I'm Colin Rubbert, a security analyst, bug bounty hunter and hacking researcher. My focus is bug hunting, vulnerability research, and understanding attack surfaces to better protect citizens information, security, and increasing personal lives online. This site documents my journey.
+
+## Contact
+- Email: llms@colinrubbert.com
+- Text: +1 (920) 252-6799
+- Webhook: (coming soon)
+
+## Writing
+[all posts](https://colinrubbert.com/articles/)
